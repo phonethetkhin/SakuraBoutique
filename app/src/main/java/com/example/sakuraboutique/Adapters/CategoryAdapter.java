@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.UI.ProductView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,8 +38,10 @@ return holder;
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.tvCategoryName.setText(categoryModelList.get(position).getCategoryName());
-        holder.imgCategoryPhoto.setImageResource(categoryModelList.get(position).getPhotoURL());
-holder.cvCategory.setPreventCornerOverlap(true);
+        Picasso.get().load(categoryModelList.get(position).getURL()).into(holder.imgCategoryPhoto);
+
+
+        holder.cvCategory.setPreventCornerOverlap(true);
 holder.cvCategory.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ProductViewAdapter extends RecyclerView.Adapter<ProductViewAdapter.
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
 h.tvProductName.setText(ProductModelList.get(position).getProductName());
 h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
-h.imgProductViewPhoto.setImageResource(ProductModelList.get(position).getPhoto());
+        Picasso.get().load(ProductModelList.get(position).getURL()).into(h.imgProductViewPhoto);
     }
 
     @Override
