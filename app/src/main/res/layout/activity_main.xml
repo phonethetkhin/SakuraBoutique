@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.MainActivity">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpMain"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toBottomOf="@id/dressicon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dots_indicator"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="243dp" />
+
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dotsColor="#000"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="16dp"
+        android:layout_marginTop="8dp"
+        app:dotsSpacing="8dp"
+
+        app:dotsWidthFactor="2.5"
+        app:selectedDotColor="@color/colorPrimary"
+        app:progressMode="true"
+        app:layout_constraintTop_toBottomOf="@id/vpMain"
+        app:layout_constraintStart_toStartOf="@id/vpMain"
+        app:layout_constraintEnd_toEndOf="@id/vpMain"
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMain"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dots_indicator" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/topicon"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/top"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/vpMain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/bottomicon"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/bottoms"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/topicon"
+        app:layout_constraintStart_toEndOf="@+id/topicon"
+        app:layout_constraintTop_toTopOf="@+id/topicon" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/dressicon"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/dress"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomicon"
+        app:layout_constraintStart_toEndOf="@+id/bottomicon"
+        app:layout_constraintTop_toTopOf="@+id/bottomicon" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/traditionalicon"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:src="@drawable/traditionaldress"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dressicon"
+        app:layout_constraintStart_toEndOf="@+id/dressicon"
+        app:layout_constraintTop_toTopOf="@+id/dressicon" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/shoeandbagicon"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:src="@drawable/shoebag"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/traditionalicon"
+        app:layout_constraintStart_toEndOf="@+id/traditionalicon"
+        app:layout_constraintTop_toTopOf="@+id/traditionalicon" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/accessories"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:src="@drawable/accessories"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/shoeandbagicon"
+        app:layout_constraintStart_toEndOf="@+id/shoeandbagicon"
+        app:layout_constraintTop_toTopOf="@+id/shoeandbagicon" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/menfashion"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
+        android:src="@drawable/menfashion"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/accessories"
+        app:layout_constraintStart_toEndOf="@+id/accessories"
+        app:layout_constraintTop_toTopOf="@+id/accessories" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
