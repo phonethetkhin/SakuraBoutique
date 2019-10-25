@@ -13,10 +13,14 @@ import java.util.List;
 public class MainViewModel extends ViewModel {
 private static List<CategoryModel> CategoryModelList=new ArrayList<>();
 private static List<ProductModel> ProductModelList=new ArrayList<>();
- private static List<String> URLList=new ArrayList<>();
+   private static List<String> SizeList=new ArrayList<>();
+   private static List<String> ColorList=new ArrayList<>();
 
- public static List<String> AddURL()
+
+    public static List<String> AddURL()
  {
+     List<String> URLList=new ArrayList<>();
+
      URLList.add("https://static-01.daraz.pk/p/d09981b024fd95e1ec0c4835423492aa.jpg_340x340q80.jpg_.webp");
      URLList.add("https://ae01.alicdn.com/kf/HTB1Shb_MVXXXXb2XXXXq6xXFXXXg/men-jacket-men-s-coat-fashion-clothes-hot-sale-autumn-overcoat-outwear-Free-shipping-wholesale-retail.jpg_640x640.jpg");
      URLList.add("https://cdn2.iconfinder.com/data/icons/pick-a-dress/900/dress-dresses-fashion-clothes-clothing-silhouette-shadow-15-512.png");
@@ -25,6 +29,18 @@ private static List<ProductModel> ProductModelList=new ArrayList<>();
 
      return URLList;
  }
+    public static List<String> AddURL2()
+    {
+        List<String> URLList2=new ArrayList<>();
+
+        URLList2.add("http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg");
+        URLList2.add("http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg");
+        URLList2.add("http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg");
+        URLList2.add("http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg");
+        URLList2.add("http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg");
+
+        return URLList2;
+    }
 
 
 
@@ -44,7 +60,7 @@ private static List<ProductModel> ProductModelList=new ArrayList<>();
 
     public static List<ProductModel> AddProductData()
     {
-        ProductModelList.add(new ProductModel(001,13000,"http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg","Yellow Dress"));
+        ProductModelList.add(new ProductModel(001,13000,"http://wardrobefocus.com/wp-content/uploads/2018/03/2018-Summer-Fashion-Trends-For-Women-4-700x467.jpg","Black Dress"));
         ProductModelList.add(new ProductModel(002,14000,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQa7Mnr9TxHo0nBgwkXcr3uRBQKp0eGJ1YNHVHlyJcNXvw50Sc6&s","Grey Dress"));
         ProductModelList.add(new ProductModel(003,15000,"https://i0.wp.com/www.diyfashioncrafts.com/wp-content/uploads/2019/02/a.png?resize=640%2C960","Black Dress"));
         ProductModelList.add(new ProductModel(004,16000,"http://sc02.alicdn.com/kf/HTB1Fmm9wC8YBeNkSnb4q6yevFXas/Fashion-2017-trending-clothes-women-off-shoulder.jpg","White Dress"));
@@ -80,6 +96,35 @@ private static List<ProductModel> ProductModelList=new ArrayList<>();
         ProductModelList.add(new ProductModel(004,16000,"http://www.inthefieldfilms.co.uk/images/cate_1/640/Casual-Newest-Cotton-O-Neck-Letter-Printed-Tie-Dyeing-Tees-Top-2019-Spring-Summer-Ladies-T-Shirt-Tops-CQWh5JY-qdm0.jpg","White Dress"));
         ProductModelList.add(new ProductModel(005,17000,"https://cdn.shopify.com/s/files/1/0040/4049/1075/products/product-image-931650091_grande.jpg?v=1555849253","Pink Dress"));
         return ProductModelList;
+    }
+    public static List<String> AddSizeData()
+    {
+        SizeList.add("S");
+        SizeList.add("M");
+        SizeList.add("L");
+        SizeList.add("XL");
+        SizeList.add("XXL");
+        SizeList.add("Free");
+        return SizeList;
+    }
+    public static List<String> AddColorData()
+    {
+    ColorList.add("#000000");
+    ColorList.add("#FFFFFF");
+    ColorList.add("#ff80ab");
+    ColorList.add("#80000000");
+    ColorList.add("#bdbdbd");
+    ColorList.add("#42a5f5");
+    ColorList.add("#29b6f6");
+    ColorList.add("#26c6da");
+    ColorList.add("#26a69a");
+    ColorList.add("#66bb6a");
+    ColorList.add("#9ccc65");
+    ColorList.add("#ab47bc");
+    ColorList.add("#ec407a");
+    ColorList.add("#ef5350");
+    return ColorList;
+
     }
 
 }

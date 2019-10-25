@@ -1,5 +1,6 @@
 package com.example.sakuraboutique.Adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.UI.ProductDetailed;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -36,6 +38,8 @@ public class ProductViewAdapter extends RecyclerView.Adapter<ProductViewAdapter.
 h.tvProductName.setText(ProductModelList.get(position).getProductName());
 h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
         Picasso.get().load(ProductModelList.get(position).getURL()).into(h.imgProductViewPhoto);
+
+
     }
 
     @Override
@@ -48,6 +52,13 @@ h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
         TextView tvProductName,tvPrice;
          public ViewHolder(@NonNull View v) {
              super(v);
+             v.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     Intent i=new Intent(v.getContext(), ProductDetailed.class);
+                     v.getContext().startActivity(i);
+                 }
+             });
              imgProductViewPhoto=v.findViewById(R.id.imgProductViewPhoto);
              tvProductName=v.findViewById(R.id.tvProductName);
              tvPrice=v.findViewById(R.id.tvPrice);

@@ -16,7 +16,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMain"
             android:layout_marginBottom="8dp"
+            android:background="#DFDCDC"
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +30,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/apAppBar"
         android:layout_width="match_parent"
-
+            android:background="#bdbdbd"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:fitsSystemWindows="true"
@@ -39,9 +41,11 @@
             android:id="@+id/ctblCollapsingtoolbar"
             android:layout_width="match_parent"
             android:layout_height="500dp"
+
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:contentScrim="#bdbdbd"
+            app:expandedTitleTextAppearance="@style/Toolbar.TitleText"
+            app:collapsedTitleTextAppearance="@style/Toolbar.TitleText"
             android:fitsSystemWindows="true"
             >
 
@@ -62,13 +66,14 @@
                 app:sliderIndicatorPadding="5dp"
                 app:sliderIndicatorRadius="4dp"
                 app:sliderIndicatorSelectedColor="@color/colorPrimary"
-                app:sliderIndicatorUnselectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#80000000"
                 app:sliderScrollTimeInSec="3"
                 app:sliderStartAutoCycle="true" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tbMain"
-                app:title="Home Page"
+                app:title="@string/tbtitle"
+                app:titleTextColor="#FFFFFF"
                 android:background="@color/colorPrimary"
 
                 android:layout_width="match_parent"

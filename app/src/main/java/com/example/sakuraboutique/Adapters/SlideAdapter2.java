@@ -6,17 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.sakuraboutique.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class SlideAdapter extends SliderViewAdapter<SlideAdapter.ViewHolder> {
+public class SlideAdapter2 extends SliderViewAdapter<SlideAdapter2.ViewHolder> {
     private Context context;
     private List<String> Urls;
 
-    public SlideAdapter(Context context, List<String> urls) {
+    public SlideAdapter2(Context context, List<String> urls) {
         this.context = context;
         Urls = urls;
     }
@@ -29,8 +32,8 @@ public class SlideAdapter extends SliderViewAdapter<SlideAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-Picasso.get().load(Urls.get(position)).into(viewHolder.imageViewBackground);
-notifyDataSetChanged();
+        Picasso.get().load(Urls.get(position)).into(viewHolder.imageViewBackground);
+        notifyDataSetChanged();
     }
 
     @Override
