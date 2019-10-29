@@ -6,19 +6,19 @@
         android:id="@+id/app_bar_search"
         android:title="search"
 
-        android:icon="@drawable/baseline_search_white_36dp"
+        android:icon="@drawable/ic_search_black_24dp"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"/>
     <item
         android:id="@+id/HomeIcon"
         android:title=""
-        android:icon="@drawable/home"
+        android:icon="@drawable/ic_home_black_24dp"
         app:showAsAction="always"
         />
     <item
-        android:id="@+id/shoppingCart"
+        android:id="@+id/mainshoppingcart"
         android:title="cart"
-
-        android:icon="@drawable/cart"
+        app:actionLayout="@layout/actionbar_notification_icon"
+        android:icon="@drawable/ic_shopping_cart_black_24dp"
         app:showAsAction="always"/>
 </menu>

@@ -2,7 +2,9 @@ package com.example.sakuraboutique.UI;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +22,7 @@ import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
+import com.nex3z.notificationbadge.NotificationBadge;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -95,7 +99,15 @@ categoryModelList = MainViewModel.AddCategoryData();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_home,menu);
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+//FrameLayout frameLayout= (FrameLayout) findViewById(R.id.flActionBar);
+
+
+        MenuItem menuItem =(MenuItem) menu.findItem(R.id.shoppingcart);
+        View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        NotificationBadge notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+        notificationBadge.setText("5");
         return true;
     }
 
@@ -109,6 +121,7 @@ categoryModelList = MainViewModel.AddCategoryData();
             //
             break;
         case R.id.app_bar_search:
+            break;
 
     }
         return super.onOptionsItemSelected(item);

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,13 +13,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.dgreenhalgh.android.simpleitemdecoration.grid.GridDividerItemDecoration;
 import com.example.sakuraboutique.Adapters.ProductViewAdapter;
 import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +74,15 @@ private List<ProductModel> productModelList=new ArrayList<>();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+//FrameLayout frameLayout= (FrameLayout) findViewById(R.id.flActionBar);
+
+
+        MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
+        View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        NotificationBadge notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+        notificationBadge.setText("5");
         return true;
     }
 
