@@ -56,6 +56,10 @@ h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
                  @Override
                  public void onClick(View v) {
                      Intent i=new Intent(v.getContext(), ProductDetailed.class);
+                        i.putExtra("ProductID",ProductModelList.get(getAdapterPosition()).getProductID());
+                        i.putExtra("ProductName",ProductModelList.get(getAdapterPosition()).getProductName());
+                        i.putExtra("Price",ProductModelList.get(getAdapterPosition()).getPrice());
+                        i.putExtra("URL",ProductModelList.get(getAdapterPosition()).getURL());
                      v.getContext().startActivity(i);
                  }
              });

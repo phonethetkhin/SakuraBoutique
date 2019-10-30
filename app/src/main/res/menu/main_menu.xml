@@ -18,6 +18,7 @@
     <item
         android:id="@+id/mainshoppingcart"
         android:title="cart"
+
         app:actionLayout="@layout/actionbar_notification_icon"
         android:icon="@drawable/ic_shopping_cart_black_24dp"
         app:showAsAction="always"/>

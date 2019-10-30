@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imgCartPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:textStyle="bold"
+
+        app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="#FFFFFF"
+
+
+        app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginLeft="16dp"
+        android:textColor="#FFFFFF"
+
+        android:layout_marginTop="8dp"
+
+        app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+    <TextView
+        android:id="@+id/tvColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="#FFFFFF"
+
+        app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/tvSize" />
+
+    <ImageButton
+        android:id="@+id/imgbtnPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/backgroundcircle"
+        android:src="@drawable/ic_add_circle_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etQuantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etQuantity" />
+
+    <EditText
+        android:id="@+id/etQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:maxLength="2"
+        android:textColor="#FFFFFF"
+        android:text="0"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSize"
+        app:layout_constraintEnd_toStartOf="@+id/imgbtnPlus"
+        app:layout_constraintTop_toTopOf="@+id/tvSize" />
+
+    <ImageButton
+        android:id="@+id/imgbtnMinus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/backgroundcircle"
+        android:src="@drawable/ic_remove_circle_black_24dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/etQuantity"
+        app:layout_constraintRight_toLeftOf="@+id/etQuantity"
+        app:layout_constraintTop_toTopOf="@+id/etQuantity"
+       app:layout_goneMarginRight="8dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

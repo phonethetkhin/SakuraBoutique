@@ -1,7 +1,10 @@
 package com.example.sakuraboutique.UI;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +25,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sakuraboutique.Adapters.ColorAdapter;
 import com.example.sakuraboutique.Adapters.SizeAdapter;
 import com.example.sakuraboutique.Adapters.SlideAdapter2;
+import com.example.sakuraboutique.Models.ProductCartModel;
+import com.example.sakuraboutique.Models.ProductDetailModel;
+import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailed extends AppCompatActivity {
@@ -36,11 +43,25 @@ public class ProductDetailed extends AppCompatActivity {
     private List<String> colorlist;
     private List<String> photolist;
     private Toolbar tbToolbar;
-    private String ProductName;
     private int Count;
     private EditText etQuantity;
     private ImageButton imgbtnPlus, imgbtnMinus;
     private Button AddtoCart;
+    SharedPreferences pref;
+    private int CartCount=0;
+    private int cartQuantity=0;
+    private int TotalCount=0;
+    private int ProductId;
+    private String ProdcutName;
+    private int Price;
+    private int quantity;
+    private String size;
+    private String color;
+    private String url;
+
+    List<ProductCartModel> productCartModelList=new ArrayList<>();
+    NotificationBadge notificationBadge;
+
 
 
     private void InitializeViews() {
@@ -60,16 +81,30 @@ public class ProductDetailed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detailed);
         InitializeViews();
-        ProductName = "Black Dress";
+        //getvaluefromproductview
+
+        ProductId=getIntent().getIntExtra("ProductID",0);
+        ProdcutName=getIntent().getStringExtra("ProductName");
+        Price=getIntent().getIntExtra("Price",0);
+        size=getIntent().getStringExtra("Size");
+        color=getIntent().getStringExtra("Color");
+        url=getIntent().getStringExtra("URL");
+
+
+
 
         setSupportActionBar(tbToolbar);
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + ProductName + " </font>"));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + ProdcutName + " </font>"));
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
+
+
+
         //size rv
+
         sizelist = MainViewModel.AddSizeData();
         rvSize.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
         rvSize.setHasFixedSize(true);
@@ -85,8 +120,8 @@ public class ProductDetailed extends AppCompatActivity {
         rvColor.setHasFixedSize(true);
         rvColor.setAdapter(new ColorAdapter(colorlist));
 
+
         //counting
-        Count = 0;
 
         etQuantity.setText(Count + "");
         imgbtnPlus.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +145,30 @@ public class ProductDetailed extends AppCompatActivity {
                 etQuantity.setText(Count + "");
             }
         });
+        quantity=Integer.parseInt(etQuantity.getText().toString());
+        //cart count
+        AddtoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productCartModelList.add(new ProductCartModel(ProductId,Price,quantity,ProdcutName,url,size,color));
+
+                Intent i=new Intent(ProductDetailed.this,CartActivity.class);
+i.putParcelableArrayListExtra("ProductList", (ArrayList<? extends Parcelable>) productCartModelList);
+startActivity(i);
+                ++CartCount;
+            TotalCount=CartCount+cartQuantity;
+
+                pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                SharedPreferences.Editor myeditor = pref.edit();
+                myeditor.putInt("Cart_Quantity",TotalCount);
+
+                myeditor.commit();
+                notificationBadge.setText(TotalCount+"");
+
+
+            }
+        });
+
 
 
     }
@@ -121,19 +180,44 @@ public class ProductDetailed extends AppCompatActivity {
 //FrameLayout frameLayout= (FrameLayout) findViewById(R.id.flActionBar);
 
 
-       MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
-       View actionView=(View) MenuItemCompat.getActionView(menuItem);
-NotificationBadge notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
-notificationBadge.setText("5");
+       final MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
+       final View actionView=(View) MenuItemCompat.getActionView(menuItem);
+       actionView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               onOptionsItemSelected(menuItem);
+           }
+       });
+notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        cartQuantity=pref.getInt("Cart_Quantity",0);
+notificationBadge.setText(cartQuantity+"");
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                this.finish();
+                break;
+            case R.id.mainshoppingcart:
+                Intent i=new Intent(ProductDetailed.this,CartActivity.class);
+                startActivity(i);
+                break;
+            case R.id.HomeIcon:
+                Intent intent=new Intent(ProductDetailed.this,MainActivity.class);
+                startActivity(intent);
+                break;
 
 
+
+        }
         return super.onOptionsItemSelected(item);
-    }
 
+    }
 
 }

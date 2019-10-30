@@ -1,5 +1,6 @@
 package com.example.sakuraboutique.Adapters;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.UI.ProductDetailed;
 
 import java.util.List;
 
@@ -33,8 +35,16 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder h, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder h, final int position) {
         h.cimgCircleImageView.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+        h.cimgCircleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(v.getContext(), ProductDetailed.class);
+                i.putExtra("Color",colorlist.get(position));
+                v.getContext().startActivity(i);
+            }
+        });
 
 
     }

@@ -1,8 +1,11 @@
 package com.example.sakuraboutique.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class ProductDetailModel {
+public class ProductDetailModel implements Parcelable {
     private int productId,price,stockQuantity;
     private String productname,productDescription;
     private List<String> URLs,Size,Color;
@@ -49,4 +52,45 @@ public class ProductDetailModel {
     public List<String> getColor() {
         return Color;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.productId);
+        dest.writeInt(this.price);
+        dest.writeInt(this.stockQuantity);
+        dest.writeString(this.productname);
+        dest.writeString(this.productDescription);
+        dest.writeStringList(this.URLs);
+        dest.writeStringList(this.Size);
+        dest.writeStringList(this.Color);
+    }
+
+    protected ProductDetailModel(Parcel in) {
+        this.productId = in.readInt();
+        this.price = in.readInt();
+        this.stockQuantity = in.readInt();
+        this.productname = in.readString();
+        this.productDescription = in.readString();
+        this.URLs = in.createStringArrayList();
+        this.Size = in.createStringArrayList();
+        this.Color = in.createStringArrayList();
+    }
+
+    public static final Parcelable.Creator<ProductDetailModel> CREATOR = new Parcelable.Creator<ProductDetailModel>() {
+        @Override
+        public ProductDetailModel createFromParcel(Parcel source) {
+            return new ProductDetailModel(source);
+        }
+
+        @Override
+        public ProductDetailModel[] newArray(int size) {
+            return new ProductDetailModel[size];
+        }
+    };
 }

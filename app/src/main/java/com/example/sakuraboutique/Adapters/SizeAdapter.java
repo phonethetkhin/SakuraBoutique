@@ -1,5 +1,6 @@
 package com.example.sakuraboutique.Adapters;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.UI.ProductDetailed;
 
 import java.util.List;
 
@@ -38,6 +40,9 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
             public void onClick(View v) {
                 index = position;
                 notifyDataSetChanged();
+                Intent i=new Intent(v.getContext(), ProductDetailed.class);
+                i.putExtra("Size",sizelist.get(position));
+                v.getContext().startActivity(i);
             }
         });
         if(index==position){
@@ -45,6 +50,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
         }else{
             holder.tvSize.setTextColor(Color.parseColor("#FFFFFF"));
         }
+
     }
 
     @Override

@@ -8,6 +8,8 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ RecyclerView rvProductView;
 private String CategoryName;
 Toolbar tbToolbar;
 private List<ProductModel> productModelList=new ArrayList<>();
+SharedPreferences pref;
+private int cartQuantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +83,19 @@ private List<ProductModel> productModelList=new ArrayList<>();
 //FrameLayout frameLayout= (FrameLayout) findViewById(R.id.flActionBar);
 
 
-        MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
-        View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        final MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
+        final View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
         NotificationBadge notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
-        notificationBadge.setText("5");
-        return true;
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        cartQuantity=pref.getInt("Cart_Quantity",0);
+        notificationBadge.setText(cartQuantity+"");
+                return true;
     }
 
     @Override
@@ -91,6 +103,14 @@ private List<ProductModel> productModelList=new ArrayList<>();
         switch (item.getItemId())
         {
             case android.R.id.home:
+                this.finish();
+                break;
+            case R.id.mainshoppingcart:
+                Intent i=new Intent(ProductView.this,CartActivity.class);
+                startActivity(i);
+                break;
+
+            case R.id.HomeIcon:
                 this.finish();
                 break;
         }

@@ -1,5 +1,7 @@
 package com.example.sakuraboutique.UI;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +44,9 @@ DrawerLayout dlMain;
 List<CategoryModel> categoryModelList;
 SliderView svImageSlider;
 ActionBarDrawerToggle toggle;
+    NotificationBadge notificationBadge;
+    SharedPreferences pref;
+    private int cartQuantity;
 
 
 private void InitializeViews()
@@ -104,10 +109,19 @@ categoryModelList = MainViewModel.AddCategoryData();
 //FrameLayout frameLayout= (FrameLayout) findViewById(R.id.flActionBar);
 
 
-        MenuItem menuItem =(MenuItem) menu.findItem(R.id.shoppingcart);
-        View actionView=(View) MenuItemCompat.getActionView(menuItem);
-        NotificationBadge notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
-        notificationBadge.setText("5");
+        final MenuItem menuItem =(MenuItem) menu.findItem(R.id.shoppingcart);
+        final View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+        notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        cartQuantity=pref.getInt("Cart_Quantity",0);
+        notificationBadge.setText(cartQuantity+"");
         return true;
     }
 
@@ -118,11 +132,12 @@ categoryModelList = MainViewModel.AddCategoryData();
     switch (item.getItemId())
     {
         case android.R.id.home:
-            //
+            this.finish();
             break;
-        case R.id.app_bar_search:
+                case R.id.shoppingcart:
+            Intent i=new Intent(MainActivity.this,CartActivity.class);
+            startActivity(i);
             break;
-
     }
         return super.onOptionsItemSelected(item);
     }
