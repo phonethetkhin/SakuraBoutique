@@ -32,6 +32,7 @@ productCartModelList=getIntent().getParcelableArrayListExtra("ProductList");
 
 
 
+
         rvCartItem.setLayoutManager(new LinearLayoutManager(CartActivity.this,RecyclerView.VERTICAL,false));
         rvCartItem.setHasFixedSize(true);
         rvCartItem.setAdapter(new CartAdapter(productCartModelList));

@@ -108,7 +108,15 @@ public class ProductDetailed extends AppCompatActivity {
         sizelist = MainViewModel.AddSizeData();
         rvSize.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
         rvSize.setHasFixedSize(true);
-        rvSize.setAdapter(new SizeAdapter(sizelist));
+        SizeAdapter sAdapter=new SizeAdapter(sizelist);
+
+        rvSize.setAdapter(sAdapter);
+        sAdapter.setOnItemClickListener(new SizeAdapter.onRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+            size=sizelist.get(position);
+            }
+        });
 
         //slider
         photolist = MainViewModel.AddURL2();
@@ -118,7 +126,14 @@ public class ProductDetailed extends AppCompatActivity {
         colorlist = MainViewModel.AddColorData();
         rvColor.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
         rvColor.setHasFixedSize(true);
-        rvColor.setAdapter(new ColorAdapter(colorlist));
+        ColorAdapter cAdapter=new ColorAdapter(colorlist);
+        rvColor.setAdapter(cAdapter);
+        cAdapter.setOnItemClickListener(new ColorAdapter.onRecyclerViewItemClickListener(){
+            @Override
+            public void onItemClickListener(View view, int position) {
+                color=colorlist.get(position);
+            }
+        });
 
 
         //counting
@@ -130,7 +145,10 @@ public class ProductDetailed extends AppCompatActivity {
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
                 imgbtnPlus.startAnimation(myFadeInAnimation);
                 ++Count;
-                etQuantity.setText(Count + "");
+                quantity=Integer.parseInt(etQuantity.getText().toString());
+                etQuantity.setText((Count + quantity)+"");
+
+
             }
         });
         imgbtnMinus.setOnClickListener(new View.OnClickListener() {
@@ -142,14 +160,17 @@ public class ProductDetailed extends AppCompatActivity {
                     --Count;
                 }
 
-                etQuantity.setText(Count + "");
+                quantity=Integer.parseInt(etQuantity.getText().toString());
+                etQuantity.setText((Count - quantity)+"");
+
             }
         });
-        quantity=Integer.parseInt(etQuantity.getText().toString());
+
         //cart count
         AddtoCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                quantity=Integer.parseInt(etQuantity.getText().toString());
                 productCartModelList.add(new ProductCartModel(ProductId,Price,quantity,ProdcutName,url,size,color));
 
                 Intent i=new Intent(ProductDetailed.this,CartActivity.class);

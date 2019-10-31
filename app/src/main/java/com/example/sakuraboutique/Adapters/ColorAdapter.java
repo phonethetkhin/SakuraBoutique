@@ -22,6 +22,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
     List<String> colorlist;
 
+    public interface onRecyclerViewItemClickListener {
+        void onItemClickListener(View view, int position);
+    }
+    private onRecyclerViewItemClickListener mItemClickListener;
+
+    public void setOnItemClickListener(onRecyclerViewItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+
+
     public ColorAdapter(List<String> colorlist) {
         this.colorlist = colorlist;
     }
@@ -36,15 +47,8 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder h, final int position) {
-        h.cimgCircleImageView.setBackgroundColor(Color.parseColor(colorlist.get(position)));
-        h.cimgCircleImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(v.getContext(), ProductDetailed.class);
-                i.putExtra("Color",colorlist.get(position));
-                v.getContext().startActivity(i);
-            }
-        });
+        h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+
 
 
     }
@@ -54,12 +58,20 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
         return colorlist.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        CircleImageView cimgCircleImageView;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+        ImageView imgColor;
         public ViewHolder(@NonNull View v) {
             super(v);
-            cimgCircleImageView=v.findViewById(R.id.cimgCircleImageView);
+            imgColor=v.findViewById(R.id.imgColor);
+        imgColor.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClickListener(v, getAdapterPosition());
+
+            }
         }
     }
 }
