@@ -53,7 +53,7 @@ public class ProductDetailed extends AppCompatActivity {
     private int TotalCount=0;
     private int ProductId;
     private String ProdcutName;
-    private int Price;
+    private int price;
     private int quantity;
     private String size;
     private String color;
@@ -85,7 +85,7 @@ public class ProductDetailed extends AppCompatActivity {
 
         ProductId=getIntent().getIntExtra("ProductID",0);
         ProdcutName=getIntent().getStringExtra("ProductName");
-        Price=getIntent().getIntExtra("Price",0);
+        price=getIntent().getIntExtra("Price",0);
         size=getIntent().getStringExtra("Size");
         color=getIntent().getStringExtra("Color");
         url=getIntent().getStringExtra("URL");
@@ -142,11 +142,12 @@ public class ProductDetailed extends AppCompatActivity {
         imgbtnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                quantity=Integer.parseInt(etQuantity.getText().toString());
+                Count=quantity;
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
                 imgbtnPlus.startAnimation(myFadeInAnimation);
                 ++Count;
-                quantity=Integer.parseInt(etQuantity.getText().toString());
-                etQuantity.setText((Count + quantity)+"");
+                etQuantity.setText(Count+"");
 
 
             }
@@ -154,26 +155,34 @@ public class ProductDetailed extends AppCompatActivity {
         imgbtnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                quantity=Integer.parseInt(etQuantity.getText().toString());
+
+                Count=quantity;
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
                 imgbtnMinus.startAnimation(myFadeInAnimation);
                 if (Count != 0) {
                     --Count;
                 }
 
-                quantity=Integer.parseInt(etQuantity.getText().toString());
-                etQuantity.setText((Count - quantity)+"");
+                etQuantity.setText(Count+"");
 
             }
         });
+        productCartModelList.add(new ProductCartModel(ProductId,price,quantity,ProdcutName,url,size,color));
+        productCartModelList.add(new ProductCartModel(ProductId,price,quantity,ProdcutName,url,size,color));
+        productCartModelList.add(new ProductCartModel(ProductId,price,quantity,ProdcutName,url,size,color));
 
         //cart count
         AddtoCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 quantity=Integer.parseInt(etQuantity.getText().toString());
-                productCartModelList.add(new ProductCartModel(ProductId,Price,quantity,ProdcutName,url,size,color));
+
+
+
 
                 Intent i=new Intent(ProductDetailed.this,CartActivity.class);
+                i.putExtra("Price",price);
 i.putParcelableArrayListExtra("ProductList", (ArrayList<? extends Parcelable>) productCartModelList);
 startActivity(i);
                 ++CartCount;

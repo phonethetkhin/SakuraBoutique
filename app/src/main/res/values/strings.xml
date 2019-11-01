@@ -7,7 +7,7 @@
     <string name="tbtitle">Home Page</string>
     <string name="tv_selectsize">Select Size (US)</string>
     <string name="tv_selectcolor">Select Color</string>
-    <string name="tv_selectquantity">Select How Many Quantity</string>
+    <string name="tv_selectquantity">Select How Many Quantity:</string>
     <string name="tv_stockquantity">Availability :</string>
     <string name="tv_stock">In Stock(20)</string>
     <string name="tv_productiondescriptionlabel">Product Description :</string>

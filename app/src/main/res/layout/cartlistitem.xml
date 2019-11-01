@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imgCartPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="#FFFFFF"
-
+style="@style/TextColor"
+        android:textSize="15dp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        android:textStyle="bold"
 
         app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,36 +36,25 @@
         android:text="TextView"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
-        android:textColor="#FFFFFF"
-
+        style="@style/TextColor"
+        android:textSize="15dp"
 
         app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
     <TextView
-        android:id="@+id/tvSize"
+        android:id="@+id/tvSizeCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:layout_marginLeft="16dp"
-        android:textColor="#FFFFFF"
 
+        style="@style/TextColor"
+        android:textSize="15dp"
         android:layout_marginTop="8dp"
 
         app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
         app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
-
-    <TextView
-        android:id="@+id/tvColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:textColor="#FFFFFF"
-
-        app:layout_constraintStart_toEndOf="@+id/imgCartPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/tvSize" />
 
     <ImageButton
         android:id="@+id/imgbtnPlus"
@@ -84,7 +73,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:maxLength="2"
-        android:textColor="#FFFFFF"
+style="@style/TextColor"
         android:text="0"
         android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvSize"

@@ -50,7 +50,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
         }
         else
         {
-            holder.tvSize.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.tvSize.setTextColor(Color.parseColor("#000000"));
 
         }
 
