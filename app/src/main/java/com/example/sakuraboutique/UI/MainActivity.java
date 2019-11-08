@@ -124,6 +124,26 @@ categoryModelList = MainViewModel.AddCategoryData();
         notificationBadge.setText(cartQuantity+"");
         return true;
     }
+   /* @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        invalidateOptionsMenu();
+        final MenuItem menuItem =(MenuItem) menu.findItem(R.id.shoppingcart);
+        final View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+        notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        cartQuantity=pref.getInt("Cart_Quantity",0);
+        notificationBadge.setText(cartQuantity+"");
+
+
+        return super.onPrepareOptionsMenu(menu);
+    }*/
 
 
 

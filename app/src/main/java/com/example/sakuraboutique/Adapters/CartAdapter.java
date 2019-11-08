@@ -3,6 +3,8 @@ package com.example.sakuraboutique.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.UI.ProductDetailed;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,6 +23,10 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
 {
 List<ProductCartModel> productCartModelList;
+int TotalPrice;
+    int Count=0;
+    int quantity=0;
+
 
     public CartAdapter(List<ProductCartModel> productCartModelList) {
         this.productCartModelList = productCartModelList;
@@ -34,11 +41,42 @@ List<ProductCartModel> productCartModelList;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Picasso.get().load(productCartModelList.get(position).getURLs()).into(holder.imgCartPhoto);
         holder.tvName.setText(productCartModelList.get(position).getProductName());
         holder.tvPrice.setText(productCartModelList.get(position).getPrice()+"");
         holder.tvSize.setText(productCartModelList.get(position).getSize());
+        holder.etQuantity.setText(Count + "");
+        holder.imgbtnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity = Integer.parseInt(holder.etQuantity.getText().toString());
+                Count = quantity;
+                Animation myFadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.blink);
+                holder.imgbtnPlus.startAnimation(myFadeInAnimation);
+                ++Count;
+                holder.etQuantity.setText(Count + "");
+
+
+            }
+        });
+        holder.imgbtnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity = Integer.parseInt(holder.etQuantity.getText().toString());
+
+                Count = quantity;
+                Animation myFadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.blink);
+                holder.imgbtnMinus.startAnimation(myFadeInAnimation);
+                if (Count != 0) {
+                    --Count;
+                }
+
+                holder.etQuantity.setText(Count + "");
+
+            }
+        });
+
 
     }
 
@@ -63,4 +101,15 @@ List<ProductCartModel> productCartModelList;
             etQuantity=v.findViewById(R.id.etQuantity);
         }
     }
+    public int Calculate()
+    {
+        TotalPrice=0;
+        for(int i=0;i<productCartModelList.size();i++)
+        {
+            TotalPrice+=productCartModelList.get(i).getPrice();
+
+        }
+        return TotalPrice;
+    }
+
 }

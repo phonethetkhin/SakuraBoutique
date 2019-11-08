@@ -36,6 +36,7 @@ Toolbar tbToolbar;
 private List<ProductModel> productModelList=new ArrayList<>();
 SharedPreferences pref;
 private int cartQuantity;
+    private NotificationBadge notificationBadge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,13 +92,32 @@ private int cartQuantity;
                 onOptionsItemSelected(menuItem);
             }
         });
-        NotificationBadge notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+         notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
         pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
         cartQuantity=pref.getInt("Cart_Quantity",0);
         notificationBadge.setText(cartQuantity+"");
                 return true;
     }
+   /* @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        invalidateOptionsMenu();
+        final MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
+        final View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+        notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
 
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        cartQuantity=pref.getInt("Cart_Quantity",0);
+        notificationBadge.setText(cartQuantity+"");
+
+
+        return super.onPrepareOptionsMenu(menu);
+    }*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())

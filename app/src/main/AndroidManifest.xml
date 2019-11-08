@@ -17,7 +17,11 @@
 
 
         </activity>
-        <activity android:name=".UI.ProductDetailed"></activity>
+        <activity android:name=".UI.ProductDetailed">
+
+
+
+        </activity>
         <activity
             android:name=".UI.SplashScreen"
             android:theme="@style/NoActionBarTheme">

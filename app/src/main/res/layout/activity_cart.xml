@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -24,7 +27,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvItem" />
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
 
+        android:background="?android:attr/listDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/includetoolbar" />
     <TextView
         android:id="@+id/tvItem"
         android:layout_width="wrap_content"
@@ -51,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includetoolbar" />
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider2"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -60,4 +70,133 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvCartItem" />
 
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+
+        android:background="?android:attr/listDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceDetail" />
+
+    <TextView
+        android:id="@+id/tvPriceDetail"
+        style="@style/TextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_pricedetail"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+    <TextView
+        android:id="@+id/tvCartTotalLabel"
+        style="@style/TextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_carttotallabel"
+        android:layout_marginLeft="8dp"
+        android:textSize="15sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceDetail" />
+
+    <TextView
+        android:id="@+id/tvCartTotal"
+        style="@style/TextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="15sp"
+
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceDetail" />
+    <TextView
+        android:id="@+id/tvTotalQuantityLabel"
+        style="@style/TextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_totalquantitylabel"
+        android:layout_marginLeft="8dp"
+        android:textSize="15sp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCartTotalLabel" />
+    <TextView
+        android:id="@+id/tvTotalQuantity"
+        style="@style/TextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="15sp"
+
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCartTotal" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEmptyCart"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="@string/btn_clearcart"
+        app:layout_constraintTop_toBottomOf="@id/divider3"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCheckout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_checkout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEmptyCart" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStartShopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_startshopping"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEmptyCart" />
+
+    <ImageView
+        android:id="@+id/imgEmptyCart"
+        app:layout_constraintTop_toBottomOf="@+id/tvItem"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/tvEmptyCart"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+    <TextView
+        android:id="@+id/tvEmptyCart"
+        style="@style/TextColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_emptycart"
+        android:textAlignment="center"
+        android:textSize="15sp"
+
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEmptyCart" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

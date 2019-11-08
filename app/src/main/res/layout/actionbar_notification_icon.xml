@@ -20,6 +20,8 @@
         android:layout_gravity="end|top"
         android:layout_height="28dp"
         android:layout_marginStart="16dp"
+        app:nbEllipsizeText="++"
         android:layout_marginLeft="16dp"
-        app:nbMaxTextLength="2"/>
+        app:nbMaxTextLength="2"
+        />
 </FrameLayout>

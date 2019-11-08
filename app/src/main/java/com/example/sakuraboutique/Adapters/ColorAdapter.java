@@ -1,8 +1,10 @@
 package com.example.sakuraboutique.Adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.R;
@@ -21,6 +24,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
     List<String> colorlist;
+    Context context;
+    private int selectedPos = RecyclerView.NO_POSITION;
+
 
     public interface onRecyclerViewItemClickListener {
         void onItemClickListener(View view, int position);
@@ -32,9 +38,9 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     }
 
 
-
-    public ColorAdapter(List<String> colorlist) {
+    public ColorAdapter(List<String> colorlist, Context context) {
         this.colorlist = colorlist;
+        this.context = context;
     }
 
     @NonNull
@@ -47,8 +53,22 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder h, final int position) {
-        h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+        h.itemView.setSelected(selectedPos == position);
+        Drawable highlight = context.getResources().getDrawable(R.drawable.highlight);
+        if(selectedPos==position)
+        {
 
+                h.imgColor.setBackground(highlight);
+                h.cvCardView.setCardBackgroundColor(Color.parseColor(colorlist.get(position)));
+
+        }
+        else
+        {
+            h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+
+
+        }
 
 
     }
@@ -59,10 +79,12 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
-        ImageView imgColor;
+        CircleImageView imgColor;
+        CardView cvCardView;
         public ViewHolder(@NonNull View v) {
             super(v);
             imgColor=v.findViewById(R.id.imgColor);
+            cvCardView=v.findViewById(R.id.cvCardView);
         imgColor.setOnClickListener(this);
         }
 
@@ -70,6 +92,13 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
         public void onClick(View v) {
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClickListener(v, getAdapterPosition());
+                notifyItemChanged(selectedPos);
+
+
+
+                selectedPos = getLayoutPosition();
+
+                notifyItemChanged(selectedPos);
 
             }
         }

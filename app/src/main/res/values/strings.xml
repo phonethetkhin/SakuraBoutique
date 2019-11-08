@@ -14,4 +14,11 @@
     <string name="tv_productdescription">This Product is Nice, and have many more colors and sizes. Make up of Fibers, so it\'s feel cool especially suitable for the hot weather. blah blah blah blah blah blah</string>
     <string name="tv_addtocart">Add To Cart</string>
     <string name="btn_addtocart">Add to Cart</string>
+    <string name="tv_pricedetail">Price Details :</string>
+    <string name="tv_carttotallabel">Cart Total :</string>
+    <string name="tv_totalquantitylabel">Total Quantity :</string>
+    <string name="btn_checkout">Checkout</string>
+    <string name="btn_clearcart">Empty Cart</string>
+    <string name="tv_emptycart"> Looks Like Your Shopping Cart is Empty, Let\'s Start Shopping Right Now !!</string>
+    <string name="btn_startshopping">Start Shopping Now</string>
 </resources>
