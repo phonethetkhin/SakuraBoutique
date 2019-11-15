@@ -32,6 +32,7 @@ import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailed extends AppCompatActivity {
@@ -52,11 +53,14 @@ public class ProductDetailed extends AppCompatActivity {
     private int ProductId;
     private String ProdcutName;
     private int price;
+    private int ProductID;
     private int quantity;
     private String size;
     private String color;
     private String url;
     private CartDB db=new CartDB(ProductDetailed.this);
+    private ProductCartModel productCartModel;
+    private ProductCartModel selectedproductcartmodel;
 
 
     NotificationBadge notificationBadge;
@@ -182,23 +186,53 @@ public class ProductDetailed extends AppCompatActivity {
                 } else if (color == null) {
                     Toast.makeText(ProductDetailed.this, "Please Choose a Color", Toast.LENGTH_SHORT).show();
                 } else {
-                            if(db.InsertCartItem(ProductId,ProdcutName,quantity,price,size,color,url))
-                            {
-                                Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
-                            }
-                    Intent i = new Intent(ProductDetailed.this, CartActivity.class);
 
-                    startActivity(i);
-                    ++CartCount;
-                    TotalCount = CartCount + cartQuantity;
+                    ProductID = getIntent().getIntExtra("ProductID", 0);
+                    productCartModel = db.getProductBaseonID(ProductID);
+                    selectedproductcartmodel = new ProductCartModel(ProductID, price, quantity, ProdcutName, url, size, color);
 
-                    pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
-                    SharedPreferences.Editor myeditor = pref.edit();
-                    myeditor.putInt("Cart_Quantity", TotalCount);
+                    if(productCartModel!=null) {
+                        if (selectedproductcartmodel.getProductId() == productCartModel.getProductId()
+                                || selectedproductcartmodel.getColor() == productCartModel.getColor()
+                                || selectedproductcartmodel.getSize() == productCartModel.getSize())
+                        {
+
+                            Toast.makeText(ProductDetailed.this, "This Product is Already Added !!!", Toast.LENGTH_SHORT).show();
+                        } else if (db.InsertCartItem(ProductId, ProdcutName, quantity, price, size, color, url)) {
+                            Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(ProductDetailed.this, CartActivity.class);
+
+                            startActivity(i);
+                            ++CartCount;
+                            TotalCount = CartCount + cartQuantity;
+
+                            pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                            SharedPreferences.Editor myeditor = pref.edit();
+                            myeditor.putInt("Cart_Quantity", TotalCount);
 
 
-                    myeditor.commit();
-                    notificationBadge.setText(TotalCount + "");
+                            myeditor.commit();
+                            notificationBadge.setText(TotalCount + "");
+
+                        }
+                    }
+                    else if (db.InsertCartItem(ProductId, ProdcutName, quantity, price, size, color, url)) {
+                            Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(ProductDetailed.this, CartActivity.class);
+
+                            startActivity(i);
+                            ++CartCount;
+                            TotalCount = CartCount + cartQuantity;
+
+                            pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                            SharedPreferences.Editor myeditor = pref.edit();
+                            myeditor.putInt("Cart_Quantity", TotalCount);
+
+
+                            myeditor.commit();
+                            notificationBadge.setText(TotalCount + "");
+                        }
+
 
 
                 }

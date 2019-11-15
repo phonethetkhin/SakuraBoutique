@@ -26,7 +26,7 @@ public class CartDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+CART_TABLE+"(Product_ID INTEGER NOT NULL PRIMARY KEY UNIQUE,Product_Name TEXT,Quantity INTEGER,Price INTEGER,Size TEXT,Color TEXT,Url TEXT)");
+        db.execSQL("CREATE TABLE "+CART_TABLE+"(Product_ID INTEGER NOT NULL ,Product_Name TEXT,Quantity INTEGER,Price INTEGER,Size TEXT,Color TEXT,Url TEXT)");
 
     }
 public boolean InsertCartItem(int ProductID,String ProductName,int Quantity,int Price,String Size,String Color,String Url)
@@ -79,6 +79,29 @@ public List<ProductCartModel> getCartItemList()
         db.close();
         return productCartModelList;
     }
+    public ProductCartModel getProductBaseonID(int ProductID) {
+        ProductCartModel productCartModel=null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cs = db.rawQuery("SELECT * FROM " + CART_TABLE+" WHERE Product_ID="+ProductID, null);
+        if (cs.moveToFirst()) {
+
+            productCartModel = new ProductCartModel(cs.getInt(cs.getColumnIndex("Product_ID")),
+                    cs.getInt(cs.getColumnIndex("Price")),
+                    cs.getInt(cs.getColumnIndex("Quantity")),
+                    cs.getString(cs.getColumnIndex("Product_Name")),
+                    cs.getString(cs.getColumnIndex("Url")),
+                    cs.getString(cs.getColumnIndex("Size")),
+                    cs.getString(cs.getColumnIndex("Color")));
+
+
+
+
+        }
+
+        return productCartModel;
+
+    }
+
     public void EmptyCart()
     {
         SQLiteDatabase db=this.getWritableDatabase();

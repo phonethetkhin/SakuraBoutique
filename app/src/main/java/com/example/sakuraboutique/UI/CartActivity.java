@@ -1,5 +1,19 @@
 package com.example.sakuraboutique.UI;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -7,30 +21,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.text.Html;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.sakuraboutique.Adapters.CartAdapter;
 import com.example.sakuraboutique.CartDB.CartDB;
 import com.example.sakuraboutique.Models.ProductCartModel;
-import com.example.sakuraboutique.Models.ProductDetailModel;
 import com.example.sakuraboutique.R;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class CartActivity extends AppCompatActivity {
 private TextView tvItem,tvTotalPrice,tvCartTotal,tvTotalQuantity,tvCartEmpty,tvCartTotalLabel,tvTotalQuantityLabel,tvPriceDetailLabel;
@@ -42,10 +41,10 @@ private CartAdapter cartAdapter;
 private Button btnEmptyCart,btnCheckout,btnStartShopping;
 private View divider2,divider3;
 
-
-private int TotalPrice;
+private int FinalTotalPrice,TotalQuantity;
 private Toolbar toolbar;
 private SharedPreferences pref;
+
 
 private void InitializeViews()
 {
@@ -67,12 +66,13 @@ private void InitializeViews()
     tvPriceDetailLabel=findViewById(R.id.tvPriceDetail);
 
 
+
 }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-       InitializeViews();
+        InitializeViews();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + "Shopping Cart" + " </font>"));
@@ -82,120 +82,138 @@ private void InitializeViews()
 //getitem
 
 
-
-imgEmptyCart.setImageResource(R.drawable.cart);
+        imgEmptyCart.setImageResource(R.drawable.cart);
 
 
         //getolddata
-productCartModelList=db.getCartItemList();
-
-tvItem.setText("Total Item ("+productCartModelList.size()+")");
+        productCartModelList = db.getCartItemList();
 
 
+        tvItem.setText("Total Item (" + productCartModelList.size() + ")");
 
-if(productCartModelList.size()==0)
 
-{   btnStartShopping.setVisibility(View.VISIBLE);
-    imgEmptyCart.setVisibility(View.VISIBLE);
-    tvCartEmpty.setVisibility(View.VISIBLE);
-    rvCartItem.setVisibility(View.GONE);
-    tvCartTotal.setVisibility(View.GONE);
-    tvTotalQuantity.setVisibility(View.GONE);
-    tvCartTotalLabel.setVisibility(View.GONE);
-    tvPriceDetailLabel.setVisibility(View.GONE);
-    tvTotalQuantityLabel.setVisibility(View.GONE);
-    divider2.setVisibility(View.GONE);
-    divider3.setVisibility(View.GONE);
-    btnEmptyCart.setVisibility(View.GONE);
-    btnCheckout.setVisibility(View.GONE);
-}
-else
-{
-     btnStartShopping.setVisibility(View.GONE);
+        if (productCartModelList.size() == 0) {
+            btnStartShopping.setVisibility(View.VISIBLE);
+            imgEmptyCart.setVisibility(View.VISIBLE);
+            tvCartEmpty.setVisibility(View.VISIBLE);
+            rvCartItem.setVisibility(View.GONE);
+            tvCartTotal.setVisibility(View.GONE);
+            tvTotalQuantity.setVisibility(View.GONE);
+            tvCartTotalLabel.setVisibility(View.GONE);
+            tvPriceDetailLabel.setVisibility(View.GONE);
+            tvTotalQuantityLabel.setVisibility(View.GONE);
+            divider2.setVisibility(View.GONE);
+            divider3.setVisibility(View.GONE);
+            btnEmptyCart.setVisibility(View.GONE);
+            btnCheckout.setVisibility(View.GONE);
+        } else {
+            btnStartShopping.setVisibility(View.GONE);
 
-        imgEmptyCart.setVisibility(View.GONE);
-    tvCartEmpty.setVisibility(View.GONE);
-    rvCartItem.setVisibility(View.VISIBLE);
-    tvCartTotal.setVisibility(View.VISIBLE);
-    tvTotalQuantity.setVisibility(View.VISIBLE);
-    tvCartTotalLabel.setVisibility(View.VISIBLE);
-    tvPriceDetailLabel.setVisibility(View.VISIBLE);
-    tvTotalQuantityLabel.setVisibility(View.VISIBLE);
-    divider2.setVisibility(View.VISIBLE);
-    divider3.setVisibility(View.VISIBLE);
-    btnEmptyCart.setVisibility(View.VISIBLE);
-    btnCheckout.setVisibility(View.VISIBLE);
+            imgEmptyCart.setVisibility(View.GONE);
+            tvCartEmpty.setVisibility(View.GONE);
+            rvCartItem.setVisibility(View.VISIBLE);
+            tvCartTotal.setVisibility(View.VISIBLE);
+            tvTotalQuantity.setVisibility(View.VISIBLE);
+            tvCartTotalLabel.setVisibility(View.VISIBLE);
+            tvPriceDetailLabel.setVisibility(View.VISIBLE);
+            tvTotalQuantityLabel.setVisibility(View.VISIBLE);
+            divider2.setVisibility(View.VISIBLE);
+            divider3.setVisibility(View.VISIBLE);
+            btnEmptyCart.setVisibility(View.VISIBLE);
+            btnCheckout.setVisibility(View.VISIBLE);
 
-}
+        }
 
-        rvCartItem.setLayoutManager(new LinearLayoutManager(CartActivity.this,RecyclerView.VERTICAL,false));
+        rvCartItem.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
         rvCartItem.setHasFixedSize(true);
         DividerItemDecoration itemDecorator = new DividerItemDecoration(CartActivity.this, DividerItemDecoration.VERTICAL);
         itemDecorator.setDrawable(ContextCompat.getDrawable(CartActivity.this, R.drawable.horizontal_divider));
 
         rvCartItem.addItemDecoration(itemDecorator);
-        cartAdapter=new CartAdapter(productCartModelList);
+        cartAdapter = new CartAdapter(productCartModelList);
         rvCartItem.setAdapter(cartAdapter);
-        TotalPrice=cartAdapter.Calculate();
-        tvTotalPrice.setText("Total Price ("+TotalPrice+")");
-        tvCartTotal.setText(TotalPrice+"");
-        tvTotalQuantity.setText(productCartModelList.size()+"");
-btnStartShopping.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent i=new Intent(CartActivity.this,MainActivity.class);
-        startActivity(i);
-    }
-});
+
+FinalTotalPrice=cartAdapter.Calculate();
+TotalQuantity=cartAdapter.CalculateQuantity();
+        tvTotalPrice.setText("Total Price (" + FinalTotalPrice + ")");
+        tvCartTotal.setText(FinalTotalPrice + "");
+        tvTotalQuantity.setText(TotalQuantity+ "");
+        btnStartShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CartActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
         btnEmptyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertdialogbuilder=new AlertDialog.Builder(CartActivity.this);
-                alertdialogbuilder.setMessage("Are You Sure You Want to Empty the Shopping Cart?");
-                alertdialogbuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        db.EmptyCart();
-                        productCartModelList.clear();
-                        cartAdapter.notifyDataSetChanged();
-                        TotalPrice=0;
-                        tvTotalPrice.setText("Total Price ("+TotalPrice+")");
-                        tvCartTotal.setText(TotalPrice+"");
-                        tvItem.setText("Total Item ("+productCartModelList.size()+")");
-                        btnStartShopping.setVisibility(View.VISIBLE);
-                        imgEmptyCart.setVisibility(View.VISIBLE);
-                        tvCartEmpty.setVisibility(View.VISIBLE);
-                        rvCartItem.setVisibility(View.GONE);
-                        tvCartTotal.setVisibility(View.GONE);
-                        tvTotalQuantity.setVisibility(View.GONE);
-                        tvCartTotalLabel.setVisibility(View.GONE);
-                        tvPriceDetailLabel.setVisibility(View.GONE);
-                        tvTotalQuantityLabel.setVisibility(View.GONE);
-                        divider2.setVisibility(View.GONE);
-                        divider3.setVisibility(View.GONE);
-                        btnEmptyCart.setVisibility(View.GONE);
-                        btnCheckout.setVisibility(View.GONE);
-                        tvTotalQuantity.setText(productCartModelList.size()+"");
-                        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
-                        SharedPreferences.Editor myeditor = pref.edit();
-                        myeditor.clear();
-                        myeditor.apply();
+                new SweetAlertDialog(CartActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("You About to Empty the Shopping Cart!")
+                        .setConfirmText("Yes,Empty the Cart!")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(final SweetAlertDialog sDialog) {
+                                db.EmptyCart();
+                                productCartModelList.clear();
+                                cartAdapter.notifyDataSetChanged();
+                                FinalTotalPrice = 0;
+                                tvTotalPrice.setText("Total Price (" + FinalTotalPrice + ")");
+                                tvCartTotal.setText(FinalTotalPrice + "");
+                                tvItem.setText("Total Item (" + productCartModelList.size() + ")");
+                                btnStartShopping.setVisibility(View.VISIBLE);
+                                imgEmptyCart.setVisibility(View.VISIBLE);
+                                tvCartEmpty.setVisibility(View.VISIBLE);
+                                rvCartItem.setVisibility(View.GONE);
+                                tvCartTotal.setVisibility(View.GONE);
+                                tvTotalQuantity.setVisibility(View.GONE);
+                                tvCartTotalLabel.setVisibility(View.GONE);
+                                tvPriceDetailLabel.setVisibility(View.GONE);
+                                tvTotalQuantityLabel.setVisibility(View.GONE);
+                                divider2.setVisibility(View.GONE);
+                                divider3.setVisibility(View.GONE);
+                                btnEmptyCart.setVisibility(View.GONE);
+                                btnCheckout.setVisibility(View.GONE);
+                                tvTotalQuantity.setText(productCartModelList.size() + "");
+                                pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                                SharedPreferences.Editor myeditor = pref.edit();
+                                myeditor.clear();
+                                myeditor.apply();
 
-                    }
-                });
-                alertdialogbuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                                sDialog
+                                        .setTitleText("Successfully Empty!")
+                                        .setContentText("Your Cart is Empty!Start Shopping Now!")
+                                        .setConfirmText("OK")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sDialog.dismissWithAnimation();
 
-                    }
-                });
-                AlertDialog dialog=alertdialogbuilder.create();
-                dialog.show();
+                                            }
+                                        })
+
+                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
+
+
+                            }
+
+                        })
+                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
             }
         });
 
 
-            }
+
+    }
+
 
 
     @Override
