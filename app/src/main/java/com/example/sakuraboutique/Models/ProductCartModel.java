@@ -45,6 +45,34 @@ public class ProductCartModel implements Parcelable {
         return Color;
     }
 
+    public void setProductId(int productId) {
+        ProductId = productId;
+    }
+
+    public void setPrice(int price) {
+        Price = price;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
+    public void setProductName(String productName) {
+        ProductName = productName;
+    }
+
+    public void setURLs(String URLs) {
+        this.URLs = URLs;
+    }
+
+    public void setSize(String size) {
+        Size = size;
+    }
+
+    public void setColor(String color) {
+        Color = color;
+    }
+
     @Override
     public int describeContents() {
         return 0;

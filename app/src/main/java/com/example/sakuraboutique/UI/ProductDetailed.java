@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ import java.util.List;
 public class ProductDetailed extends AppCompatActivity {
     private SliderView svImageSlider;
     private RecyclerView rvSize, rvColor;
-    private List<String> sizelist;
+    private List<String> sizelist ;
     private List<String> colorlist;
     private List<String> photolist;
     private Toolbar tbToolbar;
@@ -104,7 +105,12 @@ public class ProductDetailed extends AppCompatActivity {
 
         //size rv
 
-        sizelist = MainViewModel.AddSizeData();
+//        sizelist = MainViewModel.AddSizeData();
+
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+      sizelist =  mainViewModel.AddSizeData();
+
         rvSize.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
         rvSize.setHasFixedSize(true);
         SizeAdapter sAdapter = new SizeAdapter(sizelist);

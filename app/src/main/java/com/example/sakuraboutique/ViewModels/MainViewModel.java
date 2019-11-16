@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainViewModel extends ViewModel {
-private static List<CategoryModel> CategoryModelList=new ArrayList<>();
+
+
+    private static List<CategoryModel> CategoryModelList=new ArrayList<>();
 private static List<ProductModel> ProductModelList=new ArrayList<>();
    private static List<String> SizeList=new ArrayList<>();
    private static List<String> ColorList=new ArrayList<>();
@@ -97,8 +99,10 @@ private static List<ProductModel> ProductModelList=new ArrayList<>();
         ProductModelList.add(new ProductModel(30,17000,"https://cdn.shopify.com/s/files/1/0040/4049/1075/products/product-image-931650091_grande.jpg?v=1555849253","Pink Dress"));
         return ProductModelList;
     }
-    public static List<String> AddSizeData()
+    public  List<String> AddSizeData()
     {
+
+        SizeList.clear();
         SizeList.add("S");
         SizeList.add("M");
         SizeList.add("L");

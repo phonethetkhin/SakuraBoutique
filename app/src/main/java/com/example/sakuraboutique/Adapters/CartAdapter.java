@@ -2,6 +2,7 @@ package com.example.sakuraboutique.Adapters;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,13 +24,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     List<ProductCartModel> productCartModelList;
     int TotalPrice;
     int Count = 0;
     int quantity = 0;
     int TotalQuantity=0;
     int FinalTotalPrice=0;
+
+    int totalQty = 0;
 
 
     public CartAdapter(List<ProductCartModel> productCartModelList) {
@@ -97,7 +101,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 holder.etQuantity.setText(Count + "");
                 TotalPrice = ((productCartModelList.get(position).getPrice()) * Count);
 
+                productCartModelList.get(position).setQuantity(Integer.parseInt( holder.etQuantity.getText().toString()));
+
+                for (int i = 0 ; i<productCartModelList.size();i++){
+                     totalQty += productCartModelList.get(i).getQuantity();
+                    Log.i("TotalQty",""+totalQty);
+                }
+
                 holder.tvPrice.setText(TotalPrice + "");
+
+
 
 
             }
@@ -130,6 +143,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return productCartModelList.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgCartPhoto;
         TextView tvName, tvPrice, tvSize;
@@ -152,7 +166,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         int totalPrice = 0;
         for(int i = 0 ; i < productCartModelList.size(); i++) {
-            totalPrice += productCartModelList.get(i).getPrice();
+            totalPrice += productCartModelList.get(i).getPrice() * productCartModelList.get(i).getQuantity();
         }
 
         return totalPrice;
@@ -167,3 +181,4 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return totalquantity;
     }
 }
+
