@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view" >
+<item android:title="Categories">
+    <menu>
+<group android:checkableBehavior="single">
+
+    <item android:id="@+id/nav_tops"
+    android:icon="@drawable/ic_tops"
+    android:title="Tops"/>
+
+    <item android:id="@+id/nav_bottoms"
+        android:icon="@drawable/ic_skirt"
+        android:title="Bottoms"/>
+
+    <item android:id="@+id/nav_dress"
+        android:icon="@drawable/ic_dress"
+        android:title="Dresses"/>
+    <item android:id="@+id/nav_traditionaldress"
+        android:icon="@drawable/ic_myanmar"
+        android:title="Traditional Dresses"/>
+    <item android:id="@+id/nav_shoesandbags"
+        android:icon="@drawable/ic_high_heels"
+        android:title="Shoes and Bags"/>
+    <item android:id="@+id/nav_accessories"
+        android:icon="@drawable/ic_bow_tie"
+        android:title="Accessories"/>
+    <item android:id="@+id/nav_menfashion"
+        android:icon="@drawable/ic_suit"
+        android:title="Men's Fashion"/>
+
+</group>
+    </menu>
+</item>
+    <item android:title="Quick Links">
+        <menu>
+            <item android:id="@+id/nav_cart"
+                android:icon="@drawable/ic_shopping_cart"
+                android:title="Shopping Cart"
+                />
+            <item android:id="@+id/nav_aboutus"
+                android:icon="@drawable/ic_information"
+                android:title="About Us"
+                />
+            <item android:id="@+id/nav_contactus"
+                android:icon="@drawable/ic_contact_us"
+                android:title="Contact Us"
+                />
+
+        </menu>
+    </item>
+</menu>

@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -53,7 +54,7 @@ private void InitializeViews()
 {
     rvMain=findViewById(R.id.rvMain);
     tbMain=findViewById(R.id.tbMain);
-    dlMain=findViewById(R.id.dlMain);
+    dlMain=findViewById(R.id.drawer_layout);
 
 
     svImageSlider=findViewById(R.id.svImageSlider);
@@ -77,6 +78,7 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         toggle=(new ActionBarDrawerToggle(MainActivity.this,dlMain,R.string.open,R.string.close));
+        dlMain.addDrawerListener(toggle);
 
 toggle.syncState();
 categoryModelList = MainViewModel.AddCategoryData();
@@ -124,7 +126,19 @@ categoryModelList = MainViewModel.AddCategoryData();
         notificationBadge.setText(cartQuantity+"");
         return true;
     }
-   /* @Override
+
+    @Override
+    public void onBackPressed() {
+    if(dlMain.isDrawerOpen(GravityCompat.START))
+    {
+        dlMain.closeDrawer(GravityCompat.START);
+    }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
+    /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         invalidateOptionsMenu();
         final MenuItem menuItem =(MenuItem) menu.findItem(R.id.shoppingcart);
@@ -149,6 +163,10 @@ categoryModelList = MainViewModel.AddCategoryData();
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
     switch (item.getItemId())
     {
         case android.R.id.home:

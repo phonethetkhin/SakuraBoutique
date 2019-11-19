@@ -9,10 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.Adapters.CartAdapter;
 import com.example.sakuraboutique.CartDB.CartDB;
+import com.example.sakuraboutique.Interfaces.DataTransferInterface;
 import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.R;
 
@@ -31,7 +30,7 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity  implements DataTransferInterface {
 private TextView tvItem,tvTotalPrice,tvCartTotal,tvTotalQuantity,tvCartEmpty,tvCartTotalLabel,tvTotalQuantityLabel,tvPriceDetailLabel;
 private ImageView imgEmptyCart;
 private RecyclerView rvCartItem;
@@ -130,11 +129,12 @@ private void InitializeViews()
         itemDecorator.setDrawable(ContextCompat.getDrawable(CartActivity.this, R.drawable.horizontal_divider));
 
         rvCartItem.addItemDecoration(itemDecorator);
-        cartAdapter = new CartAdapter(productCartModelList);
+        cartAdapter = new CartAdapter(productCartModelList,this);
         rvCartItem.setAdapter(cartAdapter);
 
 FinalTotalPrice=cartAdapter.Calculate();
-TotalQuantity=cartAdapter.CalculateQuantity();
+
+
         tvTotalPrice.setText("Total Price (" + FinalTotalPrice + ")");
         tvCartTotal.setText(FinalTotalPrice + "");
         tvTotalQuantity.setText(TotalQuantity+ "");
@@ -215,7 +215,6 @@ TotalQuantity=cartAdapter.CalculateQuantity();
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.cart_menu,menu);
@@ -239,5 +238,15 @@ TotalQuantity=cartAdapter.CalculateQuantity();
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+
+
+
+    @Override
+    public void setValues(int TotalQuantity, int TotalPrice) {
+tvTotalQuantity.setText(TotalQuantity+"");
+tvTotalPrice.setText(TotalPrice+"");
+tvCartTotal.setText(TotalPrice+"");
     }
 }

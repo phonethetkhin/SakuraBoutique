@@ -195,7 +195,7 @@ public class ProductDetailed extends AppCompatActivity {
 
                     ProductID = getIntent().getIntExtra("ProductID", 0);
                     productCartModel = db.getProductBaseonID(ProductID);
-                    selectedproductcartmodel = new ProductCartModel(ProductID, price, quantity, ProdcutName, url, size, color);
+                    selectedproductcartmodel = new ProductCartModel(ProductID, price, quantity,price, ProdcutName, url, size, color);
 
                     if(productCartModel!=null) {
                         if (selectedproductcartmodel.getProductId() == productCartModel.getProductId()
@@ -204,7 +204,7 @@ public class ProductDetailed extends AppCompatActivity {
                         {
 
                             Toast.makeText(ProductDetailed.this, "This Product is Already Added !!!", Toast.LENGTH_SHORT).show();
-                        } else if (db.InsertCartItem(ProductId, ProdcutName, quantity, price, size, color, url)) {
+                        } else if (db.InsertCartItem(ProductId, ProdcutName, quantity, price, size, color, url,price)) {
                             Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(ProductDetailed.this, CartActivity.class);
 
@@ -222,7 +222,7 @@ public class ProductDetailed extends AppCompatActivity {
 
                         }
                     }
-                    else if (db.InsertCartItem(ProductId, ProdcutName, quantity, price, size, color, url)) {
+                    else if (db.InsertCartItem(ProductId, ProdcutName, quantity, price, size, color, url,price)) {
                             Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(ProductDetailed.this, CartActivity.class);
 

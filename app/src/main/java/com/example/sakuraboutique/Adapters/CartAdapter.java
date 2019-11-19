@@ -2,41 +2,40 @@ package com.example.sakuraboutique.Adapters;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sakuraboutique.Interfaces.DataTransferInterface;
 import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.R;
-import com.example.sakuraboutique.UI.ProductDetailed;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     List<ProductCartModel> productCartModelList;
     int TotalPrice;
-    int Count = 0;
+    int Count1 = 0, Count2 = 0;
     int quantity = 0;
-    int TotalQuantity=0;
-    int FinalTotalPrice=0;
+    int TotalQuantity = 0;
+    int FinalTotalPrice = 0;
+    DataTransferInterface dtInterface;
 
-    int totalQty = 0;
 
-
-    public CartAdapter(List<ProductCartModel> productCartModelList) {
+    public CartAdapter(List<ProductCartModel> productCartModelList, DataTransferInterface dtInterface) {
         this.productCartModelList = productCartModelList;
+        this.dtInterface = dtInterface;
     }
 
     @NonNull
@@ -55,10 +54,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         quantity = productCartModelList.get(position).getQuantity();
 
 
-
-
         TotalPrice = (productCartModelList.get(position).getPrice() * quantity);
         holder.tvPrice.setText(TotalPrice + "");
+        productCartModelList.get(position).setTotalPrice(TotalPrice);
         holder.etQuantity.setText(productCartModelList.get(position).getQuantity() + "");
         holder.etQuantity.addTextChangedListener(new TextWatcher() {
 
@@ -94,23 +92,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 quantity = Integer.parseInt(holder.etQuantity.getText().toString());
-                Count = quantity;
+                Count1 = quantity;
+                ++Count1;
+                ++Count2;
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.blink);
                 holder.imgbtnPlus.startAnimation(myFadeInAnimation);
-                ++Count;
-                holder.etQuantity.setText(Count + "");
-                TotalPrice = ((productCartModelList.get(position).getPrice()) * Count);
-
-                productCartModelList.get(position).setQuantity(Integer.parseInt( holder.etQuantity.getText().toString()));
-
-                for (int i = 0 ; i<productCartModelList.size();i++){
-                     totalQty += productCartModelList.get(i).getQuantity();
-                    Log.i("TotalQty",""+totalQty);
-                }
-
+                TotalPrice = ((productCartModelList.get(position).getPrice()) * Count1);
                 holder.tvPrice.setText(TotalPrice + "");
 
+                holder.etQuantity.setText(Count1 + "");
+                TotalQuantity = Calculate1(Count2);
 
+                productCartModelList.get(position).setTotalPrice(TotalPrice);
+                TotalPrice=CalculatePrice();
+
+                dtInterface.setValues(TotalQuantity,TotalPrice);
 
 
             }
@@ -119,21 +115,31 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 quantity = Integer.parseInt(holder.etQuantity.getText().toString());
-
-                Count = quantity;
+                Count1 = quantity;
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.blink);
                 holder.imgbtnMinus.startAnimation(myFadeInAnimation);
-                if (Count != 0) {
-                    --Count;
+                if (Count1 != 1) {
+                    --Count1;
+                    --Count2;
+
+
                 }
 
-                holder.etQuantity.setText(Count + "");
-                TotalPrice = ((productCartModelList.get(position).getPrice()) * Count);
+                holder.etQuantity.setText(Count1 + "");
+                TotalPrice = ((productCartModelList.get(position).getPrice()) * Count1);
                 holder.tvPrice.setText(TotalPrice + "");
+                TotalQuantity = Calculate1(Count2);
+                productCartModelList.get(position).setTotalPrice(TotalPrice);
+
+                TotalPrice=CalculatePrice();
+                dtInterface.setValues(TotalQuantity,TotalPrice);
 
 
             }
         });
+        TotalQuantity = Calculate1(Count2);
+TotalPrice=Calculate();
+        dtInterface.setValues(TotalQuantity,TotalPrice);
 
 
     }
@@ -162,23 +168,46 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         }
     }
 
-    public int Calculate(){
+    public int Calculate1(int Count) {
+
+        for (int i = 0; i < productCartModelList.size(); i++) {
+
+            int totalquantity = 0;
+            totalquantity = CalculateQuantity();
+            TotalQuantity = Count + totalquantity;
+        }
+        return TotalQuantity;
+
+    }
+    public int CalculatePrice()
+    {            int totalprice=0;
+for(int i=0;i<productCartModelList.size();i++)
+{
+    totalprice+=productCartModelList.get(i).getTotalPrice();
+
+}
+        return totalprice;
+    }
+
+    public int Calculate() {
 
         int totalPrice = 0;
-        for(int i = 0 ; i < productCartModelList.size(); i++) {
+        for (int i = 0; i < productCartModelList.size(); i++) {
             totalPrice += productCartModelList.get(i).getPrice() * productCartModelList.get(i).getQuantity();
         }
 
         return totalPrice;
     }
-    public int CalculateQuantity(){
+
+    public int CalculateQuantity() {
 
         int totalquantity = 0;
-        for(int i = 0 ; i < productCartModelList.size(); i++) {
+        for (int i = 0; i < productCartModelList.size(); i++) {
             totalquantity += productCartModelList.get(i).getQuantity();
         }
 
         return totalquantity;
+
     }
 }
 

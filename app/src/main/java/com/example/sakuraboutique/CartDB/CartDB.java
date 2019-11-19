@@ -26,10 +26,10 @@ public class CartDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+CART_TABLE+"(Product_ID INTEGER NOT NULL ,Product_Name TEXT,Quantity INTEGER,Price INTEGER,Size TEXT,Color TEXT,Url TEXT)");
+        db.execSQL("CREATE TABLE "+CART_TABLE+"(Product_ID INTEGER NOT NULL ,Product_Name TEXT,Quantity INTEGER,Price INTEGER,Size TEXT,Color TEXT,Url TEXT,TotalPrice INTEGER)");
 
     }
-public boolean InsertCartItem(int ProductID,String ProductName,int Quantity,int Price,String Size,String Color,String Url)
+public boolean InsertCartItem(int ProductID,String ProductName,int Quantity,int Price,String Size,String Color,String Url,int TotalPrice)
 {
 SQLiteDatabase db=this.getWritableDatabase();
     ContentValues cv=new ContentValues();
@@ -40,6 +40,7 @@ SQLiteDatabase db=this.getWritableDatabase();
     cv.put("Size",Size);
     cv.put("Color",Color);
     cv.put("Url",Url);
+    cv.put("TotalPrice",TotalPrice);
 
     try {
         db.insert(CART_TABLE,null,cv);
@@ -66,10 +67,12 @@ public List<ProductCartModel> getCartItemList()
                 productCartModelList.add(new ProductCartModel(cs.getInt(cs.getColumnIndex("Product_ID")),
                         cs.getInt(cs.getColumnIndex("Price")),
                         cs.getInt(cs.getColumnIndex("Quantity")),
+                        cs.getInt(cs.getColumnIndex("TotalPrice")),
                         cs.getString(cs.getColumnIndex("Product_Name")),
                         cs.getString(cs.getColumnIndex("Url")),
                         cs.getString(cs.getColumnIndex("Size")),
-                        cs.getString(cs.getColumnIndex("Color"))));
+                        cs.getString(cs.getColumnIndex("Color"))
+                        ));
 
                 cs.moveToNext();
             }
@@ -88,6 +91,8 @@ public List<ProductCartModel> getCartItemList()
             productCartModel = new ProductCartModel(cs.getInt(cs.getColumnIndex("Product_ID")),
                     cs.getInt(cs.getColumnIndex("Price")),
                     cs.getInt(cs.getColumnIndex("Quantity")),
+                    cs.getInt(cs.getColumnIndex("TotalPrice")),
+
                     cs.getString(cs.getColumnIndex("Product_Name")),
                     cs.getString(cs.getColumnIndex("Url")),
                     cs.getString(cs.getColumnIndex("Size")),
