@@ -21,4 +21,19 @@
     <string name="btn_clearcart">Empty Cart</string>
     <string name="tv_emptycart"> Looks Like Your Shopping Cart is Empty, Let\'s Start Shopping Right Now !!</string>
     <string name="btn_startshopping">Start Shopping Now</string>
+    <string name="tvheader">Sakura Boutique</string>
+    <string name="tvaboutuslabel">About Us</string>
+    <string name="tvaboutus">
+        <b>1.</b> Sakura Boutique is the online shop which selling Clothes, Mainly focus on Women\'s Wears.\n\n
+        <b>2.</b> There are 7 different Categories you can Browse in Sakura, (1) Tops Wears, (2) Bottoms Wears, (3) Dresses, (4) Traditional Burmese Dresses, (5) Shoes and Bags, (6) Accessories, (7) Men\'s Wears.\n\n
+        <b>3.</b> We have been here in Myanmar since 2018, and Our Products have guarantees for quality and fair price.\n\n
+        <b>4.</b> The order pending time or deliver time can be up to 2 weeks, but we will deliver to your home ASAP!!.\n\n
+        <b>5.</b> The Average Deliver fees is 2500_3000, but can different depending upon your deliver address.\n\n
+        <b>6.</b> We will contact you for confirmation of delivery charges as soon as we received your orders.\n\n
+        <b>5.</b> Our mission is to bring ease of use and comfortable for the users. Please also check our Facebook Page. Thank you for your support. XOXO!!\n
+    </string>
+    <string name="tvcontactus">Contact Us</string>
+    <string name="tvrateourapp">Rate Our App</string>
+    <string name="tvshareourapp">Share Our App</string>
+    <string name="tvfindusonfacebook">Find Us on Facebook</string>
 </resources>

@@ -25,6 +25,7 @@ import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
+import com.google.android.material.navigation.NavigationView;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -48,6 +49,7 @@ ActionBarDrawerToggle toggle;
     NotificationBadge notificationBadge;
     SharedPreferences pref;
     private int cartQuantity;
+    NavigationView navigationView;
 
 
 private void InitializeViews()
@@ -55,7 +57,7 @@ private void InitializeViews()
     rvMain=findViewById(R.id.rvMain);
     tbMain=findViewById(R.id.tbMain);
     dlMain=findViewById(R.id.drawer_layout);
-
+    navigationView=findViewById(R.id.nav_view);
 
     svImageSlider=findViewById(R.id.svImageSlider);
 }
@@ -101,6 +103,29 @@ categoryModelList = MainViewModel.AddCategoryData();
         rvMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 2, GridLayoutManager.VERTICAL, false));
         rvMain.setHasFixedSize(true);
         rvMain.setAdapter(new CategoryAdapter(categoryModelList));
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.nav_cart:
+                        Intent i=new Intent(MainActivity.this,CartActivity.class);
+                        startActivity(i);
+                        break;
+
+                    case R.id.nav_aboutus:
+                        Intent intent=new Intent(MainActivity.this,AboutUs.class);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.nav_contactus:
+                        Intent intent2=new Intent(MainActivity.this,ContactUs.class);
+                        startActivity(intent2);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -165,14 +190,18 @@ categoryModelList = MainViewModel.AddCategoryData();
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(toggle.onOptionsItemSelected(item))
         {
+
             return true;
         }
     switch (item.getItemId())
     {
+
+
         case android.R.id.home:
             this.finish();
             break;
-                case R.id.shoppingcart:
+
+            case R.id.shoppingcart:
             Intent i=new Intent(MainActivity.this,CartActivity.class);
             startActivity(i);
             break;

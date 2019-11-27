@@ -48,6 +48,8 @@ private int cartQuantity;
 
 
 
+
+
             setSupportActionBar(tbToolbar);
             getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>"+CategoryName+" </font>"));
 
@@ -67,6 +69,9 @@ private int cartQuantity;
         rvProductView.setHasFixedSize(true);
 
     }
+
+
+
 
     @Override
     protected void onResume() {
@@ -123,7 +128,8 @@ private int cartQuantity;
         switch (item.getItemId())
         {
             case android.R.id.home:
-                this.finish();
+Intent intent=new Intent(ProductView.this,MainActivity.class);
+startActivity(intent);
                 break;
             case R.id.mainshoppingcart:
                 Intent i=new Intent(ProductView.this,CartActivity.class);

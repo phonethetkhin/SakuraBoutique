@@ -62,6 +62,8 @@ public class ProductDetailed extends AppCompatActivity {
     private CartDB db=new CartDB(ProductDetailed.this);
     private ProductCartModel productCartModel;
     private ProductCartModel selectedproductcartmodel;
+    private ProductView productView=new ProductView();
+    private String CategoryName;
 
 
     NotificationBadge notificationBadge;
@@ -97,7 +99,6 @@ public class ProductDetailed extends AppCompatActivity {
 
         setSupportActionBar(tbToolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + ProdcutName + " </font>"));
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
@@ -244,9 +245,10 @@ public class ProductDetailed extends AppCompatActivity {
                 }
             }
         });
-
-
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -269,10 +271,10 @@ public class ProductDetailed extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case android.R.id.home:
-                this.finish();
-                break;
+Intent intent2=new Intent(ProductDetailed.this,ProductView.class);
+startActivity(intent2);
+            break;
             case R.id.mainshoppingcart:
                 Intent i=new Intent(ProductDetailed.this,CartActivity.class);
                 startActivity(i);
