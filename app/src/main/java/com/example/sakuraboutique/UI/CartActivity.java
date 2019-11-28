@@ -150,8 +150,8 @@ FinalTotalPrice=cartAdapter.Calculate();
             public void onClick(View v) {
                 new SweetAlertDialog(CartActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Are you sure?")
-                        .setContentText("You About to Empty the Shopping Cart!")
-                        .setConfirmText("Yes,Empty the Cart!")
+                        .setContentText("To Empty the Cart!")
+                        .setConfirmText("Yes!")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(final SweetAlertDialog sDialog) {
@@ -194,6 +194,7 @@ FinalTotalPrice=cartAdapter.Calculate();
                                         })
 
                                         .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                sDialog.findViewById(R.id.cancel_button).setVisibility(View.GONE);
 
 
 

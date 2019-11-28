@@ -34,7 +34,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_marginTop="16dp"
-        android:textSize="60sp"
+        android:textSize="45sp"
         android:fontFamily="cursive"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
@@ -154,6 +154,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFindUsonFacebookLabel"
         app:srcCompat="@drawable/fb" />
+
     <TextView
         android:id="@+id/tvFacebokLink"
         android:layout_width="0dp"
@@ -161,14 +162,14 @@
         android:layout_marginLeft="16dp"
         android:autoLink="web"
         android:text="@string/tvfblink"
-        android:textSize="20sp"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/imgFB"
+        android:textSize="20sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imgFB"
-        app:layout_constraintTop_toTopOf="@+id/imgFB"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/imgFB" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

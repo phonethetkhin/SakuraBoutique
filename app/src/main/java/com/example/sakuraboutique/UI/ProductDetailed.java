@@ -43,7 +43,7 @@ public class ProductDetailed extends AppCompatActivity {
     private List<String> colorlist;
     private List<String> photolist;
     private Toolbar tbToolbar;
-    private int Count;
+    private int Count=1;
     private EditText etQuantity;
     private ImageButton imgbtnPlus, imgbtnMinus;
     private Button AddtoCart;
@@ -166,7 +166,7 @@ public class ProductDetailed extends AppCompatActivity {
                 Count = quantity;
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
                 imgbtnMinus.startAnimation(myFadeInAnimation);
-                if (Count != 0) {
+                if (Count != 1) {
                     --Count;
                 }
 

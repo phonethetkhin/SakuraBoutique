@@ -21,7 +21,7 @@
         android:icon="@drawable/ic_myanmar"
         android:title="Traditional Dresses"/>
     <item android:id="@+id/nav_shoesandbags"
-        android:icon="@drawable/ic_high_heels"
+        android:icon="@drawable/ic_highheels"
         android:title="Shoes and Bags"/>
     <item android:id="@+id/nav_accessories"
         android:icon="@drawable/ic_bow_tie"
@@ -36,7 +36,7 @@
     <item android:title="Quick Links">
         <menu>
             <item android:id="@+id/nav_cart"
-                android:icon="@drawable/ic_shopping_cart"
+                android:icon="@drawable/ic_shoppingcart"
                 android:title="Shopping Cart"
                 />
             <item android:id="@+id/nav_aboutus"

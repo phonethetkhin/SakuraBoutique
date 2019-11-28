@@ -1,12 +1,9 @@
 package com.example.sakuraboutique.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,11 +13,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakuraboutique.R;
-import com.example.sakuraboutique.UI.ProductDetailed;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
     List<String> colorlist;
@@ -31,6 +25,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     public interface onRecyclerViewItemClickListener {
         void onItemClickListener(View view, int position);
     }
+
     private onRecyclerViewItemClickListener mItemClickListener;
 
     public void setOnItemClickListener(onRecyclerViewItemClickListener mItemClickListener) {
@@ -46,26 +41,22 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.colorlistitem,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.colorlistitem, parent, false);
 
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder h, final int position) {
-h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
         h.itemView.setSelected(selectedPos == position);
-        Drawable highlight = context.getResources().getDrawable(R.drawable.highlight);
-        if(selectedPos==position)
-        {
+        h.cvCardView.setBackgroundColor(Color.parseColor(colorlist.get(position)));
 
-                h.imgColor.setBackground(highlight);
-                h.cvCardView.setCardBackgroundColor(Color.parseColor(colorlist.get(position)));
+        if (selectedPos == position) {
 
-        }
-        else
-        {
-            h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+            h.imgColor.setImageResource(R.drawable.correct);
+        } else {
+            h.imgColor.setImageDrawable(null);
+            h.cvCardView.setBackgroundColor(Color.parseColor(colorlist.get(position)));
 
 
         }
@@ -78,14 +69,15 @@ h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
         return colorlist.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
-        CircleImageView imgColor;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView imgColor;
         CardView cvCardView;
+
         public ViewHolder(@NonNull View v) {
             super(v);
-            imgColor=v.findViewById(R.id.imgColor);
+            imgColor = v.findViewById(R.id.imgColor);
+            imgColor.setOnClickListener(this);
             cvCardView=v.findViewById(R.id.cvCardView);
-        imgColor.setOnClickListener(this);
         }
 
         @Override
@@ -93,7 +85,6 @@ h.imgColor.setBackgroundColor(Color.parseColor(colorlist.get(position)));
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClickListener(v, getAdapterPosition());
                 notifyItemChanged(selectedPos);
-
 
 
                 selectedPos = getLayoutPosition();
