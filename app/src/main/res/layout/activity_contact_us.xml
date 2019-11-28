@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.ContactUs">
@@ -46,10 +49,127 @@
 
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/sakuralogo2"
+        android:src="@mipmap/ic_launcher_round"
         app:layout_constraintBottom_toBottomOf="@+id/gifImageView"
         app:layout_constraintEnd_toEndOf="@+id/gifImageView"
         app:layout_constraintStart_toStartOf="@+id/gifImageView"
         app:layout_constraintTop_toBottomOf="@+id/tbInclude" />
 
+    <ImageView
+        android:id="@+id/imgMail"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/mail" />
+
+    <TextView
+        android:id="@+id/tvMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvmail"
+        android:textSize="20sp"
+        android:layout_marginLeft="16dp"
+        android:autoLink="email"
+        app:layout_constraintBottom_toBottomOf="@+id/imgMail"
+        app:layout_constraintStart_toEndOf="@+id/imgMail"
+        app:layout_constraintTop_toTopOf="@+id/imgMail" />
+
+    <ImageView
+        android:id="@+id/imgPhone"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/imgMail"
+        app:layout_constraintTop_toBottomOf="@+id/imgMail"
+        app:srcCompat="@drawable/phone" />
+
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvphone"
+        android:textSize="20sp"
+        android:layout_marginLeft="16dp"
+        android:autoLink="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/imgPhone"
+        app:layout_constraintStart_toEndOf="@+id/imgPhone"
+        app:layout_constraintTop_toTopOf="@+id/imgPhone" />
+
+    <ImageView
+        android:id="@+id/imgLocation"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/imgPhone"
+        app:layout_constraintTop_toBottomOf="@+id/imgPhone"
+        app:srcCompat="@drawable/location"
+        />
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="@string/tvlocation"
+        android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/imgLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgLocation"
+        app:layout_constraintTop_toTopOf="@+id/imgLocation"
+        app:layout_constraintVertical_bias="0.0" />
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLocation" />
+    <TextView
+        android:id="@+id/tvFindUsonFacebookLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvfindusonfacebook"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <ImageView
+        android:id="@+id/imgFB"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFindUsonFacebookLabel"
+        app:srcCompat="@drawable/fb" />
+    <TextView
+        android:id="@+id/tvFacebokLink"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:autoLink="web"
+        android:text="@string/tvfblink"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/imgFB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgFB"
+        app:layout_constraintTop_toTopOf="@+id/imgFB"
+        app:layout_constraintVertical_bias="0.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
