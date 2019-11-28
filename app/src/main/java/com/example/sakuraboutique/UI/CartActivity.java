@@ -122,6 +122,13 @@ private void InitializeViews()
             btnCheckout.setVisibility(View.VISIBLE);
 
         }
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(CartActivity.this,Login.class);
+                startActivity(i);
+            }
+        });
 
         rvCartItem.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
         rvCartItem.setHasFixedSize(true);

@@ -39,5 +39,14 @@
     <string name="tvmail">snowcat018@gmail.com</string>
     <string name="tvphone">+95-9979044627</string>
     <string name="tvlocation"><u>no.53 21st Street, Yangon,4th floor</u></string>
-    <string name="tvfblink" >https://www.facebook.com/Sakura-Boutique-433408814113660/</string>
+    <string name="tvfblink">https://www.facebook.com/Sakura-Boutique-433408814113660/</string>
+    <string name="tietusername">UserName</string>
+    <string name="tietpassword">Password</string>
+    <string name="btn_Login">Login</string>
+    <string name="tvlabel">Don\'t have an account ?</string>
+    <string name="btnregister">Register Now</string>
+    <string name="tvlabel2">Or you can</string>
+    <string name="btnsigninasguest">Sign In As Guest</string>
+    <string name="tvlabel3">Having Trouble Signing In ?</string>
+    <string name="btnresetpassword">Reset Password</string>
 </resources>
