@@ -13,7 +13,7 @@ import java.util.List;
 public class MainViewModel extends ViewModel {
 
 
-    private static List<CategoryModel> CategoryModelList=new ArrayList<>();
+   // private static List<CategoryModel> CategoryModelList=new ArrayList<>();
 private static List<ProductModel> ProductModelList=new ArrayList<>();
    private static List<String> SizeList=new ArrayList<>();
    private static List<String> ColorList=new ArrayList<>();
@@ -47,7 +47,7 @@ private static List<ProductModel> ProductModelList=new ArrayList<>();
 
 
 
-    public static List<CategoryModel> AddCategoryData()
+   /* public static List<CategoryModel> AddCategoryData()
     {
         CategoryModelList.add(new CategoryModel("New Arrivals","https://cdn.shopify.com/s/files/1/0028/4560/5988/products/DongCMY-Short-Burgundy-Prom-dresses-2019-new-arrival-fashion-Sexy-Mermaid-Party-Women-Performance-Dress_778x.jpg?v=1563239132"));
         CategoryModelList.add(new CategoryModel("Tops","https://5.imimg.com/data5/JW/FR/MY-30877293/gfgbffh-500x500.jpg"));
@@ -58,7 +58,7 @@ private static List<ProductModel> ProductModelList=new ArrayList<>();
         CategoryModelList.add(new CategoryModel("Accessories","https://www.billini.com/media/catalog/category/EARRINGS.jpg"));
         CategoryModelList.add(new CategoryModel("Men's Fashion","https://www.next.co.uk/nxtcms/resource/image/1891218/portrait_ratio1x1/525/525/3297a1d11424bf65037b6b8d15d6b6ee/dB/g83-mb-sh193231-lm-026.jpg"));
     return CategoryModelList;
-    }
+    }*/
 
     public static List<ProductModel> AddProductData()
     {

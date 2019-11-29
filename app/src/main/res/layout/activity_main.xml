@@ -8,6 +8,10 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     >
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srflMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -52,7 +56,16 @@
             android:fitsSystemWindows="true"
             >
 
+            <pl.droidsonroids.gif.GifImageView
 
+                android:id="@+id/gifNoInternet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/nointernetgif"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tbInclude" />
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/svImageSlider"
                 android:layout_width="match_parent"
@@ -107,4 +120,5 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu"
         />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,18 +1,29 @@
 package com.example.sakuraboutique.Models;
 
 public class CategoryModel {
-    private String CategoryName,URL;
 
-    public CategoryModel(String categoryName, String URL) {
+
+    private int CategoryID;
+
+    private String CategoryName;
+
+    private String PhotoURL;
+
+    public CategoryModel(int categoryID, String categoryName, String photoURL) {
+        CategoryID = categoryID;
         CategoryName = categoryName;
-        this.URL = URL;
+        PhotoURL = photoURL;
+    }
+
+    public int getCategoryID() {
+        return CategoryID;
     }
 
     public String getCategoryName() {
         return CategoryName;
     }
 
-    public String getURL() {
-        return URL;
+    public String getPhotoURL() {
+        return PhotoURL;
     }
 }

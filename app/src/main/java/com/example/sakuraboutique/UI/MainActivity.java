@@ -2,12 +2,14 @@ package com.example.sakuraboutique.UI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,14 +19,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sakuraboutique.Adapters.CategoryAdapter;
 import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.ViewModels.CategoryViewModels;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.smarteist.autoimageslider.IndicatorAnimations;
@@ -35,6 +43,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,9 +53,11 @@ private RecyclerView rvMain;
 Toolbar tbMain;
     List<String> URLs=new ArrayList<>();
 DrawerLayout dlMain;
+    GifImageView gifNoInternet;
 List<CategoryModel> categoryModelList;
 SliderView svImageSlider;
 ActionBarDrawerToggle toggle;
+SwipeRefreshLayout srflMain;
     NotificationBadge notificationBadge;
     SharedPreferences pref;
     private int cartQuantity;
@@ -58,8 +70,9 @@ private void InitializeViews()
     tbMain=findViewById(R.id.tbMain);
     dlMain=findViewById(R.id.drawer_layout);
     navigationView=findViewById(R.id.nav_view);
-
+        gifNoInternet=findViewById(R.id.gifNoInternet);
     svImageSlider=findViewById(R.id.svImageSlider);
+    srflMain=findViewById(R.id.srflMain);
 }
 
     @Override
@@ -81,28 +94,11 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toggle=(new ActionBarDrawerToggle(MainActivity.this,dlMain,R.string.open,R.string.close));
         dlMain.addDrawerListener(toggle);
-
-toggle.syncState();
-categoryModelList = MainViewModel.AddCategoryData();
-        URLs.clear();
-        URLs=MainViewModel.AddURL();
-
-        svImageSlider.setSliderAdapter(new SlideAdapter(MainActivity.this,URLs));
-        svImageSlider.setCircularHandlerEnabled(true);
-
-
-        svImageSlider.setIndicatorAnimation(IndicatorAnimations.SWAP); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
-        svImageSlider.setCircularHandlerEnabled(true);
-
-        svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
-        svImageSlider.startAutoCycle();
+        toggle.syncState();
 
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
-        rvMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 2, GridLayoutManager.VERTICAL, false));
-        rvMain.setHasFixedSize(true);
-        rvMain.setAdapter(new CategoryAdapter(categoryModelList));
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -126,6 +122,62 @@ categoryModelList = MainViewModel.AddCategoryData();
                 return false;
             }
         });
+        rvMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 2, GridLayoutManager.VERTICAL, false));
+        rvMain.setHasFixedSize(true);
+        MainFunction();
+
+        srflMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srflMain.setRefreshing(true);
+                MainFunction();
+                srflMain.setRefreshing(false);
+            }
+        });
+
+
+    }
+    private void MainFunction()
+    {
+        if(!Network())
+        {
+            svImageSlider.setVisibility(View.GONE);
+            rvMain.setVisibility(View.GONE);
+            gifNoInternet.setVisibility(View.VISIBLE);
+
+            Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            CategoryViewModels viewModels = ViewModelProviders.of(this).get(CategoryViewModels.class);
+            viewModels.getCategoryLivedata().observe(this, new Observer<List<CategoryModel>>() {
+                @Override
+                public void onChanged(List<CategoryModel> categoryModels) {
+                    categoryModelList = categoryModels;
+                    rvMain.setAdapter(new CategoryAdapter(categoryModelList));
+
+                }
+            });
+
+
+            gifNoInternet.setVisibility(View.GONE);
+            svImageSlider.setVisibility(View.VISIBLE);
+            rvMain.setVisibility(View.VISIBLE);
+
+            URLs.clear();
+            URLs = MainViewModel.AddURL();
+
+            svImageSlider.setSliderAdapter(new SlideAdapter(MainActivity.this, URLs));
+            svImageSlider.setCircularHandlerEnabled(true);
+
+
+            svImageSlider.setIndicatorAnimation(IndicatorAnimations.SWAP); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+            svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
+            svImageSlider.setCircularHandlerEnabled(true);
+
+            svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+            svImageSlider.startAutoCycle();
+
+        }
     }
 
 
@@ -183,7 +235,13 @@ categoryModelList = MainViewModel.AddCategoryData();
 
         return super.onPrepareOptionsMenu(menu);
     }*/
+    public boolean Network()
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.this.getSystemService(MainActivity.this.CONNECTIVITY_SERVICE);
 
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+
+    }
 
 
     @Override
