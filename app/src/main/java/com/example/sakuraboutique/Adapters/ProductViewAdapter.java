@@ -37,7 +37,7 @@ public class ProductViewAdapter extends RecyclerView.Adapter<ProductViewAdapter.
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
 h.tvProductName.setText(ProductModelList.get(position).getProductName());
 h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
-        Picasso.get().load(ProductModelList.get(position).getURL()).into(h.imgProductViewPhoto);
+        Picasso.get().load(ProductModelList.get(position).getPhotoURL()).into(h.imgProductViewPhoto);
 
 
     }
@@ -59,7 +59,7 @@ h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
                         i.putExtra("ProductID",ProductModelList.get(getAdapterPosition()).getProductID());
                         i.putExtra("ProductName",ProductModelList.get(getAdapterPosition()).getProductName());
                         i.putExtra("Price",ProductModelList.get(getAdapterPosition()).getPrice());
-                        i.putExtra("URL",ProductModelList.get(getAdapterPosition()).getURL());
+                        i.putExtra("URL",ProductModelList.get(getAdapterPosition()).getPhotoURL());
                      v.getContext().startActivity(i);
                  }
              });

@@ -49,4 +49,5 @@
     <string name="btnsigninasguest">Sign In As Guest</string>
     <string name="tvlabel3">Having Trouble Signing In ?</string>
     <string name="btnresetpassword">Reset Password</string>
+    <string name="btnsignup">Sign Up</string>
 </resources>

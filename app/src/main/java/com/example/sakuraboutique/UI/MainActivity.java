@@ -8,16 +8,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -29,7 +28,7 @@ import com.example.sakuraboutique.Adapters.CategoryAdapter;
 import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.R;
-import com.example.sakuraboutique.ViewModels.CategoryViewModels;
+import com.example.sakuraboutique.ViewModels.CategoryViewModel;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -39,14 +38,13 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
 
 private RecyclerView rvMain;
@@ -62,6 +60,8 @@ SwipeRefreshLayout srflMain;
     SharedPreferences pref;
     private int cartQuantity;
     NavigationView navigationView;
+    CollapsingToolbarLayout ctblCollapsingtoolbar;
+    AppBarLayout apAppBar;
 
 
 private void InitializeViews()
@@ -73,14 +73,11 @@ private void InitializeViews()
         gifNoInternet=findViewById(R.id.gifNoInternet);
     svImageSlider=findViewById(R.id.svImageSlider);
     srflMain=findViewById(R.id.srflMain);
+    apAppBar=findViewById(R.id.apAppBar);
+    ctblCollapsingtoolbar=findViewById(R.id.ctblCollapsingtoolbar);
 }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,19 +120,46 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         });
         rvMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 2, GridLayoutManager.VERTICAL, false));
+
         rvMain.setHasFixedSize(true);
         MainFunction();
 
         srflMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                srflMain.setRefreshing(true);
-                MainFunction();
+
+
+                    srflMain.setRefreshing(true);
+
+                    MainFunction();
+
                 srflMain.setRefreshing(false);
             }
         });
 
 
+    }
+
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        if (ctblCollapsingtoolbar.getHeight() + verticalOffset < 6 * ViewCompat.getMinimumHeight(ctblCollapsingtoolbar)) {
+            srflMain.setEnabled(false);
+        } else {
+            srflMain.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        apAppBar.addOnOffsetChangedListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        apAppBar.removeOnOffsetChangedListener(this);
     }
     private void MainFunction()
     {
@@ -148,7 +172,7 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
         }
         else {
-            CategoryViewModels viewModels = ViewModelProviders.of(this).get(CategoryViewModels.class);
+            CategoryViewModel viewModels = ViewModelProviders.of(this).get(CategoryViewModel.class);
             viewModels.getCategoryLivedata().observe(this, new Observer<List<CategoryModel>>() {
                 @Override
                 public void onChanged(List<CategoryModel> categoryModels) {
@@ -179,6 +203,7 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         }
     }
+
 
 
     @Override
@@ -215,6 +240,7 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             super.onBackPressed();
         }
     }
+
     /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         invalidateOptionsMenu();
@@ -266,4 +292,5 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -8,7 +8,7 @@ import com.example.sakuraboutique.Repositories.CategoryRepositories;
 
 import java.util.List;
 
-public class CategoryViewModels extends ViewModel {
+public class CategoryViewModel extends ViewModel {
     private CategoryRepositories categoryRepositories=new CategoryRepositories();
     private LiveData<List<CategoryModel>> categoryLivedata;
     public LiveData<List<CategoryModel>> getCategoryLivedata()

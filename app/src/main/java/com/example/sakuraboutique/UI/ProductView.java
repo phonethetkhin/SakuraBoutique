@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ import com.example.sakuraboutique.Adapters.ProductViewAdapter;
 import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
+import com.example.sakuraboutique.ViewModels.ProductViewModel;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class ProductView extends AppCompatActivity {
 RecyclerView rvProductView;
 private String CategoryName;
 Toolbar tbToolbar;
-private List<ProductModel> productModelList=new ArrayList<>();
+private List<ProductModel> productModelList;
 SharedPreferences pref;
 private int cartQuantity;
     private NotificationBadge notificationBadge;
@@ -59,14 +62,12 @@ private int cartQuantity;
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
 
-
-        Drawable horizontalDivider = ContextCompat.getDrawable(this, R.drawable.horizontal_divider);
-        Drawable verticalDivider = ContextCompat.getDrawable(this, R.drawable.horizontal_divider);
-        rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
-        productModelList= MainViewModel.AddProductData();
-
         rvProductView.setLayoutManager(new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,false));
         rvProductView.setHasFixedSize(true);
+
+
+
+
 
     }
 
@@ -76,9 +77,27 @@ private int cartQuantity;
     @Override
     protected void onResume() {
         super.onResume();
-        productModelList.clear();
+       /* ProductViewModel viewModel= ViewModelProviders.of(this).get(ProductViewModel.class);
+        viewModel.getProductlivedatalist().observe(this, new Observer<List<ProductModel>>() {
+            @Override
+            public void onChanged(List<ProductModel> productModels) {
+                productModelList= productModels;
+                Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+                Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+                rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
+
+                rvProductView.setAdapter(new ProductViewAdapter(productModelList));
+
+            }
+        });*/
         productModelList=MainViewModel.AddProductData();
+
+        Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+        Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+        rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
+
         rvProductView.setAdapter(new ProductViewAdapter(productModelList));
+
 
     }
 

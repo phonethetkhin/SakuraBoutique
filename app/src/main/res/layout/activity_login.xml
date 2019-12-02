@@ -83,6 +83,7 @@
         android:layout_marginEnd="8dp"
 
         app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
 
         app:layout_constraintStart_toStartOf="parent"
 
@@ -91,12 +92,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietPassword"
-
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
 
-            android:hint="@string/tietpassword" />
+            android:hint="@string/tietpassword"
+
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
