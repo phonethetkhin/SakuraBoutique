@@ -17,12 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".UI.Register">
+        <activity android:name=".UI.ComfirmOrder">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".UI.PrivacyPolicy"></activity>
+        <activity android:name=".UI.Register">
 
         </activity>
         <activity android:name=".UI.Login" />
@@ -34,9 +39,7 @@
             android:name=".UI.SplashScreen"
             android:theme="@style/NoActionBarTheme" />
         <activity android:name=".UI.ProductView" />
-        <activity android:name=".UI.MainActivity">
-
-        </activity>
+        <activity android:name=".UI.MainActivity" />
     </application>
 
 </manifest>
