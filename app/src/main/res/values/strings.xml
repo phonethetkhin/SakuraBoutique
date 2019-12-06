@@ -71,4 +71,10 @@
         <u><b>8. Contacting us</b></u>\n\n
         If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to snowcat018@gmail.com  This document was last updated on December 2, 2019\n\n</string>
     <string name="btnconfirmorder">Confirm Order</string>
+    <string name="tvsuccessmessage">
+        <b><font size="25"><center>Your Order Was Successfully!!</center></font></b>\n\n
+        Thank You So Much For Shopping With Us.\n
+        Order Waiting Time Will Be Up To 2 Weeks.\n
+        Let\'s Go Shopping Again.</string>
+    <string name="btnstartshopping">Start Shopping Now</string>
 </resources>
