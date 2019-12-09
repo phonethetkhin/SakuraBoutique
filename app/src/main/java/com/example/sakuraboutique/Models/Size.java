@@ -1,22 +1,39 @@
 package com.example.sakuraboutique.Models;
 
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Size {
 
+    @SerializedName("Color")
+    @Expose
+    private List<Color> color = null;
+    @SerializedName("SizeName")
+    @Expose
+    private String sizeName;
 
-    private int SizeID;
-
-    private String SizeName;
-
-    public Size(int sizeID, String sizeName) {
-        SizeID = sizeID;
-        SizeName = sizeName;
+    public Size() {
     }
 
-    public int getSizeID() {
-        return SizeID;
+    public Size(List<Color> color, String sizeName) {
+        this.color = color;
+        this.sizeName = sizeName;
+    }
+
+    public List<Color> getColor() {
+        return color;
+    }
+
+    public void setColor(List<Color> color) {
+        this.color = color;
     }
 
     public String getSizeName() {
-        return SizeName;
+        return sizeName;
+    }
+
+    public void setSizeName(String sizeName) {
+        this.sizeName = sizeName;
     }
 }

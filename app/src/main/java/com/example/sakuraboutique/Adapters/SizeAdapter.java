@@ -1,6 +1,5 @@
 package com.example.sakuraboutique.Adapters;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sakuraboutique.Models.Size;
 import com.example.sakuraboutique.R;
-import com.example.sakuraboutique.UI.ProductDetailed;
 
 import java.util.List;
 
 public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
-    List<String> sizelist;
+    List<Size> sizelist;
     private int selectedPos = RecyclerView.NO_POSITION;
 
     public interface onRecyclerViewItemClickListener {
@@ -27,7 +26,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
     public void setOnItemClickListener(SizeAdapter.onRecyclerViewItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
-    public SizeAdapter(List<String> sizelist) {
+    public SizeAdapter(List<Size> sizelist) {
         this.sizelist = sizelist;
     }
 
@@ -42,7 +41,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.tvSize.setText(sizelist.get(position));
+        holder.tvSize.setText(sizelist.get(position).getSizeName());
         holder.itemView.setSelected(selectedPos == position);
         if(selectedPos==position)
         {

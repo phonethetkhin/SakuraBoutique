@@ -2,12 +2,12 @@ package com.example.sakuraboutique.Models;
 
 public class ProductModel {
     private int ProductID, Price;
-    private String PhotoURL, ProductName;
+    private String Photo, ProductName;
 
-    public ProductModel(int productID, int price, String photoURL, String productName) {
+    public ProductModel(int productID, int price, String photo, String productName) {
         ProductID = productID;
         Price = price;
-        PhotoURL = photoURL;
+        Photo = photo;
         ProductName = productName;
     }
 
@@ -19,8 +19,8 @@ public class ProductModel {
         return Price;
     }
 
-    public String getPhotoURL() {
-        return PhotoURL;
+    public String getPhoto() {
+        return Photo;
     }
 
     public String getProductName() {

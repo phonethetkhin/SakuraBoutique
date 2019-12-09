@@ -1,5 +1,7 @@
 package com.example.sakuraboutique.Repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -22,9 +24,15 @@ public class CategoryRepositories {
         call.enqueue(new Callback<List<CategoryModel>>() {
             @Override
             public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
-                List<CategoryModel> categoryModels=response.body();
-                mutableLiveData.setValue(categoryModels);
+                if (response.isSuccessful()) {
+                    List<CategoryModel> categoryModels = response.body();
+                    mutableLiveData.setValue(categoryModels);
+                }
+                else
+                {
+                    Log.d("Error","Error");
             }
+        }
 
             @Override
             public void onFailure(Call<List<CategoryModel>> call, Throwable t) {

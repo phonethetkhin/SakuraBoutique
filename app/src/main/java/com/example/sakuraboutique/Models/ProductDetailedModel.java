@@ -1,73 +1,109 @@
 package com.example.sakuraboutique.Models;
 
 import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class ProductDetailedModel {
 
+    @SerializedName("CategoryID")
+    @Expose
+    private Integer categoryID;
+    @SerializedName("CodeNo")
+    @Expose
+    private Integer codeNo;
+    @SerializedName("Photos")
+    @Expose
+    private List<String> photos = null;
+    @SerializedName("Price")
+    @Expose
+    private Integer price;
+    @SerializedName("ProductDescription")
+    @Expose
+    private String productDescription;
+    @SerializedName("ProductID")
+    @Expose
+    private Integer productID;
+    @SerializedName("ProductName")
+    @Expose
+    private String productName;
+    @SerializedName("Sizes")
+    @Expose
+    private List<Size> sizes = null;
 
-    private int CategoryID;
-
-    private List<Color> Color;
-
-    private List<Photo> Photo;
-
-    private int Price;
-
-    private String ProductDescription;
-
-    private int ProductID;
-
-    private String ProductName;
-
-    private int Quantity;
-
-    private List<Size> Size;
-
-    public ProductDetailedModel(int categoryID, List<com.example.sakuraboutique.Models.Color> color, List<com.example.sakuraboutique.Models.Photo> photo, int price, String productDescription, int productID, String productName, int quantity, List<com.example.sakuraboutique.Models.Size> size) {
-        CategoryID = categoryID;
-        Color = color;
-        Photo = photo;
-        Price = price;
-        ProductDescription = productDescription;
-        ProductID = productID;
-        ProductName = productName;
-        Quantity = quantity;
-        Size = size;
+    public ProductDetailedModel(Integer categoryID, Integer codeNo, List<String> photos, Integer price, String productDescription, Integer productID, String productName, List<Size> sizes) {
+        this.categoryID = categoryID;
+        this.codeNo = codeNo;
+        this.photos = photos;
+        this.price = price;
+        this.productDescription = productDescription;
+        this.productID = productID;
+        this.productName = productName;
+        this.sizes = sizes;
     }
 
-    public int getCategoryID() {
-        return CategoryID;
+    public Integer getCategoryID() {
+        return categoryID;
     }
 
-    public List<com.example.sakuraboutique.Models.Color> getColor() {
-        return Color;
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
     }
 
-    public List<com.example.sakuraboutique.Models.Photo> getPhoto() {
-        return Photo;
+    public Integer getCodeNo() {
+        return codeNo;
     }
 
-    public int getPrice() {
-        return Price;
+    public void setCodeNo(Integer codeNo) {
+        this.codeNo = codeNo;
+    }
+
+    public List<String> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public String getProductDescription() {
-        return ProductDescription;
+        return productDescription;
     }
 
-    public int getProductID() {
-        return ProductID;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public Integer getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Integer productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
-        return ProductName;
+        return productName;
     }
 
-    public int getQuantity() {
-        return Quantity;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public List<com.example.sakuraboutique.Models.Size> getSize() {
-        return Size;
+    public List<Size> getSizes() {
+        return sizes;
     }
+
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
+    }
+
 }

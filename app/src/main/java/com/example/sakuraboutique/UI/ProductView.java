@@ -20,9 +20,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dgreenhalgh.android.simpleitemdecoration.grid.GridDividerItemDecoration;
 import com.example.sakuraboutique.Adapters.ProductViewAdapter;
+import com.example.sakuraboutique.Models.ProductDetailedModel;
 import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
@@ -35,8 +37,9 @@ import java.util.List;
 public class ProductView extends AppCompatActivity {
 RecyclerView rvProductView;
 private String CategoryName;
+private int CategoryID;
 Toolbar tbToolbar;
-private List<ProductModel> productModelList;
+private List<ProductModel> productModelList=new ArrayList<>();
 SharedPreferences pref;
 private int cartQuantity;
     private NotificationBadge notificationBadge;
@@ -47,23 +50,10 @@ private int cartQuantity;
         rvProductView=findViewById(R.id.rvProductView);
         tbToolbar=findViewById(R.id.tbToolbar);
 
-        CategoryName = getIntent().getStringExtra("CategoryName");
 
 
 
 
-
-            setSupportActionBar(tbToolbar);
-            getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>"+CategoryName+" </font>"));
-
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-
-
-        rvProductView.setLayoutManager(new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,false));
-        rvProductView.setHasFixedSize(true);
 
 
 
@@ -77,26 +67,46 @@ private int cartQuantity;
     @Override
     protected void onResume() {
         super.onResume();
-       /* ProductViewModel viewModel= ViewModelProviders.of(this).get(ProductViewModel.class);
-        viewModel.getProductlivedatalist().observe(this, new Observer<List<ProductModel>>() {
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        CategoryID=pref.getInt("CategoryID",1);
+        CategoryName=pref.getString("CategoryName","");
+        setSupportActionBar(tbToolbar);
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>"+CategoryName+" </font>"));
+
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
+
+        rvProductView.setLayoutManager(new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,false));
+        rvProductView.setHasFixedSize(true);
+
+        ProductViewModel viewModel= ViewModelProviders.of(this).get(ProductViewModel.class);
+        viewModel.getProductlivedatalist(CategoryID).observe(this, new Observer<List<ProductDetailedModel>>() {
             @Override
-            public void onChanged(List<ProductModel> productModels) {
-                productModelList= productModels;
-                Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
-                Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
-                rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
+            public void onChanged(List<ProductDetailedModel> productDetailedModels) {
+                if(productDetailedModels==null)
+                {
+                    Toast.makeText(ProductView.this, "There are no items Match Your Searches!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    List<ProductDetailedModel> pdm = productDetailedModels;
+                    for (int i = 0; i < pdm.size(); i++) {
+                        ProductModel productModel = new ProductModel(pdm.get(i).getProductID(), pdm.get(i).getPrice(), pdm.get(i).getPhotos().get(0), pdm.get(i).getProductName());
+                        productModelList.add(productModel);
 
-                rvProductView.setAdapter(new ProductViewAdapter(productModelList));
+                    }
+                    Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+                    Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+                    rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
 
+                    rvProductView.setAdapter(new ProductViewAdapter(productModelList));
+                }
             }
-        });*/
-        productModelList=MainViewModel.AddProductData();
+        });
 
-        Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
-        Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
-        rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
 
-        rvProductView.setAdapter(new ProductViewAdapter(productModelList));
 
 
     }

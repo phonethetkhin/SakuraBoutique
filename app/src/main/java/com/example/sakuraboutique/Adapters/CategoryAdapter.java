@@ -1,6 +1,7 @@
 package com.example.sakuraboutique.Adapters;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.example.sakuraboutique.UI.ProductView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 List<CategoryModel> categoryModelList;
@@ -46,7 +49,11 @@ holder.cvCategory.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Intent i=new Intent(v.getContext(), ProductView.class);
-        i.putExtra("CategoryName",categoryModelList.get(position).getCategoryName());
+       SharedPreferences pref = v.getContext().getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        SharedPreferences.Editor myeditor = pref.edit();
+        myeditor.putInt("CategoryID", categoryModelList.get(position).getCategoryID());
+        myeditor.putString("CategoryName",categoryModelList.get(position).getCategoryName());
+        myeditor.commit();
 
         v.getContext().startActivity(i);
     }

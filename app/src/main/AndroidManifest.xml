@@ -34,14 +34,16 @@
         <activity
             android:name=".UI.SplashScreen"
             android:theme="@style/NoActionBarTheme" >
+
+        </activity>
+        <activity android:name=".UI.ProductView" />
+        <activity android:name=".UI.MainActivity" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".UI.ProductView" />
-        <activity android:name=".UI.MainActivity" />
     </application>
 
 </manifest>

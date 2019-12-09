@@ -2,7 +2,6 @@ package com.example.sakuraboutique.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.example.sakuraboutique.R;
 import java.util.List;
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
-    List<String> colorlist;
+    List<com.example.sakuraboutique.Models.Color> colorlist ;
     Context context;
     private int selectedPos = RecyclerView.NO_POSITION;
 
@@ -33,7 +32,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     }
 
 
-    public ColorAdapter(List<String> colorlist, Context context) {
+    public ColorAdapter(List<com.example.sakuraboutique.Models.Color> colorlist, Context context) {
         this.colorlist = colorlist;
         this.context = context;
     }
@@ -49,14 +48,14 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder h, final int position) {
         h.itemView.setSelected(selectedPos == position);
-        h.cvCardView.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+        h.cvCardView.setBackgroundColor(Color.parseColor("#"+colorlist.get(position).getColorCode()));
 
         if (selectedPos == position) {
 
             h.imgColor.setImageResource(R.drawable.correct);
         } else {
             h.imgColor.setImageDrawable(null);
-            h.cvCardView.setBackgroundColor(Color.parseColor(colorlist.get(position)));
+            h.cvCardView.setBackgroundColor(Color.parseColor("#"+colorlist.get(position).getColorCode()));
 
 
         }
