@@ -29,6 +29,10 @@ public class CartDB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+CART_TABLE+"(Product_ID INTEGER NOT NULL ,Product_Name TEXT,Quantity INTEGER,Price INTEGER,Size TEXT,Color TEXT,Url TEXT,TotalPrice INTEGER)");
 
     }
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
 public boolean InsertCartItem(int ProductID,String ProductName,int Quantity,int Price,String Size,String Color,String Url,int TotalPrice)
 {
 SQLiteDatabase db=this.getWritableDatabase();
@@ -113,9 +117,10 @@ public List<ProductCartModel> getCartItemList()
         db.execSQL("DELETE FROM "+CART_TABLE+";");
         db.close();
     }
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public void DeleteCartItem(String color,String size)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+CART_TABLE+" WHERE Color='"+color+"' AND Size='"+size+"';");
     }
 
 }

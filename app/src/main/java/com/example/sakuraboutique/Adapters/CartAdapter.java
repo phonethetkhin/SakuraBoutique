@@ -1,5 +1,7 @@
 package com.example.sakuraboutique.Adapters;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -16,12 +18,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sakuraboutique.CartDB.CartDB;
 import com.example.sakuraboutique.Interfaces.DataTransferInterface;
 import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.UI.CartActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     List<ProductCartModel> productCartModelList;
@@ -50,7 +58,60 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Picasso.get().load(productCartModelList.get(position).getURLs()).into(holder.imgCartPhoto);
         holder.tvName.setText(productCartModelList.get(position).getProductName());
-        holder.tvSize.setText(productCartModelList.get(position).getSize());
+        holder.tvSize.setText(" - "+productCartModelList.get(position).getSize());
+        holder.imgColor.setBackgroundColor(Color.parseColor("#"+productCartModelList.get(position).getColor()));
+        holder.imgMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new SweetAlertDialog(v.getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("To Remove this Item!")
+                        .setConfirmText("Yes!")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(final SweetAlertDialog sDialog) {
+                                CartDB db=new CartDB(v.getContext());
+
+                                db.DeleteCartItem(productCartModelList.get(position).getColor(),productCartModelList.get(position).getSize());
+                                productCartModelList.clear();
+                                notifyDataSetChanged();
+
+
+                                SharedPreferences pref = v.getContext().getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                                SharedPreferences.Editor myeditor = pref.edit();
+                                myeditor.clear();
+                                myeditor.apply();
+
+                                sDialog
+                                        .setTitleText("Successfully Empty!")
+                                        .setContentText("Your Cart is Empty!Start Shopping Now!")
+                                        .setConfirmText("OK")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sDialog.dismissWithAnimation();
+
+                                            }
+                                        })
+
+                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                sDialog.findViewById(R.id.cancel_button).setVisibility(View.GONE);
+
+
+
+                            }
+
+                        })
+                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
+            }
+        });
+
         quantity = productCartModelList.get(position).getQuantity();
 
 
@@ -151,7 +212,7 @@ TotalPrice=Calculate();
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgCartPhoto;
+        ImageView imgCartPhoto,imgMore,imgColor;
         TextView tvName, tvPrice, tvSize;
         ImageButton imgbtnPlus, imgbtnMinus;
         EditText etQuantity;
@@ -165,6 +226,8 @@ TotalPrice=Calculate();
             imgbtnPlus = v.findViewById(R.id.imgbtnPlus);
             imgbtnMinus = v.findViewById(R.id.imgbtnMinus);
             etQuantity = v.findViewById(R.id.etQuantity);
+            imgMore=v.findViewById(R.id.imgmore);
+            imgColor=v.findViewById(R.id.imgColor);
         }
     }
 

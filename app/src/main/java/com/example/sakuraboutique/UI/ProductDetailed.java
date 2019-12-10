@@ -36,6 +36,8 @@ import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.example.sakuraboutique.ViewModels.ProductDetailedViewModel;
 import com.nex3z.notificationbadge.NotificationBadge;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
@@ -59,16 +61,16 @@ public class ProductDetailed extends AppCompatActivity {
     private int price;
     private int ProductID;
     private int quantity;
-    List<Color> colorlist = new ArrayList<>();
+    private int TotalStockQuantity;
 
     private String size;
     private String color;
-    private TextView tvName,tvPrice;
+    private TextView tvName,tvPrice,tvStockQuantity,tvProductDescription,tvSizeQuantity,tvColorQuantity;
     private String url;
     private CartDB db=new CartDB(ProductDetailed.this);
     private ProductCartModel productCartModel;
     private ProductCartModel selectedproductcartmodel;
-
+    private int sizequantity,colorquantity;
 
     NotificationBadge notificationBadge;
 
@@ -85,6 +87,10 @@ public class ProductDetailed extends AppCompatActivity {
         AddtoCart = findViewById(R.id.btnAddtoCart);
         tvName=findViewById(R.id.tvName);
         tvPrice=findViewById(R.id.tvPrice);
+        tvStockQuantity=findViewById(R.id.tvStockQuantity);
+        tvProductDescription=findViewById(R.id.tvProductDescription);
+        tvSizeQuantity=findViewById(R.id.tvSizeQuantity);
+        tvColorQuantity=findViewById(R.id.tvColorQuantity);
     }
 
 
@@ -101,7 +107,15 @@ public class ProductDetailed extends AppCompatActivity {
         size = getIntent().getStringExtra("Size");
         color = getIntent().getStringExtra("Color");
         url = getIntent().getStringExtra("URL");
+        svImageSlider.setCircularHandlerEnabled(true);
 
+
+        svImageSlider.setIndicatorAnimation(IndicatorAnimations.SWAP);
+        svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
+        svImageSlider.setCircularHandlerEnabled(true);
+
+        svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+        svImageSlider.startAutoCycle();
 
         setSupportActionBar(tbToolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + ProdcutName + " </font>"));
@@ -117,9 +131,24 @@ public class ProductDetailed extends AppCompatActivity {
 
                 tvName.setText(productDetailedModel.getProductName());
                 tvPrice.setText(productDetailedModel.getPrice()+"");
+                tvProductDescription.setText(productDetailedModel.getProductDescription());
+
+
+                //slider
+                photolist = productDetailedModel.getPhotos();
+                svImageSlider.setSliderAdapter(new SlideAdapter2(ProductDetailed.this, photolist));
 
                 //size rv
                 sizelist=productDetailedModel.getSizes();
+                for(int i=0;i<sizelist.size();i++) {
+                    for (int k = 0; k < sizelist.get(i).getColor().size(); k++) {
+                        TotalStockQuantity += sizelist.get(i).getColor().get(k).getQuantity();
+                    }
+                }
+                tvStockQuantity.setText(TotalStockQuantity+"");
+                tvSizeQuantity.setText(TotalStockQuantity+"");
+
+
                 rvSize.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
                 rvSize.setHasFixedSize(true);
                 SizeAdapter sAdapter = new SizeAdapter(sizelist);
@@ -127,56 +156,41 @@ public class ProductDetailed extends AppCompatActivity {
                 rvSize.setAdapter(sAdapter);
                 sAdapter.setOnItemClickListener(new SizeAdapter.onRecyclerViewItemClickListener() {
                     @Override
-                    public void onItemClickListener(View view, int position) {
+                    public void onItemClickListener(View view, final int position) {
                         size = sizelist.get(position).getSizeName();
-                    }
-                });
+                        sizequantity=0;
+                        final List<Color> colorlist = new ArrayList<>();
 
-                //slider
-                photolist = productDetailedModel.getPhotos();
-                svImageSlider.setSliderAdapter(new SlideAdapter2(ProductDetailed.this, photolist));
+                        for(int i=0;i<sizelist.get(position).getColor().size();i++) {
+                            String ColorCode=sizelist.get(position).getColor().get(i).getColorCode();
+                            String ColorName=sizelist.get(position).getColor().get(i).getColorName();
+                             sizequantity+= sizelist.get(position).getColor().get(i).getQuantity();
+                            Color colormodel=new Color(ColorCode,ColorName,sizequantity);
+                            colorlist.add(colormodel);
+                            rvColor.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
+                            rvColor.setHasFixedSize(true);
+                            ColorAdapter cAdapter = new ColorAdapter(colorlist,ProductDetailed.this);
+                            rvColor.setAdapter(cAdapter);
+                            cAdapter.setOnItemClickListener(new ColorAdapter.onRecyclerViewItemClickListener() {
+                                @Override
+                                public void onItemClickListener(View view, int position2) {
+                                    color = colorlist.get(position2).getColorCode();
 
-                //color rv
-                for(int i=0;i<productDetailedModel.getSizes().size();i++)
-                {
-                    for(int k=0;k<productDetailedModel.getSizes().get(i).getColor().size();k++)
-                    {
+                                   colorquantity= sizelist.get(position).getColor().get(position2).getQuantity();
 
-                        String ColorCode=productDetailedModel.getSizes().get(i).getColor().get(k).getColorCode();
-                        String ColorName=productDetailedModel.getSizes().get(i).getColor().get(k).getColorName();
-                        int Quantity=productDetailedModel.getSizes().get(i).getColor().get(k).getQuantity();
-                        Color colormodel=new Color(ColorCode,ColorName,Quantity);
-                        colorlist.add(colormodel);
-                    }
+                                    tvColorQuantity.setText("("+colorquantity+") Stock Available");
 
-                }
+                                }
+                            });
 
-                rvColor.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
-                rvColor.setHasFixedSize(true);
-                ColorAdapter cAdapter = new ColorAdapter(colorlist,ProductDetailed.this);
-                rvColor.setAdapter(cAdapter);
-                cAdapter.setOnItemClickListener(new ColorAdapter.onRecyclerViewItemClickListener() {
-                    @Override
-                    public void onItemClickListener(View view, int position) {
-                        color = colorlist.get(position).getColorCode();
+                        }
+                        tvSizeQuantity.setText("("+sizequantity+") Stock Available");
                     }
                 });
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
         //counting
-
         etQuantity.setText(Count + "");
         imgbtnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,46 +231,48 @@ public class ProductDetailed extends AppCompatActivity {
                 quantity = Integer.parseInt(etQuantity.getText().toString());
 
 
-                if (quantity <= 0) {
-                    Toast.makeText(ProductDetailed.this, "You Selecting 0 Quantity of this product", Toast.LENGTH_SHORT).show();
-                    etQuantity.setError("Quantity must be more than 0");
-                } else if (size == null) {
+
+                if (size == null) {
                     Toast.makeText(ProductDetailed.this, "Please Choose a Size", Toast.LENGTH_SHORT).show();
 
                 } else if (color == null) {
                     Toast.makeText(ProductDetailed.this, "Please Choose a Color", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+
+                else {
 
                     ProductID = getIntent().getIntExtra("ProductID", 0);
                     productCartModel = db.getProductBaseonID(ProductID);
                     selectedproductcartmodel = new ProductCartModel(ProductID, price, quantity,price, ProdcutName, url, size, color);
 
+
                     if(productCartModel!=null) {
-                        if (selectedproductcartmodel.getProductId() == productCartModel.getProductId()
-                                || selectedproductcartmodel.getColor() == productCartModel.getColor()
-                                || selectedproductcartmodel.getSize() == productCartModel.getSize())
-                        {
+                        if (productCartModel.getProductId()==selectedproductcartmodel.getProductId()) {
+                            if(productCartModel.getColor().equals(selectedproductcartmodel.getColor()) && productCartModel.getSize().equals(selectedproductcartmodel.getSize()))
+                            {
+                                Toast.makeText(ProductDetailed.this, "This Product is Already Added! Choose Different Colors Or Sizes", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(ProductDetailed.this, "This Product is Already Added !!!", Toast.LENGTH_SHORT).show();
-                        } else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url,price)) {
-                            Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(ProductDetailed.this, CartActivity.class);
+                            }
+                            else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url, price)) {
+                                Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(ProductDetailed.this, CartActivity.class);
 
-                            startActivity(i);
-                            ++CartCount;
-                            TotalCount = CartCount + cartQuantity;
+                                startActivity(i);
+                                ++CartCount;
+                                TotalCount = CartCount + cartQuantity;
 
-                            pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
-                            SharedPreferences.Editor myeditor = pref.edit();
-                            myeditor.putInt("Cart_Quantity", TotalCount);
+                                pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                                SharedPreferences.Editor myeditor = pref.edit();
+                                myeditor.putInt("Cart_Quantity", TotalCount);
 
 
-                            myeditor.commit();
-                            notificationBadge.setText(TotalCount + "");
+                                myeditor.commit();
+                                notificationBadge.setText(TotalCount + "");
 
+                            }
                         }
                     }
-                    else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url,price)) {
+                   else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url,price)) {
                             Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(ProductDetailed.this, CartActivity.class);
 
@@ -271,12 +287,19 @@ public class ProductDetailed extends AppCompatActivity {
 
                             myeditor.commit();
                             notificationBadge.setText(TotalCount + "");
+
                         }
+                   else
+                    {
+                        Toast.makeText(ProductDetailed.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                    }
+
 
 
 
                 }
-            }
+
         });
     }
 

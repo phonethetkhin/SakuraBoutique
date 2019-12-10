@@ -28,11 +28,14 @@ import com.example.sakuraboutique.Adapters.CategoryAdapter;
 import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.Retrofit.Apicalls;
+import com.example.sakuraboutique.Retrofit.RetrofitObj;
 import com.example.sakuraboutique.ViewModels.CategoryViewModel;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.JsonArray;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -42,6 +45,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
@@ -95,27 +101,112 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
-
+View header=navigationView.getHeaderView(0);
+header.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent i=new Intent(MainActivity.this,Login.class);
+        startActivity(i);
+    }
+});
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId())
                 {
-                    case R.id.nav_cart:
-                        Intent i=new Intent(MainActivity.this,CartActivity.class);
+                    case R.id.nav_tops:
+                        Intent i=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                        SharedPreferences.Editor myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 2);
+                        myeditor.putString("CategoryName","Tops");
+
+                        myeditor.commit();
                         startActivity(i);
                         break;
 
-                    case R.id.nav_aboutus:
-                        Intent intent=new Intent(MainActivity.this,AboutUs.class);
+                    case R.id.nav_bottoms:
+                        Intent intent=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                        myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 3);
+                        myeditor.putString("CategoryName","Bottoms");
+
+                        myeditor.commit();
                         startActivity(intent);
                         break;
 
-                    case R.id.nav_contactus:
-                        Intent intent2=new Intent(MainActivity.this,ContactUs.class);
+                    case R.id.nav_dress:
+                        Intent intent1=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                         myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 4);
+                        myeditor.putString("CategoryName","Dresses");
+
+                        myeditor.commit();
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.nav_traditionaldress:
+                        Intent intent2=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                        myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 5);
+                        myeditor.putString("CategoryName","Traditional Dresses");
+
+                        myeditor.commit();
                         startActivity(intent2);
                         break;
+
+                    case R.id.nav_shoesandbags:
+                        Intent intent3=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                        myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 6);
+                        myeditor.putString("CategoryName","Shoes & Bags");
+
+                        myeditor.commit();
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.nav_accessories:
+                        Intent intent4=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                        myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 7);
+                        myeditor.putString("CategoryName","Accessories");
+
+                        myeditor.commit();
+                        startActivity(intent4);
+                        break;
+
+                    case R.id.nav_menfashion:
+                        Intent intent5=new Intent(MainActivity.this,ProductView.class);
+                        pref=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                        myeditor = pref.edit();
+                        myeditor.putInt("CategoryID", 8);
+                        myeditor.putString("CategoryName","Men's Fashion");
+
+                        myeditor.commit();
+                        startActivity(intent5);
+                        break;
+
+                    case R.id.nav_cart:
+                        Intent intent6=new Intent(MainActivity.this,CartActivity.class);
+                        startActivity(intent6);
+                        break;
+
+                    case R.id.nav_aboutus:
+                        Intent intent7=new Intent(MainActivity.this,AboutUs.class);
+                        startActivity(intent7);
+                        break;
+
+                    case R.id.nav_contactus:
+                        Intent intent8=new Intent(MainActivity.this,ContactUs.class);
+                        startActivity(intent8);
+                        break;
                 }
+
                 return false;
             }
         });
@@ -163,6 +254,15 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     private void MainFunction()
     {
+        svImageSlider.setCircularHandlerEnabled(true);
+
+
+        svImageSlider.setIndicatorAnimation(IndicatorAnimations.SWAP);
+        svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
+        svImageSlider.setCircularHandlerEnabled(true);
+
+        svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+        svImageSlider.startAutoCycle();
         if(!Network())
         {
             svImageSlider.setVisibility(View.GONE);
@@ -187,19 +287,28 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             svImageSlider.setVisibility(View.VISIBLE);
             rvMain.setVisibility(View.VISIBLE);
 
-            URLs.clear();
-            URLs = MainViewModel.AddURL();
+            Apicalls apicalls= RetrofitObj.getRetrofit().create(Apicalls.class);
+            Call<JsonArray> jsonArrayCall=apicalls.getURLs();
+            jsonArrayCall.enqueue(new Callback<JsonArray>() {
+                @Override
+                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                    JsonArray jsonArray=response.body();
+                    for(int i=0;i<jsonArray.size();i++)
+                    {
+                        String url=jsonArray.get(i).getAsString();
+                        URLs.add(url);
+                    }
+                    svImageSlider.setSliderAdapter(new SlideAdapter(MainActivity.this, URLs));
 
-            svImageSlider.setSliderAdapter(new SlideAdapter(MainActivity.this, URLs));
-            svImageSlider.setCircularHandlerEnabled(true);
 
+                }
 
-            svImageSlider.setIndicatorAnimation(IndicatorAnimations.SWAP); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-            svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
-            svImageSlider.setCircularHandlerEnabled(true);
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
 
-            svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
-            svImageSlider.startAutoCycle();
+                }
+            });
+
 
         }
     }

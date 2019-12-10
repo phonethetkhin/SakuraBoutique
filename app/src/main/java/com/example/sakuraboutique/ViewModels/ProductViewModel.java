@@ -10,10 +10,10 @@ import com.example.sakuraboutique.Repositories.ProductRepositories;
 import java.util.List;
 
 public class ProductViewModel extends ViewModel {
-    public LiveData<List<ProductDetailedModel>> productlivedatalist;
+    public LiveData<List<ProductModel>> productlivedatalist;
     private ProductRepositories repositories=new ProductRepositories();
 
-    public LiveData<List<ProductDetailedModel>> getProductlivedatalist(int value)
+    public LiveData<List<ProductModel>> getProductlivedatalist(int value)
     {
         if(productlivedatalist==null)
         {

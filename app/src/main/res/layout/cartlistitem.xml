@@ -18,6 +18,24 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
+    <ImageView
+        android:id="@+id/imgmore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imgColor"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/tvSizeCart"
+        app:layout_constraintTop_toBottomOf="@+id/tvSizeCart" />
+
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
@@ -71,16 +89,15 @@ style="@style/TextColor"
 
     <EditText
         android:id="@+id/etQuantity"
+        style="@style/TextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
         android:inputType="number"
         android:maxLength="2"
-style="@style/TextColor"
         android:text="0"
-        android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSize"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtnPlus"
-        app:layout_constraintTop_toTopOf="@+id/tvSize" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgbtnPlus" />
 
     <ImageButton
         android:id="@+id/imgbtnMinus"

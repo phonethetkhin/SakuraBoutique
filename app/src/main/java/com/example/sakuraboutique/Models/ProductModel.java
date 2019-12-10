@@ -1,29 +1,64 @@
 package com.example.sakuraboutique.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ProductModel {
-    private int ProductID, Price;
-    private String Photo, ProductName;
 
-    public ProductModel(int productID, int price, String photo, String productName) {
-        ProductID = productID;
-        Price = price;
-        Photo = photo;
-        ProductName = productName;
+    @SerializedName("CategoryID")
+    @Expose
+    private Integer categoryID;
+    @SerializedName("Price")
+    @Expose
+    private Integer price;
+    @SerializedName("ProductID")
+    @Expose
+    private Integer productID;
+    @SerializedName("ProductName")
+    @Expose
+    private String productName;
+    @SerializedName("URL")
+    @Expose
+    private String uRL;
+
+    public Integer getCategoryID() {
+        return categoryID;
     }
 
-    public int getProductID() {
-        return ProductID;
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
     }
 
-    public int getPrice() {
-        return Price;
+    public Integer getPrice() {
+        return price;
     }
 
-    public String getPhoto() {
-        return Photo;
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Integer getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Integer productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
-        return ProductName;
+        return productName;
     }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getURL() {
+        return uRL;
+    }
+
+    public void setURL(String uRL) {
+        this.uRL = uRL;
+    }
+
 }

@@ -8,10 +8,9 @@
     <string name="tv_selectsize">Select Size (US)</string>
     <string name="tv_selectcolor">Select Color</string>
     <string name="tv_selectquantity">Select How Many Quantity:</string>
-    <string name="tv_stockquantity">Availability :</string>
+    <string name="tv_stockquantity">Total Stock :</string>
     <string name="tv_stock">In Stock(20)</string>
     <string name="tv_productiondescriptionlabel">Product Description :</string>
-    <string name="tv_productdescription">This Product is Nice, and have many more colors and size. Make up of Fibers, so it\'s feel cool especially suitable for the hot weather. blah blah blah blah blah blah</string>
     <string name="tv_addtocart">Add To Cart</string>
     <string name="btn_addtocart">Add to Cart</string>
     <string name="tv_pricedetail">Price Details :</string>

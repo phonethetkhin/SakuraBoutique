@@ -99,9 +99,21 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/tv_selectsize"
                 android:textSize="20sp"
-                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <TextView
+                android:id="@+id/tvSizeQuantity"
+                style="@style/TextColor"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginRight="8dp"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSelectSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSelectSize" />
 
             <TextView
                 android:id="@+id/tvSelectColor"
@@ -113,9 +125,20 @@
                 android:layout_marginTop="8dp"
 
                 android:text="@string/tv_selectcolor"
-                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvSize" />
+            <TextView
+                android:id="@+id/tvColorQuantity"
+                style="@style/TextColor"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginRight="8dp"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSelectColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSelectColor" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSize"
@@ -148,7 +171,6 @@
 
                 android:text="@string/tv_selectquantity"
 
-                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvColor" />
 
@@ -200,7 +222,6 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/tv_stockquantity"
                 android:textSize="20sp"
-                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etQuantity" />
 
@@ -212,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
 
-                android:text="@string/tv_stock"
+                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/tvStockQuantityLabel"
                 app:layout_constraintStart_toEndOf="@+id/tvStockQuantityLabel"
                 app:layout_constraintTop_toTopOf="@+id/tvStockQuantityLabel" />
@@ -227,7 +248,6 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/tv_productiondescriptionlabel"
                 android:textSize="20sp"
-                android:textStyle="italic"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvStockQuantityLabel" />
 
@@ -240,7 +260,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
 
-                android:text="@string/tv_productdescription"
+                android:text="TextView"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

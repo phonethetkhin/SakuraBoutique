@@ -50,19 +50,7 @@ private int cartQuantity;
         rvProductView=findViewById(R.id.rvProductView);
         tbToolbar=findViewById(R.id.tbToolbar);
 
-
-
-
-
-
-
-
-
-
     }
-
-
-
 
     @Override
     protected void onResume() {
@@ -79,28 +67,26 @@ private int cartQuantity;
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
 
-        rvProductView.setLayoutManager(new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,false));
-        rvProductView.setHasFixedSize(true);
+
 
         ProductViewModel viewModel= ViewModelProviders.of(this).get(ProductViewModel.class);
-        viewModel.getProductlivedatalist(CategoryID).observe(this, new Observer<List<ProductDetailedModel>>() {
+        viewModel.getProductlivedatalist(CategoryID).observe(this, new Observer<List<ProductModel>>() {
             @Override
-            public void onChanged(List<ProductDetailedModel> productDetailedModels) {
-                if(productDetailedModels==null)
+            public void onChanged(List<ProductModel> productModels) {
+
+                if(productModels==null)
                 {
-                    Toast.makeText(ProductView.this, "There are no items Match Your Searches!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProductView.this, "There is no item match your searches!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    List<ProductDetailedModel> pdm = productDetailedModels;
-                    for (int i = 0; i < pdm.size(); i++) {
-                        ProductModel productModel = new ProductModel(pdm.get(i).getProductID(), pdm.get(i).getPrice(), pdm.get(i).getPhotos().get(0), pdm.get(i).getProductName());
-                        productModelList.add(productModel);
-
-                    }
+                    productModelList = productModels;
+                    GridLayoutManager glm=new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,true);
+                    rvProductView.setLayoutManager(glm);
+                    rvProductView.setHasFixedSize(true);
                     Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
                     Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
                     rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
-
+                    ProductViewAdapter pva=new ProductViewAdapter(productModelList);
                     rvProductView.setAdapter(new ProductViewAdapter(productModelList));
                 }
             }

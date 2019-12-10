@@ -45,7 +45,9 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
         holder.itemView.setSelected(selectedPos == position);
         if(selectedPos==position)
         {
+
             holder.tvSize.setTextColor(Color.parseColor("#ff80ab"));
+
         }
         else
         {

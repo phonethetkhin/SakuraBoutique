@@ -17,29 +17,59 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductRepositories {
-    public LiveData<List<ProductDetailedModel>> getProductLiveData(int value)
+    Call<List<ProductModel>> productmodellist;
+    public LiveData<List<ProductModel>> getProductLiveData(int value)
     {
-        final MutableLiveData<List<ProductDetailedModel>> productmutableLiveDatalist=new MutableLiveData<>();
+        final MutableLiveData<List<ProductModel>> productmutableLiveDatalist=new MutableLiveData<>();
         Apicalls apicalls= RetrofitObj.getRetrofit().create(Apicalls.class);
-        Call<List<ProductDetailedModel>> productmodellist=apicalls.getProductList("\"CategoryID\"",value,10);
-        productmodellist.enqueue(new Callback<List<ProductDetailedModel>>() {
-            @Override
-            public void onResponse(Call<List<ProductDetailedModel>> call, Response<List<ProductDetailedModel>> response) {
-                if(response.isSuccessful()) {
-                    List<ProductDetailedModel> productModellist = response.body();
-                    productmutableLiveDatalist.setValue(productModellist);
-                }
-                else
-                {
-                    Log.d("Error","error");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ProductDetailedModel>> call, Throwable t) {
+        if(value==1)
+        {
+            productmodellist=apicalls.getAllProducts("\"ProductID\"",10);
+        }
+            else if(value==2)
+            {
+                productmodellist=apicalls.getTops("\"ProductID\"",10);
 
             }
-        });
+
+            else if(value==3)
+        {
+            productmodellist=apicalls.getBottoms("\"ProductID\"",10);
+        }
+        else if(value==4)
+        {
+            productmodellist=apicalls.getDresses("\"ProductID\"",10);
+        }
+
+        else if(value==5)
+        {
+            productmodellist=apicalls.getTraditionalDresses("\"ProductID\"",10);
+        }
+        else if(value==6)
+        {
+            productmodellist=apicalls.getShoesandBags("\"ProductID\"",10);
+        }
+        else if(value==7)
+        {
+            productmodellist=apicalls.getAccessories("\"ProductID\"",10);
+        }
+        else if(value==8)
+        {
+            productmodellist=apicalls.getMenWears("\"ProductID\"",10);
+        }
+
+
+            productmodellist.enqueue(new Callback<List<ProductModel>>() {
+                @Override
+                public void onResponse(Call<List<ProductModel>> call, Response<List<ProductModel>> response) {
+                    productmutableLiveDatalist.setValue(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<List<ProductModel>> call, Throwable t) {
+
+                }
+            });
         return productmutableLiveDatalist;
     }
 }
