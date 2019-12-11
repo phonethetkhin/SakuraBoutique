@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
@@ -24,11 +25,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Register extends AppCompatActivity {
 TextInputEditText tietUserName,tietPassword, tietCpassword,tietEmail,tietDeliveryAddress,tietPhoneNumber;
@@ -37,7 +45,6 @@ Toolbar tbToolbar;
 FirebaseDatabase firebaseDatabase;
     DatabaseReference myRef;
     FirebaseAuth firebaseAuth;
-    ProgressBar pbProgressBar;
 
 private void InitializeViews()
 {
@@ -51,7 +58,6 @@ btnSignUp=findViewById(R.id.btnSignup);
 btnTermsandService=findViewById(R.id.btnTermofService);
 btnPolicy=findViewById(R.id.btnPrivacyPolicy);
 tbToolbar=findViewById(R.id.tbToolbar);
-pbProgressBar=findViewById(R.id.pbProgressBar);
 
 }
     @Override
@@ -59,7 +65,6 @@ pbProgressBar=findViewById(R.id.pbProgressBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         InitializeViews();
-pbProgressBar.setVisibility(View.GONE);
         setSupportActionBar(tbToolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + "Register" + " </font>"));
 
@@ -129,7 +134,11 @@ pbProgressBar.setVisibility(View.GONE);
                     tietCpassword.setError("Not Match");
 
                 } else {
-                    pbProgressBar.setVisibility(View.VISIBLE);
+                    final SweetAlertDialog pDialog = new SweetAlertDialog(Register.this, SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("Loading");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
                     firebaseAuth.createUserWithEmailAndPassword(Email, Password)
                             .addOnCompleteListener(Register.this,new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -150,8 +159,10 @@ pbProgressBar.setVisibility(View.GONE);
                                             @Override
                                             public void onComplete(@NonNull final Task<Void> task) {
                                                 if (task.isSuccessful()) {
+                                                    pDialog.setTitleText("Register Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                                     Toast.makeText(Register.this, "Register Successfully!", Toast.LENGTH_SHORT).show();
-                                                    pbProgressBar.setVisibility(View.GONE);
+                                                    Intent i=new Intent(Register.this,ComfirmOrder.class);
+                                                    startActivity(i);
                                                 } else {
                                                     task.getException();
                                                 }
@@ -160,10 +171,32 @@ pbProgressBar.setVisibility(View.GONE);
 
 
                                     }
+                                    else if(task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                        pDialog.setTitleText("Email Exist!").changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+                                        Toast.makeText(Register.this, "This Email is Already Registered!", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    else if(task.getException() instanceof FirebaseAuthWeakPasswordException) {
+                                        pDialog.setTitleText("Weak Password!").changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+                                        Toast.makeText(Register.this, "Password Too Weak!", Toast.LENGTH_SHORT).show();
+                                    }
                                     else
                                     {
-                                        Log.d("error", String.valueOf(task.getResult()));
-                                        Toast.makeText(Register.this, "Error", Toast.LENGTH_SHORT).show();
+
+                                        pDialog.setTitleText("").setContentText("Error!").changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+
+                                            try {
+                                                throw task.getException();
+                                            }
+                                            catch (FirebaseException e) {
+                                                e.printStackTrace();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
                                     }
 
 

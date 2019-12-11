@@ -57,13 +57,13 @@
 
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietUserName"
+            android:id="@+id/tietemail"
 
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
 
-            android:hint="@string/tietusername" />
+            android:hint="@string/tietemail" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

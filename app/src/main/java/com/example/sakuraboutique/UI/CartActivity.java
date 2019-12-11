@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,10 @@ import com.example.sakuraboutique.CartDB.CartDB;
 import com.example.sakuraboutique.Interfaces.DataTransferInterface;
 import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -43,6 +47,8 @@ private View divider2,divider3;
 private int FinalTotalPrice,TotalQuantity;
 private Toolbar toolbar;
 private SharedPreferences pref;
+FirebaseAuth mAuth;
+FirebaseUser firebaseUser;
 
 
 private void InitializeViews()
@@ -125,8 +131,17 @@ private void InitializeViews()
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(CartActivity.this,Login.class);
-                startActivity(i);
+                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+                if(firebaseUser!=null)
+                {
+                    Intent i=new Intent(CartActivity.this,ComfirmOrder.class);
+                    startActivity(i);
+
+                }
+                else {
+                    Intent i = new Intent(CartActivity.this, Login.class);
+                    startActivity(i);
+                }
             }
         });
 
@@ -136,7 +151,7 @@ private void InitializeViews()
         itemDecorator.setDrawable(ContextCompat.getDrawable(CartActivity.this, R.drawable.horizontal_divider));
 
         rvCartItem.addItemDecoration(itemDecorator);
-        cartAdapter = new CartAdapter(productCartModelList,this);
+        cartAdapter = new CartAdapter(productCartModelList,this,this);
         rvCartItem.setAdapter(cartAdapter);
 
 FinalTotalPrice=cartAdapter.Calculate();
@@ -256,5 +271,13 @@ FinalTotalPrice=cartAdapter.Calculate();
 tvTotalQuantity.setText(TotalQuantity+"");
 tvTotalPrice.setText(TotalPrice+"");
 tvCartTotal.setText(TotalPrice+"");
+        SharedPreferences preferences=getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        SharedPreferences.Editor myeditor = preferences.edit();
+        myeditor.putInt("TotalQuantity", TotalQuantity);
+        myeditor.putInt("Item",productCartModelList.size());
+        myeditor.putInt("TotalPrice",TotalPrice);
+        myeditor.commit();
     }
+
+
 }

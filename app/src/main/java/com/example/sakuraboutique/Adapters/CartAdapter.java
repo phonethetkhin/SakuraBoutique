@@ -1,5 +1,6 @@
 package com.example.sakuraboutique.Adapters;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.Editable;
@@ -33,6 +34,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     List<ProductCartModel> productCartModelList;
+    Context context;
     int TotalPrice;
     int Count1 = 0, Count2 = 0;
     int quantity = 0;
@@ -41,7 +43,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     DataTransferInterface dtInterface;
 
 
-    public CartAdapter(List<ProductCartModel> productCartModelList, DataTransferInterface dtInterface) {
+    public CartAdapter(List<ProductCartModel> productCartModelList,Context context,DataTransferInterface dtInterface) {
+        this.context=context;
         this.productCartModelList = productCartModelList;
         this.dtInterface = dtInterface;
     }
@@ -200,6 +203,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         });
         TotalQuantity = Calculate1(Count2);
 TotalPrice=Calculate();
+
+
+
         dtInterface.setValues(TotalQuantity,TotalPrice);
 
 

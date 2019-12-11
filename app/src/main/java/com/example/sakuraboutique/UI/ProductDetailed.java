@@ -146,7 +146,8 @@ public class ProductDetailed extends AppCompatActivity {
                     }
                 }
                 tvStockQuantity.setText(TotalStockQuantity+"");
-                tvSizeQuantity.setText(TotalStockQuantity+"");
+                tvSizeQuantity.setText("("+TotalStockQuantity+") Stock Available");
+                tvColorQuantity.setText("("+TotalStockQuantity+") Stock Available");
 
 
                 rvSize.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
@@ -161,10 +162,14 @@ public class ProductDetailed extends AppCompatActivity {
                         sizequantity=0;
                         final List<Color> colorlist = new ArrayList<>();
 
+
                         for(int i=0;i<sizelist.get(position).getColor().size();i++) {
                             String ColorCode=sizelist.get(position).getColor().get(i).getColorCode();
                             String ColorName=sizelist.get(position).getColor().get(i).getColorName();
                              sizequantity+= sizelist.get(position).getColor().get(i).getQuantity();
+                            tvColorQuantity.setText("("+sizequantity+") Stock Available");
+
+
                             Color colormodel=new Color(ColorCode,ColorName,sizequantity);
                             colorlist.add(colormodel);
                             rvColor.setLayoutManager(new LinearLayoutManager(ProductDetailed.this, RecyclerView.HORIZONTAL, false));
@@ -184,6 +189,7 @@ public class ProductDetailed extends AppCompatActivity {
                             });
 
                         }
+
                         tvSizeQuantity.setText("("+sizequantity+") Stock Available");
                     }
                 });

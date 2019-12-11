@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
 private RecyclerView rvMain;
 Toolbar tbMain;
-    List<String> URLs=new ArrayList<>();
 DrawerLayout dlMain;
     GifImageView gifNoInternet;
 List<CategoryModel> categoryModelList;
@@ -293,6 +292,8 @@ header.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                     JsonArray jsonArray=response.body();
+                    List<String> URLs=new ArrayList<>();
+
                     for(int i=0;i<jsonArray.size();i++)
                     {
                         String url=jsonArray.get(i).getAsString();

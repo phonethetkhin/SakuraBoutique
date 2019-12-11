@@ -52,7 +52,7 @@ public interface Apicalls {
             @Query("limitToFirst") int limit
 
     );
-    @GET("ShoesandBags.json")
+    @GET("ShoesBags.json")
     Call<List<ProductModel>> getShoesandBags(
             @Query("orderBy") String key,
             @Query("limitToFirst") int limit

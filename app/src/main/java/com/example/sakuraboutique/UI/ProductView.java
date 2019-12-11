@@ -80,13 +80,12 @@ private int cartQuantity;
                 }
                 else {
                     productModelList = productModels;
-                    GridLayoutManager glm=new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,true);
+                    GridLayoutManager glm=new GridLayoutManager(ProductView.this,2, GridLayoutManager.VERTICAL,false);
                     rvProductView.setLayoutManager(glm);
                     rvProductView.setHasFixedSize(true);
-                    Drawable horizontalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
+                    Drawable horizontalDivider =  ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
                     Drawable verticalDivider = ContextCompat.getDrawable(ProductView.this, R.drawable.horizontal_divider);
                     rvProductView.addItemDecoration(new GridDividerItemDecoration(horizontalDivider, verticalDivider, 2));
-                    ProductViewAdapter pva=new ProductViewAdapter(productModelList);
                     rvProductView.setAdapter(new ProductViewAdapter(productModelList));
                 }
             }
