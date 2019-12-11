@@ -75,6 +75,7 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.ViewHolder>{
         public void onClick(View v) {
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClickListener(v, getAdapterPosition());
+
                 notifyItemChanged(selectedPos);
 
 

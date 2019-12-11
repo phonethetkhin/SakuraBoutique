@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "938960605850",
+    "firebase_url": "https://sakura-boutique.firebaseio.com",
+    "project_id": "sakura-boutique",
+    "storage_bucket": "sakura-boutique.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938960605850:android:bca47473fa0507d6870523",
+        "android_client_info": {
+          "package_name": "com.example.sakuraboutique"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938960605850-ivphp8iso1jkgtdsv275t270dbeqmjq8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sakuraboutique",
+            "certificate_hash": "9e36c3c03c4c4f32731c824179f9e9ebe5881a53"
+          }
+        },
+        {
+          "client_id": "938960605850-vvdv8ie4dofb8a97d0jse8muj6b06mhm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNOG-UVZD8rVlyhWbhKYe_KhB7AeMxhIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938960605850-vvdv8ie4dofb8a97d0jse8muj6b06mhm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
