@@ -1,6 +1,7 @@
 package com.example.sakuraboutique.Adapters;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.example.sakuraboutique.UI.ProductDetailed;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProductViewAdapter extends RecyclerView.Adapter<ProductViewAdapter.ViewHolder>{
     List<ProductModel> ProductModelList;
@@ -37,7 +40,7 @@ public class ProductViewAdapter extends RecyclerView.Adapter<ProductViewAdapter.
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
 h.tvProductName.setText(ProductModelList.get(position).getProductName());
 h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
-        Picasso.get().load(ProductModelList.get(position).getURL()).into(h.imgProductViewPhoto);
+        Picasso.get().load(ProductModelList.get(position).getURL()).placeholder(R.drawable.placeholder).into(h.imgProductViewPhoto);
 
 
     }
@@ -56,8 +59,14 @@ h.tvPrice.setText(ProductModelList.get(position).getPrice()+" MMK");
                  @Override
                  public void onClick(View v) {
                      Intent i=new Intent(v.getContext(), ProductDetailed.class);
-                        i.putExtra("ProductID",ProductModelList.get(getAdapterPosition()).getProductID());
-                        i.putExtra("ProductName",ProductModelList.get(getAdapterPosition()).getProductName());
+                     SharedPreferences pref = v.getContext().getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                     SharedPreferences.Editor myeditor = pref.edit();
+                     myeditor.putInt("ProductID",ProductModelList.get(getAdapterPosition()).getProductID());
+                     myeditor.putString("ProductName",ProductModelList.get(getAdapterPosition()).getProductName());
+
+                     myeditor.commit();
+
+                     i.putExtra("ProductName",ProductModelList.get(getAdapterPosition()).getProductName());
                         i.putExtra("Price",ProductModelList.get(getAdapterPosition()).getPrice());
                         i.putExtra("URL",ProductModelList.get(getAdapterPosition()).getURL());
                      v.getContext().startActivity(i);

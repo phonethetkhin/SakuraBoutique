@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +30,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.sakuraboutique.Adapters.CategoryAdapter;
 import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
+import com.example.sakuraboutique.Models.SliderURLModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.Retrofit.Apicalls;
 import com.example.sakuraboutique.Retrofit.RetrofitObj;
@@ -35,8 +39,11 @@ import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.JsonArray;
 import com.nex3z.notificationbadge.NotificationBadge;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -67,6 +74,9 @@ SwipeRefreshLayout srflMain;
     NavigationView navigationView;
     CollapsingToolbarLayout ctblCollapsingtoolbar;
     AppBarLayout apAppBar;
+    ProgressBar pbProgress;
+    FirebaseAuth mAuth;
+    FirebaseUser firebaseUser;
 
 
 private void InitializeViews()
@@ -80,6 +90,7 @@ private void InitializeViews()
     srflMain=findViewById(R.id.srflMain);
     apAppBar=findViewById(R.id.apAppBar);
     ctblCollapsingtoolbar=findViewById(R.id.ctblCollapsingtoolbar);
+   pbProgress=findViewById(R.id.pbProgress);
 }
 
 
@@ -101,7 +112,28 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
 View header=navigationView.getHeaderView(0);
-header.setOnClickListener(new View.OnClickListener() {
+      TextView tvLoginandSignup=(TextView) header.findViewById(R.id.tvLoginandSignup);
+      TextView tvProfile=(TextView) header.findViewById(R.id.tvProfile);
+      TextView tvLogout=(TextView) header.findViewById(R.id.tvLogout);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if(firebaseUser!=null) {
+            tvLoginandSignup.setVisibility(View.GONE);
+            tvProfile.setVisibility(View.VISIBLE);
+            String name = firebaseUser.getDisplayName();
+            tvProfile.setText("Welcome "+name);
+        }
+        else {
+            tvLoginandSignup.setVisibility(View.VISIBLE);
+            tvProfile.setVisibility(View.GONE);
+        }
+        tvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Intent i=new Intent(MainActivity.this,Login.class);
@@ -264,13 +296,15 @@ header.setOnClickListener(new View.OnClickListener() {
         svImageSlider.startAutoCycle();
         if(!Network())
         {
+            pbProgress.setVisibility(View.VISIBLE);
             svImageSlider.setVisibility(View.GONE);
             rvMain.setVisibility(View.GONE);
             gifNoInternet.setVisibility(View.VISIBLE);
 
-            Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Check Your Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         else {
+
             CategoryViewModel viewModels = ViewModelProviders.of(this).get(CategoryViewModel.class);
             viewModels.getCategoryLivedata().observe(this, new Observer<List<CategoryModel>>() {
                 @Override
@@ -280,6 +314,7 @@ header.setOnClickListener(new View.OnClickListener() {
 
                 }
             });
+            pbProgress.setVisibility(View.GONE);
 
 
             gifNoInternet.setVisibility(View.GONE);
@@ -287,25 +322,21 @@ header.setOnClickListener(new View.OnClickListener() {
             rvMain.setVisibility(View.VISIBLE);
 
             Apicalls apicalls= RetrofitObj.getRetrofit().create(Apicalls.class);
-            Call<JsonArray> jsonArrayCall=apicalls.getURLs();
-            jsonArrayCall.enqueue(new Callback<JsonArray>() {
+            Call<List<SliderURLModel>> jsonArrayCall=apicalls.getURLs();
+            jsonArrayCall.enqueue(new Callback<List<SliderURLModel>>() {
                 @Override
-                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                    JsonArray jsonArray=response.body();
-                    List<String> URLs=new ArrayList<>();
+                public void onResponse(Call<List<SliderURLModel>> call, Response<List<SliderURLModel>> response) {
+                    List<SliderURLModel> sliderURLModelList=response.body();
 
-                    for(int i=0;i<jsonArray.size();i++)
-                    {
-                        String url=jsonArray.get(i).getAsString();
-                        URLs.add(url);
-                    }
-                    svImageSlider.setSliderAdapter(new SlideAdapter(MainActivity.this, URLs));
+
+
+                    svImageSlider.setSliderAdapter(new SlideAdapter(MainActivity.this, sliderURLModelList));
 
 
                 }
 
                 @Override
-                public void onFailure(Call<JsonArray> call, Throwable t) {
+                public void onFailure(Call<List<SliderURLModel>> call, Throwable t) {
 
                 }
             });

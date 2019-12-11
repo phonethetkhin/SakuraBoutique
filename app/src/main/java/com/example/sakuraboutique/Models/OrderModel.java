@@ -1,23 +1,21 @@
 package com.example.sakuraboutique.Models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class OrderModel implements Serializable {
+    private String FullName,DeliveryAddress,PhoneNumber,OrderDate,TotalItem,TotalQuantity,TotalPrice;
+        List<Items> itemsList;
 
-    private String FullName, Address, PhoneNumber, Size, Color, Quantity, TotalPrice, TotalQuantity, TotalItem,ProductID,OrderDate;
-
-    public OrderModel(String fullName, String address, String phoneNumber, String size, String color, String quantity, String totalPrice, String totalQuantity, String totalItem, String productID, String orderDate) {
+    public OrderModel(String fullName, String deliveryAddress, String phoneNumber, String orderDate, String totalItem, String totalQuantity, String totalPrice, List<Items> itemsList) {
         FullName = fullName;
-        Address = address;
+        DeliveryAddress = deliveryAddress;
         PhoneNumber = phoneNumber;
-        Size = size;
-        Color = color;
-        Quantity = quantity;
-        TotalPrice = totalPrice;
-        TotalQuantity = totalQuantity;
-        TotalItem = totalItem;
-        ProductID = productID;
         OrderDate = orderDate;
+        TotalItem = totalItem;
+        TotalQuantity = totalQuantity;
+        TotalPrice = totalPrice;
+        this.itemsList = itemsList;
     }
 
     public OrderModel() {
@@ -27,43 +25,33 @@ public class OrderModel implements Serializable {
         return FullName;
     }
 
-    public String getAddress() {
-        return Address;
+    public String getDeliveryAddress() {
+        return DeliveryAddress;
     }
 
     public String getPhoneNumber() {
         return PhoneNumber;
     }
 
-    public String getSize() {
-        return Size;
-    }
-
-    public String getColor() {
-        return Color;
-    }
-
-    public String getQuantity() {
-        return Quantity;
-    }
-
-    public String getTotalPrice() {
-        return TotalPrice;
-    }
-
-    public String getTotalQuantity() {
-        return TotalQuantity;
+    public String getOrderDate() {
+        return OrderDate;
     }
 
     public String getTotalItem() {
         return TotalItem;
     }
 
-    public String getProductID() {
-        return ProductID;
+    public String getTotalQuantity() {
+        return TotalQuantity;
     }
 
-    public String getOrderDate() {
-        return OrderDate;
+    public String getTotalPrice() {
+        return TotalPrice;
     }
+
+    public List<Items> getItemsList() {
+        return itemsList;
+    }
+
+
 }

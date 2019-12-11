@@ -32,7 +32,7 @@ public class SlideAdapter2 extends SliderViewAdapter<SlideAdapter2.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Picasso.get().load(Urls.get(position)).into(viewHolder.imageViewBackground);
+        Picasso.get().load(Urls.get(position)).placeholder(R.drawable.placeholder).into(viewHolder.imageViewBackground);
         notifyDataSetChanged();
     }
 

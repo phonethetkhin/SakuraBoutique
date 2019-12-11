@@ -3,6 +3,7 @@ package com.example.sakuraboutique.UI;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
@@ -154,7 +155,7 @@ private void InitializeViews()
         cartAdapter = new CartAdapter(productCartModelList,this,this);
         rvCartItem.setAdapter(cartAdapter);
 
-FinalTotalPrice=cartAdapter.Calculate();
+        FinalTotalPrice=cartAdapter.Calculate();
 
 
         tvTotalPrice.setText("Total Price (" + FinalTotalPrice + ")");
@@ -236,7 +237,13 @@ FinalTotalPrice=cartAdapter.Calculate();
 
 
     }
+    public boolean Network()
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) CartActivity.this.getSystemService(CartActivity.this.CONNECTIVITY_SERVICE);
 
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

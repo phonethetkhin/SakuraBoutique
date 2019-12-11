@@ -41,7 +41,7 @@ return holder;
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.tvCategoryName.setText(categoryModelList.get(position).getCategoryName());
-        Picasso.get().load(categoryModelList.get(position).getPhotoURL()).into(holder.imgCategoryPhoto);
+        Picasso.get().load(categoryModelList.get(position).getPhotoURL()).placeholder(R.drawable.placeholder).into(holder.imgCategoryPhoto);
 
 
         holder.cvCategory.setPreventCornerOverlap(true);

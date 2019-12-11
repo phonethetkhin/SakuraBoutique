@@ -3,6 +3,7 @@ package com.example.sakuraboutique.Retrofit;
 import com.example.sakuraboutique.Models.CategoryModel;
 import com.example.sakuraboutique.Models.ProductDetailedModel;
 import com.example.sakuraboutique.Models.ProductModel;
+import com.example.sakuraboutique.Models.SliderURLModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -19,7 +20,7 @@ public interface Apicalls {
     Call<List<CategoryModel>> getCategoryModellist();
 
     @GET("SliderURL.json")
-    Call<JsonArray> getURLs();
+    Call<List<SliderURLModel>> getURLs();
 
     //productlist
     @GET("AllProducts.json")

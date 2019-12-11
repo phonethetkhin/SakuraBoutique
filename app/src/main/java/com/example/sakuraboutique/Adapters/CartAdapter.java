@@ -59,7 +59,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        Picasso.get().load(productCartModelList.get(position).getURLs()).into(holder.imgCartPhoto);
+        Picasso.get().load(productCartModelList.get(position).getURLs()).placeholder(R.drawable.placeholder).into(holder.imgCartPhoto);
         holder.tvName.setText(productCartModelList.get(position).getProductName());
         holder.tvSize.setText(" - "+productCartModelList.get(position).getSize());
         holder.imgColor.setBackgroundColor(Color.parseColor("#"+productCartModelList.get(position).getColor()));
