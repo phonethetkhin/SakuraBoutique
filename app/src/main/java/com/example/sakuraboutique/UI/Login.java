@@ -160,8 +160,7 @@ public class Login extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         pDialog.setTitleText("Logged in Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
-                                        Intent i = new Intent(Login.this, ComfirmOrder.class);
-                                        startActivity(i);
+                                       finish();
                                     } else {
                                         pDialog.setTitleText("Username or Password Incorret!").changeAlertType(SweetAlertDialog.ERROR_TYPE);
 

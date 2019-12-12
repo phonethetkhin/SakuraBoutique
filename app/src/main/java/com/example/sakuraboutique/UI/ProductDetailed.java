@@ -78,7 +78,6 @@ public class ProductDetailed extends AppCompatActivity {
     private int sizequantity,colorquantity;
     private GifImageView gifNoInternet;
     private ProgressBar pbProgress;
-    private SwipeRefreshLayout srflRefresh;
 
     NotificationBadge notificationBadge;
 
@@ -106,7 +105,6 @@ public class ProductDetailed extends AppCompatActivity {
         tvSelectSize=findViewById(R.id.tvSelectSize);
         tvStockQuantityLabel=findViewById(R.id.tvStockQuantityLabel);
         tvProductDescriptionLabel=findViewById(R.id.tvProductDescriptionLabel);
-        srflRefresh=findViewById(R.id.srflRefresh);
     }
 
 
@@ -142,14 +140,7 @@ public class ProductDetailed extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         MainFunction();
-        srflRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                srflRefresh.setRefreshing(true);
-                MainFunction();
-                srflRefresh.setRefreshing(false);
-            }
-        });
+
 
     }
     public void MainFunction()

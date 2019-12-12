@@ -41,6 +41,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonArray;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -77,6 +82,7 @@ SwipeRefreshLayout srflMain;
     ProgressBar pbProgress;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
+    DatabaseReference databaseReference;
 
 
 private void InitializeViews()
@@ -113,26 +119,48 @@ getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 View header=navigationView.getHeaderView(0);
       TextView tvLoginandSignup=(TextView) header.findViewById(R.id.tvLoginandSignup);
-      TextView tvProfile=(TextView) header.findViewById(R.id.tvProfile);
-      TextView tvLogout=(TextView) header.findViewById(R.id.tvLogout);
+      final TextView tvProfile=(TextView) header.findViewById(R.id.tvProfile);
+      Button btnLogout=(Button) header.findViewById(R.id.btnLogout);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
         if(firebaseUser!=null) {
             tvLoginandSignup.setVisibility(View.GONE);
             tvProfile.setVisibility(View.VISIBLE);
-            String name = firebaseUser.getDisplayName();
-            tvProfile.setText("Welcome "+name);
+            final String uid = firebaseUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String username=dataSnapshot.child(uid).child("fullName").getValue(String.class);
+                    tvProfile.setText("Welcome "+username);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            btnLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                   if( dlMain.isDrawerOpen(GravityCompat.START))
+                    {
+                        dlMain.closeDrawer(GravityCompat.START);
+
+                    }
+
+                }
+            });
         }
         else {
             tvLoginandSignup.setVisibility(View.VISIBLE);
             tvProfile.setVisibility(View.GONE);
         }
-        tvLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+
 tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -140,6 +168,7 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
         startActivity(i);
     }
 });
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -381,6 +410,7 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
             super.onBackPressed();
         }
     }
+
 
     /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {

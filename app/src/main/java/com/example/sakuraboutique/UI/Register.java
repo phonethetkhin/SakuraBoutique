@@ -58,7 +58,6 @@ TextInputLayout textInputLayout7,textInputLayout8;
     FirebaseAuth firebaseAuth;
     GifImageView gifNoInternet;
     ProgressBar pbProgress;
-    SwipeRefreshLayout srflRefresh;
 
 private void InitializeViews()
 {
@@ -85,7 +84,6 @@ cimgLogo=findViewById(R.id.cimgLogo);
     textInputLayout8=findViewById(R.id.textInputLayout8);
     gifNoInternet=findViewById(R.id.gifNoInternet);
     pbProgress=findViewById(R.id.pbProgress);
-    srflRefresh=findViewById(R.id.srflRefresh);
 
 
 }
@@ -116,14 +114,7 @@ cimgLogo=findViewById(R.id.cimgLogo);
         });
 
         MainFunction();
-        srflRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                srflRefresh.setRefreshing(true);
-                MainFunction();
-                srflRefresh.setRefreshing(false);
-            }
-        });    }
+          }
     public void MainFunction()
     {
 
