@@ -17,27 +17,62 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".UI.OrderComplete">
-
-
-        </activity>
-        <activity android:name=".UI.ComfirmOrder">
-
-        </activity>
-        <activity android:name=".UI.PrivacyPolicy" />
-        <activity android:name=".UI.Register"></activity>
-        <activity android:name=".UI.Login" />
-        <activity android:name=".UI.ContactUs" />
-        <activity android:name=".UI.AboutUs" />
-        <activity android:name=".UI.CartActivity" />
-        <activity android:name=".UI.ProductDetailed" />
         <activity
+            android:screenOrientation="portrait"
+            android:name=".UI.OrderComplete">
+
+
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.ComfirmOrder">
+
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.PrivacyPolicy" />
+        <activity
+
+            android:screenOrientation="portrait"
+
+            android:name=".UI.Register"></activity>
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.Login" />
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.ContactUs" />
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.AboutUs" />
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.CartActivity" />
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.ProductDetailed" />
+        <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.SplashScreen"
             android:theme="@style/NoActionBarTheme" >
 
         </activity>
-        <activity android:name=".UI.ProductView" />
-        <activity android:name=".UI.MainActivity" >
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.ProductView" />
+        <activity
+            android:screenOrientation="portrait"
+
+            android:name=".UI.MainActivity" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 

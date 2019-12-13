@@ -201,6 +201,8 @@ startActivity(intent);
                 break;
             case R.id.mainshoppingcart:
                 Intent i=new Intent(ProductView.this,CartActivity.class);
+                i.putExtra("EnterKey",2);
+
                 startActivity(i);
                 break;
 

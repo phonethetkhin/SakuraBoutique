@@ -50,6 +50,8 @@ private Toolbar toolbar;
 private SharedPreferences pref;
 FirebaseAuth mAuth;
 FirebaseUser firebaseUser;
+private int EnterKey;
+int ProductID;
 
 
 private void InitializeViews()
@@ -85,7 +87,11 @@ private void InitializeViews()
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
-//getitem
+//checkenterkey
+
+        EnterKey=getIntent().getIntExtra("EnterKey",0);
+
+        //getitem
 
 
         imgEmptyCart.setImageResource(R.drawable.cart);
@@ -153,6 +159,7 @@ private void InitializeViews()
 
         rvCartItem.addItemDecoration(itemDecorator);
         cartAdapter = new CartAdapter(productCartModelList,this,this);
+
         rvCartItem.setAdapter(cartAdapter);
 
         FinalTotalPrice=cartAdapter.Calculate();
@@ -255,7 +262,22 @@ private void InitializeViews()
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                this.finish();
+
+
+                    if (EnterKey == 1) {
+                        Intent i = new Intent(CartActivity.this, MainActivity.class);
+                        startActivity(i);
+                    } else if (EnterKey == 2) {
+                        Intent i2 = new Intent(CartActivity.this, ProductView.class);
+                        startActivity(i2);
+                    }
+                    else
+                    {
+                        this.finish();
+                    }
+
+
+
                 break;
 
             case R.id.HomeIcon:

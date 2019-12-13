@@ -111,16 +111,41 @@ public List<ProductCartModel> getCartItemList()
 
     }
 
+    public ProductCartModel checkExistingProduct(int ProductID,String size,String color) {
+        ProductCartModel productCartModel=null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cs = db.rawQuery("SELECT * FROM " + CART_TABLE+" WHERE Product_ID="+ProductID+" AND Size='"+size+"' AND Color='"+color+"';", null);
+        if (cs.moveToFirst()) {
+
+            productCartModel = new ProductCartModel(cs.getInt(cs.getColumnIndex("Product_ID")),
+                    cs.getInt(cs.getColumnIndex("Price")),
+                    cs.getInt(cs.getColumnIndex("Quantity")),
+                    cs.getInt(cs.getColumnIndex("TotalPrice")),
+
+                    cs.getString(cs.getColumnIndex("Product_Name")),
+                    cs.getString(cs.getColumnIndex("Url")),
+                    cs.getString(cs.getColumnIndex("Size")),
+                    cs.getString(cs.getColumnIndex("Color")));
+
+
+
+
+        }
+
+        return productCartModel;
+
+    }
+
     public void EmptyCart()
     {
         SQLiteDatabase db=this.getWritableDatabase();
         db.execSQL("DELETE FROM "+CART_TABLE+";");
         db.close();
     }
-    public void DeleteCartItem(String color,String size)
+    public void DeleteCartItem(int ProductID,String size,String color)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-        db.execSQL("DELETE FROM "+CART_TABLE+" WHERE Color='"+color+"' AND Size='"+size+"';");
+        db.execSQL("DELETE FROM "+CART_TABLE+" WHERE Product_ID="+ProductID+" AND Size='"+size+"' AND Color='"+color+"';");
     }
 
 }

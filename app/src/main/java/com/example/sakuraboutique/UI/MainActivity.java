@@ -127,6 +127,7 @@ View header=navigationView.getHeaderView(0);
         if(firebaseUser!=null) {
             tvLoginandSignup.setVisibility(View.GONE);
             tvProfile.setVisibility(View.VISIBLE);
+
             final String uid = firebaseUser.getUid();
             databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -253,6 +254,7 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
 
                     case R.id.nav_cart:
                         Intent intent6=new Intent(MainActivity.this,CartActivity.class);
+                        intent6.putExtra("EnterKey",1);
                         startActivity(intent6);
                         break;
 
@@ -458,7 +460,9 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
 
             case R.id.shoppingcart:
             Intent i=new Intent(MainActivity.this,CartActivity.class);
-            startActivity(i);
+                i.putExtra("EnterKey",1);
+
+                startActivity(i);
             break;
     }
         return super.onOptionsItemSelected(item);

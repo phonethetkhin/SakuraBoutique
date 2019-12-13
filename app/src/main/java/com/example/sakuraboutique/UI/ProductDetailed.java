@@ -1,5 +1,6 @@
 package com.example.sakuraboutique.UI;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -46,6 +47,7 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import pl.droidsonroids.gif.GifImageView;
 
 public class ProductDetailed extends AppCompatActivity {
@@ -55,7 +57,6 @@ public class ProductDetailed extends AppCompatActivity {
     private List<String> photolist;
     private Toolbar tbToolbar;
     private int Count=1;
-    private EditText etQuantity;
     private ImageButton imgbtnPlus, imgbtnMinus;
     private Button btnAddtoCart;
     SharedPreferences pref;
@@ -70,7 +71,7 @@ public class ProductDetailed extends AppCompatActivity {
 
     private String size;
     private String color;
-    private TextView tvName,tvPrice,tvStockQuantity,tvProductDescription,tvSizeQuantity,tvColorQuantity,tvSelectColor,tvSelectSize,tvSelectQuantity,tvStockQuantityLabel,tvProductDescriptionLabel;
+    private TextView tvName,tvQuantity,tvPrice,tvStockQuantity,tvProductDescription,tvSizeQuantity,tvColorQuantity,tvSelectColor,tvSelectSize,tvSelectQuantity,tvStockQuantityLabel,tvProductDescriptionLabel;
     private String url;
     private CartDB db=new CartDB(ProductDetailed.this);
     private ProductCartModel productCartModel;
@@ -88,7 +89,7 @@ public class ProductDetailed extends AppCompatActivity {
         rvSize = findViewById(R.id.rvSize);
         rvColor = findViewById(R.id.rvColor);
         tbToolbar = findViewById(R.id.tbToolbar);
-        etQuantity = findViewById(R.id.etQuantity);
+        tvQuantity = findViewById(R.id.tvQuantity);
         imgbtnPlus = findViewById(R.id.imgbtnPlus);
         imgbtnMinus = findViewById(R.id.imgbtnMinus);
         btnAddtoCart = findViewById(R.id.btnAddtoCart);
@@ -165,11 +166,11 @@ public class ProductDetailed extends AppCompatActivity {
             btnAddtoCart.setVisibility(View.VISIBLE);
             tvStockQuantityLabel.setVisibility(View.VISIBLE);
             tvProductDescriptionLabel.setVisibility(View.VISIBLE);
-            etQuantity.setVisibility(View.VISIBLE);
+            tvQuantity.setVisibility(View.VISIBLE);
 
 
 
-            ProductDetailedViewModel pdvm = ViewModelProviders.of(this).get(ProductDetailedViewModel.class);
+            final ProductDetailedViewModel pdvm = ViewModelProviders.of(this).get(ProductDetailedViewModel.class);
             pdvm.getProductlivedatalist(ProductID).observe(this, new Observer<ProductDetailedModel>() {
                 @Override
                 public void onChanged(ProductDetailedModel productDetailedModel) {
@@ -242,16 +243,16 @@ public class ProductDetailed extends AppCompatActivity {
             });
 
             //counting
-            etQuantity.setText(Count + "");
+            tvQuantity.setText(Count + "");
             imgbtnPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    quantity = Integer.parseInt(etQuantity.getText().toString());
+                    quantity = Integer.parseInt(tvQuantity.getText().toString());
                     Count = quantity;
                     Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
                     imgbtnPlus.startAnimation(myFadeInAnimation);
                     ++Count;
-                    etQuantity.setText(Count + "");
+                    tvQuantity.setText(Count + "");
 
 
                 }
@@ -259,7 +260,7 @@ public class ProductDetailed extends AppCompatActivity {
             imgbtnMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    quantity = Integer.parseInt(etQuantity.getText().toString());
+                    quantity = Integer.parseInt(tvQuantity.getText().toString());
 
                     Count = quantity;
                     Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
@@ -268,41 +269,76 @@ public class ProductDetailed extends AppCompatActivity {
                         --Count;
                     }
 
-                    etQuantity.setText(Count + "");
+                    tvQuantity.setText(Count + "");
 
                 }
             });
 
 
             //cart count
-            btnAddtoCart.setOnClickListener(new View.OnClickListener() {
+            btnAddtoCart.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
-                    quantity = Integer.parseInt(etQuantity.getText().toString());
+                public void onClick(View v)
+                {
+                    quantity = Integer.parseInt(tvQuantity.getText().toString());
 
 
-                    if (size == null) {
+                    if (size == null)
+                    {
                         Toast.makeText(ProductDetailed.this, "Please Choose a Size", Toast.LENGTH_SHORT).show();
 
-                    } else if (color == null) {
-                        Toast.makeText(ProductDetailed.this, "Please Choose a Color", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
 
-                        productCartModel = db.getProductBaseonID(ProductID);
+                    else if (color == null)
+                    {
+                        Toast.makeText(ProductDetailed.this, "Please Choose a Color", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else {
+
+                        productCartModel = db.checkExistingProduct(ProductID,size,color);
                         selectedproductcartmodel = new ProductCartModel(ProductID, price, quantity, price, ProdcutName, url, size, color);
 
 
-                        if (productCartModel != null) {
-                            if (productCartModel.getProductId() == selectedproductcartmodel.getProductId()) {
-                                if (productCartModel.getColor().equals(selectedproductcartmodel.getColor()) && productCartModel.getSize().equals(selectedproductcartmodel.getSize())) {
-                                    Toast.makeText(ProductDetailed.this, "This Product is Already Added! Choose Different Colors Or Sizes", Toast.LENGTH_SHORT).show();
+                        if (productCartModel != null)
+                        {
 
-                                } else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url, price)) {
-                                    Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(ProductDetailed.this, CartActivity.class);
+                             SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailed.this, SweetAlertDialog.ERROR_TYPE);
+                            pDialog.setTitleText("Already Added!");
 
-                                    startActivity(i);
-                                    ++CartCount;
+                            pDialog.show();
+                            Toast.makeText(ProductDetailed.this, "This Product is Already Added to cart, try different Size or Color!", Toast.LENGTH_SHORT).show();
+
+
+                        }
+                            else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url, price))
+                            {
+                            final SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailed.this, SweetAlertDialog.SUCCESS_TYPE);
+                            pDialog.setTitleText("1 Product Added to Cart!");
+                            pDialog.setContentText("Do You Wanna Watch Your Cart Items?");
+                            pDialog.setCancelText("No");
+                            pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+pDialog.cancel();
+                                }
+                            });
+                            pDialog.setConfirmText("Yes");
+
+                         pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                             @Override
+                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Intent i=new Intent(ProductDetailed.this,CartActivity.class);
+                                        i.putExtra("EnterKey",3);
+                                        startActivity(i);
+                                        pDialog.cancel();
+                             }
+                         });
+
+                            pDialog.show();
+
+                            ++CartCount;
                                     TotalCount = CartCount + cartQuantity;
 
                                     pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
@@ -310,28 +346,13 @@ public class ProductDetailed extends AppCompatActivity {
                                     myeditor.putInt("Cart_Quantity", TotalCount);
 
 
-                                    myeditor.commit();
+                                    myeditor.apply();
                                     notificationBadge.setText(TotalCount + "");
 
                                 }
-                            }
-                        } else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url, price)) {
-                            Toast.makeText(ProductDetailed.this, "1 Product Added to Cart !!", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(ProductDetailed.this, CartActivity.class);
-
-                            startActivity(i);
-                            ++CartCount;
-                            TotalCount = CartCount + cartQuantity;
-
-                            pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
-                            SharedPreferences.Editor myeditor = pref.edit();
-                            myeditor.putInt("Cart_Quantity", TotalCount);
 
 
-                            myeditor.commit();
-                            notificationBadge.setText(TotalCount + "");
-
-                        } else {
+                        else {
                             Toast.makeText(ProductDetailed.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -364,7 +385,7 @@ public class ProductDetailed extends AppCompatActivity {
             btnAddtoCart.setVisibility(View.GONE);
             tvStockQuantityLabel.setVisibility(View.GONE);
             tvProductDescriptionLabel.setVisibility(View.GONE);
-            etQuantity.setVisibility(View.GONE);
+            tvQuantity.setVisibility(View.GONE);
         }
     }
 
@@ -404,6 +425,7 @@ startActivity(intent2);
             break;
             case R.id.mainshoppingcart:
                 Intent i=new Intent(ProductDetailed.this,CartActivity.class);
+                i.putExtra("EnterKey",4);
                 startActivity(i);
                 break;
             case R.id.HomeIcon:
