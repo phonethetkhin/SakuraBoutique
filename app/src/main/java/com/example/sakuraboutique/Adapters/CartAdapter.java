@@ -1,6 +1,7 @@
 package com.example.sakuraboutique.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import com.example.sakuraboutique.Interfaces.DataTransferInterface;
 import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.UI.CartActivity;
+import com.example.sakuraboutique.UI.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -101,7 +103,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                @Override
                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                   CartAdapter.this.notify();
+                                            Intent i=new Intent(v.getContext(), MainActivity.class);
+                                            v.getContext().startActivity(i);
                                                    sDialog.dismissWithAnimation();
 
 
@@ -217,7 +220,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         });
         holder.imgbtnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 quantity = Integer.parseInt(holder.tvQuantity.getText().toString());
                 Count1 = quantity;
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.blink);
@@ -225,8 +228,122 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 if (Count1 != 1) {
                     --Count1;
                     --Count2;
+                }
+                else if(productCartModelList.size()==1)
+                {
+                    new SweetAlertDialog(v.getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Last Item in the Cart")
+                            .setContentText("You Want to Remove?")
+                            .setConfirmText("Yes!")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(final SweetAlertDialog sDialog) {
+                                    CartDB db=new CartDB(v.getContext());
+
+                                    ProductCartModel pcm=db.checkExistingProduct(productCartModelList.get(position).getProductId(),productCartModelList.get(position).getSize(),productCartModelList.get(position).getColor());
+
+                                    db.DeleteCartItem(pcm.getProductId(), pcm.getSize(), pcm.getColor());
+                                    productCartModelList.remove(position);
+                                    notifyDataSetChanged();
+
+                                    SharedPreferences pref = v.getContext().getSharedPreferences("MY_PREF", MODE_PRIVATE);
+
+                                    int  cartQuantity=pref.getInt("Cart_Quantity",0);
+                                    int cqty=cartQuantity-1;
+
+                                    SharedPreferences.Editor myeditor = pref.edit();
+                                    myeditor.putInt("Cart_Quantity", cqty);
 
 
+                                    myeditor.apply();
+
+                                    sDialog
+                                            .setTitleText("Cart is Clear! Let's Shop Again!")
+                                            .setContentText("")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    Intent i=new Intent(v.getContext(), MainActivity.class);
+                                                    v.getContext().startActivity(i);
+                                                    sDialog.dismissWithAnimation();
+
+
+                                                }
+                                            })
+
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    sDialog.findViewById(R.id.cancel_button).setVisibility(View.GONE);
+
+
+
+                                }
+
+                            })
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
+                }
+
+                else
+                {
+                    new SweetAlertDialog(v.getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("You About To Remove")
+                            .setContentText("Last Quantity of This Item, Remove this Item?")
+                            .setConfirmText("Yes!")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(final SweetAlertDialog sDialog) {
+                                    CartDB db=new CartDB(v.getContext());
+
+                                    ProductCartModel pcm=db.checkExistingProduct(productCartModelList.get(position).getProductId(),productCartModelList.get(position).getSize(),productCartModelList.get(position).getColor());
+
+                                    db.DeleteCartItem(pcm.getProductId(), pcm.getSize(), pcm.getColor());
+                                    productCartModelList.remove(position);
+                                    notifyDataSetChanged();
+
+                                    SharedPreferences pref = v.getContext().getSharedPreferences("MY_PREF", MODE_PRIVATE);
+
+                                    int  cartQuantity=pref.getInt("Cart_Quantity",0);
+                                    int cqty=cartQuantity-1;
+
+                                    SharedPreferences.Editor myeditor = pref.edit();
+                                    myeditor.putInt("Cart_Quantity", cqty);
+
+
+                                    myeditor.apply();
+
+                                    sDialog
+                                            .setTitleText("Item Removed!")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    sDialog.dismissWithAnimation();
+
+
+                                                }
+                                            })
+
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    sDialog.findViewById(R.id.cancel_button).setVisibility(View.GONE);
+
+
+
+                                }
+
+                            })
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
                 }
 
                 holder.tvQuantity.setText(Count1 + "");

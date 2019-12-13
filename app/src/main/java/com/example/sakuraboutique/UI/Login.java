@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity {
     GifImageView gifNoInternet;
     FirebaseAuth mAuth;
     ProgressBar pbProgress;
-    SwipeRefreshLayout srflRefresh;
+    int Key;
 
     private void InitializeViews() {
         tbToolbar = findViewById(R.id.tbToolbar);
@@ -59,7 +59,6 @@ public class Login extends AppCompatActivity {
         gifNoInternet=findViewById(R.id.gifNoInternet);
         pbProgress=findViewById(R.id.pbProgress);
         textInputLayout6=findViewById(R.id.textInputLayout6);
-        srflRefresh=findViewById(R.id.srflRefresh);
 
     }
 
@@ -74,6 +73,8 @@ public class Login extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
+        Key=getIntent().getIntExtra("Key",0);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,14 +91,7 @@ public class Login extends AppCompatActivity {
         });
 
         MainFunction();
-        srflRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                srflRefresh.setRefreshing(true);
-                MainFunction();
-                srflRefresh.setRefreshing(false);
-            }
-        });
+
 
     }
     public void MainFunction() {
@@ -159,9 +153,18 @@ public class Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         pDialog.setTitleText("Logged in Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        if(Key==1)
+                                        {
+                                            Intent i=new Intent(Login.this,MainActivity.class);
+                                            startActivity(i);
+                                        }
+                                        else if(Key==2)
+                                        {
+                                            finish();
+                                        }
+                                    }
 
-                                       finish();
-                                    } else {
+                                    else {
                                         pDialog.setTitleText("Username or Password Incorret!").changeAlertType(SweetAlertDialog.ERROR_TYPE);
 
                                         Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -208,7 +211,7 @@ public class Login extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+           this.finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

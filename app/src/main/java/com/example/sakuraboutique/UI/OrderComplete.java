@@ -31,19 +31,20 @@ Toolbar tbInclude;
 
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tbInclude.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
         imgSuccessShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(OrderComplete.this,MainActivity.class);
                 startActivity(i);
+
             }
         });
         btnConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(OrderComplete.this,MainActivity.class);
+                finish();
                 startActivity(i);
             }
         });
@@ -58,5 +59,11 @@ Toolbar tbInclude;
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(OrderComplete.this,MainActivity.class);
+        startActivity(i);
     }
 }

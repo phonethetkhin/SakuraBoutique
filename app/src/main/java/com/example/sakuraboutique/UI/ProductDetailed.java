@@ -420,8 +420,7 @@ public boolean Network()
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-Intent intent2=new Intent(ProductDetailed.this,ProductView.class);
-startActivity(intent2);
+        onBackPressed();
             break;
             case R.id.mainshoppingcart:
                 Intent i=new Intent(ProductDetailed.this,CartActivity.class);
@@ -440,7 +439,11 @@ startActivity(intent2);
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent2=new Intent(ProductDetailed.this,ProductView.class);
+        startActivity(intent2);
+    }
     /*@Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         invalidateOptionsMenu();

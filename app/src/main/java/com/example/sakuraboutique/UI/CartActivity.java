@@ -142,11 +142,14 @@ private void InitializeViews()
                 if(firebaseUser!=null)
                 {
                     Intent i=new Intent(CartActivity.this,ComfirmOrder.class);
+
+
                     startActivity(i);
 
                 }
                 else {
                     Intent i = new Intent(CartActivity.this, Login.class);
+                    i.putExtra("Key",2);
                     startActivity(i);
                 }
             }
@@ -264,17 +267,7 @@ private void InitializeViews()
             case android.R.id.home:
 
 
-                    if (EnterKey == 1) {
-                        Intent i = new Intent(CartActivity.this, MainActivity.class);
-                        startActivity(i);
-                    } else if (EnterKey == 2) {
-                        Intent i2 = new Intent(CartActivity.this, ProductView.class);
-                        startActivity(i2);
-                    }
-                    else
-                    {
-                        this.finish();
-                    }
+                   onBackPressed();
 
 
 
@@ -292,8 +285,20 @@ private void InitializeViews()
 
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        if (EnterKey == 1) {
+            Intent i = new Intent(CartActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (EnterKey == 2) {
+            Intent i2 = new Intent(CartActivity.this, ProductView.class);
+            startActivity(i2);
+        }
+        else
+        {
+            this.finish();
+        }
+    }
 
     @Override
     public void setValues(int TotalQuantity, int TotalPrice) {

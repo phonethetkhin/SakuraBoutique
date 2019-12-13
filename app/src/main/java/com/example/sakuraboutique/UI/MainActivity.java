@@ -2,20 +2,27 @@ package com.example.sakuraboutique.UI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
@@ -56,6 +63,7 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,9 +91,11 @@ SwipeRefreshLayout srflMain;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+    boolean isSecond;
 
 
-private void InitializeViews()
+
+    private void InitializeViews()
 {
     rvMain=findViewById(R.id.rvMain);
     tbMain=findViewById(R.id.tbMain);
@@ -150,6 +160,9 @@ View header=navigationView.getHeaderView(0);
                     FirebaseAuth.getInstance().signOut();
                    if( dlMain.isDrawerOpen(GravityCompat.START))
                     {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
                         dlMain.closeDrawer(GravityCompat.START);
 
                     }
@@ -166,6 +179,7 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Intent i=new Intent(MainActivity.this,Login.class);
+        i.putExtra("Key",1);
         startActivity(i);
     }
 });
@@ -378,7 +392,7 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
 
 
 
-    @Override
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
@@ -386,6 +400,11 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
 
 
         final MenuItem menuItem =(MenuItem) menu.findItem(R.id.shoppingcart);
+        MenuItem searchItem = menu.findItem(R.id.sbSearchBar);
+
+
+
+
         final View actionView=(View) MenuItemCompat.getActionView(menuItem);
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -399,19 +418,41 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
         cartQuantity=pref.getInt("Cart_Quantity",0);
         notificationBadge.setText(cartQuantity+"");
         return true;
+
+
+
+
+
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
-    if(dlMain.isDrawerOpen(GravityCompat.START))
-    {
-        dlMain.closeDrawer(GravityCompat.START);
-    }
+        if (dlMain.isDrawerOpen(GravityCompat.START)) {
+            dlMain.closeDrawer(GravityCompat.START);
+        }
         else
-        {
-            super.onBackPressed();
+            {
+                Toast.makeText(MainActivity.this, "Press Again to Exit", Toast.LENGTH_SHORT).show();
+
+
+                if (isSecond)
+            {
+this.finishAffinity();            }
+
+            isSecond = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isSecond = false;
+                }
+            }, 2000);
         }
     }
+
 
 
     /* @Override

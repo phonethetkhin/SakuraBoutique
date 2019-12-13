@@ -60,7 +60,6 @@ CartDB db=new CartDB(ComfirmOrder.this);
 GifImageView gifNoInternet;
 ProgressBar pbProgress;
 CircleImageView cimgLogo;
-SwipeRefreshLayout srflRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,6 @@ SwipeRefreshLayout srflRefresh;
         tvNameLabel=findViewById(R.id.tvNameLabel);
         imgUserIcon=findViewById(R.id.imgUserIcon);
         cimgLogo=findViewById(R.id.cimgLogo);
-        srflRefresh=findViewById(R.id.srflRefresh);
         tvDeliLabel=findViewById(R.id.tvDeliLabel);
 
         //setting color to toolbar
@@ -102,14 +100,6 @@ SwipeRefreshLayout srflRefresh;
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
 MainFunction();
-        srflRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                srflRefresh.setRefreshing(true);
-                MainFunction();
-                srflRefresh.setRefreshing(false);
-            }
-        });
 
 
 
@@ -191,7 +181,9 @@ MainFunction();
                     pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                     pDialog.setTitleText("Loading");
                     pDialog.setCancelable(false);
+
                     pDialog.show();
+
                     productCartModelList = db.getCartItemList();
                     List<Items> itemsList = new ArrayList<>();
                     for (int i = 0; i < productCartModelList.size(); i++) {
@@ -229,6 +221,7 @@ MainFunction();
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                             Intent i = new Intent(ComfirmOrder.this, OrderComplete.class);
+                                            finish();
                                             startActivity(i);
                                         }
                                     });

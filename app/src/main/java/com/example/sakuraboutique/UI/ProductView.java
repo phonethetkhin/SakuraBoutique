@@ -196,8 +196,7 @@ ProgressBar pbProgress;
         switch (item.getItemId())
         {
             case android.R.id.home:
-Intent intent=new Intent(ProductView.this,MainActivity.class);
-startActivity(intent);
+onBackPressed();
                 break;
             case R.id.mainshoppingcart:
                 Intent i=new Intent(ProductView.this,CartActivity.class);
@@ -211,5 +210,12 @@ startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(ProductView.this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

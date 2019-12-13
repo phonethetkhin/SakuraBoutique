@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.example.sakuraboutique.R;
 
 public class SplashScreen extends AppCompatActivity {
-private final int SPLASH_TIMER=6000;
+private final int SPLASH_TIMER=5000;
 ImageView imgLogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -245,6 +245,7 @@ cimgLogo=findViewById(R.id.cimgLogo);
                                                         Toast.makeText(Register.this, "Register Successfully!", Toast.LENGTH_SHORT).show();
                                                         Intent i = new Intent(Register.this, ComfirmOrder.class);
                                                         startActivity(i);
+                                                        finish();
                                                     } else {
                                                         task.getException();
                                                     }
