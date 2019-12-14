@@ -340,7 +340,7 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
         svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
         svImageSlider.setCircularHandlerEnabled(true);
 
-        svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+        svImageSlider.setScrollTimeInSec(6); //set scroll delay in seconds :
         svImageSlider.startAutoCycle();
         if(!Network())
         {
