@@ -3,7 +3,9 @@ package com.example.sakuraboutique.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductModel {
+import java.io.Serializable;
+
+public class ProductModel implements Serializable {
 
     @SerializedName("CategoryID")
     @Expose

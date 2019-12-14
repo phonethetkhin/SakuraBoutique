@@ -29,6 +29,13 @@ public interface Apicalls {
             @Query("limitToFirst") int limit
 
     );
+    @GET("AllProducts2.json")
+    Call<List<ProductModel>> getAllProducts2(
+            @Query("orderBy") String key,
+            @Query("equalTo") String query,
+            @Query("limitToFirst") int limit
+
+    );
 
 
     @GET("Tops.json")

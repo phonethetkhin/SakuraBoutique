@@ -24,7 +24,7 @@ public class ProductRepositories {
         Apicalls apicalls= RetrofitObj.getRetrofit().create(Apicalls.class);
         if(value==1)
         {
-            productmodellist=apicalls.getAllProducts("\"ProductID\"",20);
+            productmodellist=apicalls.getAllProducts("\"ProductID\"",50);
         }
             else if(value==2)
             {

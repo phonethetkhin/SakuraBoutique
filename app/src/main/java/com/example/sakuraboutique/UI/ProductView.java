@@ -30,11 +30,15 @@ import android.widget.Toast;
 
 import com.dgreenhalgh.android.simpleitemdecoration.grid.GridDividerItemDecoration;
 import com.example.sakuraboutique.Adapters.ProductViewAdapter;
+import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.Models.ProductDetailedModel;
 import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
+import com.example.sakuraboutique.Retrofit.Apicalls;
+import com.example.sakuraboutique.Retrofit.RetrofitObj;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.example.sakuraboutique.ViewModels.ProductViewModel;
+import com.google.android.gms.common.api.Api;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +52,9 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import pl.droidsonroids.gif.GifImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductView extends AppCompatActivity {
 RecyclerView rvProductView;
@@ -176,23 +183,22 @@ DatabaseReference databaseReference;
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String keyword=query;
+                final List<ProductModel> pcm=new ArrayList<>();
 
                 databaseReference= FirebaseDatabase.getInstance().getReference("AllProducts");
-                Query firebaseSearchquery=databaseReference.orderByChild("ProductName").equalTo(keyword+"\uf8ff");
-                firebaseSearchquery.addValueEventListener(new ValueEventListener() {
+                Apicalls apicalls= RetrofitObj.getRetrofit().create(Apicalls.class);
+                Call<List<ProductModel>> productmodellistcall=apicalls.getAllProducts2("ProductName",keyword,10);
+                productmodellistcall.enqueue(new Callback<List<ProductModel>>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()&& dataSnapshot.getChildrenCount()>0)
-                        {   productModelList.clear();
+                    public void onResponse(Call<List<ProductModel>> call, Response<List<ProductModel>> response) {
+                        if(response.isSuccessful()) {
 
-                            for(DataSnapshot ds:dataSnapshot.getChildren())
-                            {
-                                ProductModel productModel=ds.getValue(ProductModel.class);
-                                productModelList.add(productModel);
+                            List<ProductModel> productModels = response.body();
+                            while (rvProductView.getItemDecorationCount() > 0) {
+                                rvProductView.removeItemDecorationAt(0);
                             }
-                            ProductViewAdapter productViewAdapter=new ProductViewAdapter(productModelList);
-                            productViewAdapter.notifyDataSetChanged();
-                            rvProductView.setAdapter(productViewAdapter);
+                            ProductViewAdapter pva=new ProductViewAdapter(productModels);
+                            rvProductView.setAdapter(pva);
 
                         }
                         else
@@ -200,10 +206,11 @@ DatabaseReference databaseReference;
                             Toast.makeText(ProductView.this, "No Result Found!", Toast.LENGTH_SHORT).show();
                         }
 
+
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onFailure(Call<List<ProductModel>> call, Throwable t) {
 
                     }
                 });
