@@ -178,6 +178,8 @@ public class ProductDetailed extends AppCompatActivity {
                     tvName.setText(productDetailedModel.getProductName());
                     tvPrice.setText(productDetailedModel.getPrice() + "");
                     tvProductDescription.setText(productDetailedModel.getProductDescription());
+                    price=productDetailedModel.getPrice();
+                    url=productDetailedModel.getPhotos().get(0);
 
 
                     //slider
@@ -441,8 +443,8 @@ public boolean Network()
 
     @Override
     public void onBackPressed() {
-        Intent intent2=new Intent(ProductDetailed.this,ProductView.class);
-        startActivity(intent2);
+
+        this.finish();
     }
     /*@Override
     public boolean onPrepareOptionsMenu(Menu menu) {

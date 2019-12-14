@@ -21,6 +21,17 @@ public class ProductModel {
     @Expose
     private String uRL;
 
+    public ProductModel(Integer categoryID, Integer price, Integer productID, String productName, String uRL) {
+        this.categoryID = categoryID;
+        this.price = price;
+        this.productID = productID;
+        this.productName = productName;
+        this.uRL = uRL;
+    }
+
+    public ProductModel() {
+    }
+
     public Integer getCategoryID() {
         return categoryID;
     }

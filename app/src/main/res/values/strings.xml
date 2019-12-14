@@ -49,6 +49,7 @@
     <string name="tvlabel3">Having Trouble Signing In ?</string>
     <string name="btnresetpassword">Reset Password</string>
     <string name="btnsignup">Sign Up</string>
+    <string name="search_hint">What Items You Looking For?</string>
     <string name="tvlabel1">By creating an account, you agree to our</string>
     <string name="btnterms">term of service</string>
     <string name="btnprivacy">Privacy Policy</string>

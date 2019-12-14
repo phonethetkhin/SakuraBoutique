@@ -43,7 +43,6 @@ public class Login extends AppCompatActivity {
     GifImageView gifNoInternet;
     FirebaseAuth mAuth;
     ProgressBar pbProgress;
-    int Key;
 
     private void InitializeViews() {
         tbToolbar = findViewById(R.id.tbToolbar);
@@ -74,7 +73,6 @@ public class Login extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tbToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
-        Key=getIntent().getIntExtra("Key",0);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,15 +151,7 @@ public class Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         pDialog.setTitleText("Logged in Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                        if(Key==1)
-                                        {
-                                            Intent i=new Intent(Login.this,MainActivity.class);
-                                            startActivity(i);
-                                        }
-                                        else if(Key==2)
-                                        {
-                                            finish();
-                                        }
+                                       finish();
                                     }
 
                                     else {

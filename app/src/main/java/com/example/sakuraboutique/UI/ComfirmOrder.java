@@ -178,9 +178,9 @@ MainFunction();
                 @Override
                 public void onClick(View v) {
                     final SweetAlertDialog pDialog = new SweetAlertDialog(ComfirmOrder.this, SweetAlertDialog.PROGRESS_TYPE);
-                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                   /* pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                     pDialog.setTitleText("Loading");
-                    pDialog.setCancelable(false);
+                    pDialog.setCancelable(false);*/
 
                     pDialog.show();
 
@@ -221,8 +221,10 @@ MainFunction();
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                             Intent i = new Intent(ComfirmOrder.this, OrderComplete.class);
-                                            finish();
                                             startActivity(i);
+
+
+                                            finish();
                                         }
                                     });
 

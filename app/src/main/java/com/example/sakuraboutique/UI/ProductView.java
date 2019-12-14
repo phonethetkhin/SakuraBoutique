@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.dgreenhalgh.android.simpleitemdecoration.grid.GridDividerItemDecoration;
@@ -34,6 +35,12 @@ import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.example.sakuraboutique.ViewModels.ProductViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.util.ArrayList;
@@ -53,6 +60,7 @@ SwipeRefreshLayout srflRefresh;
  GifImageView gifNoInternet;
 private int cartQuantity;
 ProgressBar pbProgress;
+DatabaseReference databaseReference;
     private NotificationBadge notificationBadge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +166,57 @@ ProgressBar pbProgress;
 
 
         final MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
+        MenuItem searchItem = menu.findItem(R.id.SearchBar);
+
+
+        SearchView searchView=(SearchView) searchItem.getActionView();
+        searchView.setFocusable(false);
+        searchView.setQueryHint("Search");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String keyword=query;
+
+                databaseReference= FirebaseDatabase.getInstance().getReference("AllProducts");
+                Query firebaseSearchquery=databaseReference.orderByChild("ProductName").equalTo(keyword+"\uf8ff");
+                firebaseSearchquery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()&& dataSnapshot.getChildrenCount()>0)
+                        {   productModelList.clear();
+
+                            for(DataSnapshot ds:dataSnapshot.getChildren())
+                            {
+                                ProductModel productModel=ds.getValue(ProductModel.class);
+                                productModelList.add(productModel);
+                            }
+                            ProductViewAdapter productViewAdapter=new ProductViewAdapter(productModelList);
+                            productViewAdapter.notifyDataSetChanged();
+                            rvProductView.setAdapter(productViewAdapter);
+
+                        }
+                        else
+                        {
+                            Toast.makeText(ProductView.this, "No Result Found!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         final View actionView=(View) MenuItemCompat.getActionView(menuItem);
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override

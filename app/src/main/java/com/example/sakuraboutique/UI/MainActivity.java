@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
@@ -35,14 +35,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sakuraboutique.Adapters.CategoryAdapter;
+import com.example.sakuraboutique.Adapters.ProductViewAdapter;
 import com.example.sakuraboutique.Adapters.SlideAdapter;
 import com.example.sakuraboutique.Models.CategoryModel;
+import com.example.sakuraboutique.Models.ProductModel;
 import com.example.sakuraboutique.Models.SliderURLModel;
 import com.example.sakuraboutique.R;
 import com.example.sakuraboutique.Retrofit.Apicalls;
 import com.example.sakuraboutique.Retrofit.RetrofitObj;
 import com.example.sakuraboutique.ViewModels.CategoryViewModel;
 import com.example.sakuraboutique.ViewModels.MainViewModel;
+import com.google.android.gms.common.api.Api;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
@@ -52,6 +55,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonArray;
 import com.nex3z.notificationbadge.NotificationBadge;
@@ -179,7 +183,6 @@ tvLoginandSignup.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Intent i=new Intent(MainActivity.this,Login.class);
-        i.putExtra("Key",1);
         startActivity(i);
     }
 });

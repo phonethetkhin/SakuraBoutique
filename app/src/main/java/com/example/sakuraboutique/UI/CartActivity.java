@@ -135,25 +135,7 @@ private void InitializeViews()
             btnCheckout.setVisibility(View.VISIBLE);
 
         }
-        btnCheckout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
-                if(firebaseUser!=null)
-                {
-                    Intent i=new Intent(CartActivity.this,ComfirmOrder.class);
 
-
-                    startActivity(i);
-
-                }
-                else {
-                    Intent i = new Intent(CartActivity.this, Login.class);
-                    i.putExtra("Key",2);
-                    startActivity(i);
-                }
-            }
-        });
 
         rvCartItem.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
         rvCartItem.setHasFixedSize(true);
@@ -167,6 +149,27 @@ private void InitializeViews()
 
         FinalTotalPrice=cartAdapter.Calculate();
 
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+                if(firebaseUser!=null)
+                {
+
+                    Intent i=new Intent(CartActivity.this,ComfirmOrder.class);
+
+                    startActivity(i);
+
+
+
+                }
+                else {
+                    Intent i = new Intent(CartActivity.this, Login.class);
+
+                    startActivity(i);
+                }
+            }
+        });
 
         tvTotalPrice.setText("Total Price (" + FinalTotalPrice + ")");
         tvCartTotal.setText(FinalTotalPrice + "");
