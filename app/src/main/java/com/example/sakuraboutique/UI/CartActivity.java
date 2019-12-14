@@ -164,9 +164,10 @@ private void InitializeViews()
 
                 }
                 else {
-                    Intent i = new Intent(CartActivity.this, Login.class);
+                    Intent i2 = new Intent(CartActivity.this, Login.class);
+                    i2.putExtra("Key",1);
 
-                    startActivity(i);
+                    startActivity(i2);
                 }
             }
         });

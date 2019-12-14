@@ -232,6 +232,24 @@ public class ProductDetailed extends AppCompatActivity {
                                         colorquantity = sizelist.get(position).getColor().get(position2).getQuantity();
 
                                         tvColorQuantity.setText("(" + colorquantity + ") Stock Available");
+                                        tvQuantity.setText(Count + "");
+                                        imgbtnPlus.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                quantity = Integer.parseInt(tvQuantity.getText().toString());
+                                                Count = quantity;
+                                                Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
+                                                imgbtnPlus.startAnimation(myFadeInAnimation);
+                                                if(Count<colorquantity)
+                                                {
+                                                    ++Count;
+
+                                                }
+                                                tvQuantity.setText(Count + "");
+
+
+                                            }
+                                        });
 
                                     }
                                 });
@@ -245,20 +263,7 @@ public class ProductDetailed extends AppCompatActivity {
             });
 
             //counting
-            tvQuantity.setText(Count + "");
-            imgbtnPlus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    quantity = Integer.parseInt(tvQuantity.getText().toString());
-                    Count = quantity;
-                    Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
-                    imgbtnPlus.startAnimation(myFadeInAnimation);
-                    ++Count;
-                    tvQuantity.setText(Count + "");
 
-
-                }
-            });
             imgbtnMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

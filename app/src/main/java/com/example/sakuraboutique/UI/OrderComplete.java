@@ -28,6 +28,8 @@ SharedPreferences pref;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_complete);
+
+
         imgSuccessShopping=findViewById(R.id.imgSuccessShopping);
         btnConfirmOrder=findViewById(R.id.btnConfirmOrder);
         tbInclude=findViewById(R.id.tbToolbar);
@@ -45,12 +47,13 @@ SharedPreferences pref;
                 SharedPreferences.Editor myeditor = pref.edit();
                 myeditor.clear();
                 myeditor.apply();
-                Intent i=new Intent(OrderComplete.this,MainActivity.class);
-
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
             }
         });
+
         btnConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,8 +63,9 @@ SharedPreferences pref;
                 myeditor.clear();
                 myeditor.apply();
 
-                Intent i=new Intent(OrderComplete.this,MainActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 

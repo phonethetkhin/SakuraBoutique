@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -60,37 +61,43 @@ CartDB db=new CartDB(ComfirmOrder.this);
 GifImageView gifNoInternet;
 ProgressBar pbProgress;
 CircleImageView cimgLogo;
+     String uid;
+public void InitializeViews()
+{
+    tbToolbar=findViewById(R.id.tbToolbar);
+    btnConfirm=findViewById(R.id.btnConfirmOrder);
+    tietuserName=findViewById(R.id.tietUserName);
+    tietAddress=findViewById(R.id.tietAddress);
+    tietPhonenumber=findViewById(R.id.tietPhonenumber);
+    tvUserTotalItem=findViewById(R.id.tvUserTotalItem);
+    tvTotalPrice=findViewById(R.id.tvTotalPrice);
+    tvUserOrderItem=findViewById(R.id.tvUserOrderItem);
+    gifNoInternet =findViewById(R.id.gifNoInternet);
+
+    pbProgress=findViewById(R.id.pbProgress);
+
+    tvConfirmOrder=findViewById(R.id.tvConfirmOrder);
+    tvTotalPriceLabel=findViewById(R.id.tvTotalPriceLabel);
+    imgTotalItem=findViewById(R.id.imgTotalItem);
+    imgOrderItem=findViewById(R.id.imgOrderItem);
+    imgTotalPrice=findViewById(R.id.imgTotalPrice);
+    tvOrderItemLabel=findViewById(R.id.tvOrderItemLabel);
+    tvTotalItemLabel=findViewById(R.id.tvTotalItemLabel);
+    tvPhoneLabel=findViewById(R.id.tvPhoneLabel);
+    imgPhone=findViewById(R.id.imgPhone);
+    imgDeliIcon=findViewById(R.id.imgDeliIcon);
+    tvNameLabel=findViewById(R.id.tvNameLabel);
+    imgUserIcon=findViewById(R.id.imgUserIcon);
+    cimgLogo=findViewById(R.id.cimgLogo);
+    tvDeliLabel=findViewById(R.id.tvDeliLabel);
+}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comfirm_order);
-        tbToolbar=findViewById(R.id.tbToolbar);
-        btnConfirm=findViewById(R.id.btnConfirmOrder);
-        tietuserName=findViewById(R.id.tietUserName);
-        tietAddress=findViewById(R.id.tietAddress);
-        tietPhonenumber=findViewById(R.id.tietPhonenumber);
-        tvUserTotalItem=findViewById(R.id.tvUserTotalItem);
-        tvTotalPrice=findViewById(R.id.tvTotalPrice);
-        tvUserOrderItem=findViewById(R.id.tvUserOrderItem);
-        gifNoInternet =findViewById(R.id.gifNoInternet);
 
-        pbProgress=findViewById(R.id.pbProgress);
-
-        tvConfirmOrder=findViewById(R.id.tvConfirmOrder);
-        tvTotalPriceLabel=findViewById(R.id.tvTotalPriceLabel);
-        imgTotalItem=findViewById(R.id.imgTotalItem);
-        imgOrderItem=findViewById(R.id.imgOrderItem);
-        imgTotalPrice=findViewById(R.id.imgTotalPrice);
-        tvOrderItemLabel=findViewById(R.id.tvOrderItemLabel);
-        tvTotalItemLabel=findViewById(R.id.tvTotalItemLabel);
-        tvPhoneLabel=findViewById(R.id.tvPhoneLabel);
-        imgPhone=findViewById(R.id.imgPhone);
-        imgDeliIcon=findViewById(R.id.imgDeliIcon);
-        tvNameLabel=findViewById(R.id.tvNameLabel);
-        imgUserIcon=findViewById(R.id.imgUserIcon);
-        cimgLogo=findViewById(R.id.cimgLogo);
-        tvDeliLabel=findViewById(R.id.tvDeliLabel);
+       InitializeViews();
 
         //setting color to toolbar
         setSupportActionBar(tbToolbar);
@@ -146,10 +153,16 @@ MainFunction();
             //instaiate and use firebaseauth
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            final String uid = firebaseUser.getUid();
 
 
             if (firebaseUser != null) {
+                uid = firebaseUser.getUid();
+            }
+            else
+                {
+                uid="GUEST";
+            }
+
                 databaseReference = FirebaseDatabase.getInstance().getReference("Users");
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -173,40 +186,65 @@ MainFunction();
 
                     }
                 });
-            }
+
             btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final SweetAlertDialog pDialog = new SweetAlertDialog(ComfirmOrder.this, SweetAlertDialog.PROGRESS_TYPE);
-                   /* pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                     pDialog.setTitleText("Loading");
-                    pDialog.setCancelable(false);*/
+                    pDialog.setCancelable(false);
+                    String name = tietuserName.getText().toString();
+                    String address = tietAddress.getText().toString();
+                    String phoneNumber = tietPhonenumber.getText().toString();
 
-                    pDialog.show();
+                    if (TextUtils.isEmpty(name)) {
+                        tietuserName.setError("Name Can't be Empty");
+                        Toast.makeText(ComfirmOrder.this, "Please Enter Name!", Toast.LENGTH_SHORT).show();
 
-                    productCartModelList = db.getCartItemList();
-                    List<Items> itemsList = new ArrayList<>();
-                    for (int i = 0; i < productCartModelList.size(); i++) {
-                        Items items = new Items(
-                                String.valueOf(productCartModelList.get(i).getProductId()),
-                                productCartModelList.get(i).getColor(),
-                                productCartModelList.get(i).getSize(),
-                                String.valueOf(productCartModelList.get(i).getQuantity())
-                        );
-                        itemsList.add(items);
                     }
-                    OrderModel orderModel = new OrderModel(
-                            tietuserName.getText().toString(),
-                            tietAddress.getText().toString(),
-                            tietPhonenumber.getText().toString(),
-                            orderDate,
-                            String.valueOf(productCartModelList.size()),
-                            String.valueOf(TotalQuantity),
-                            String.valueOf(TotalPrice),
-                            itemsList
-                    );
 
-                    if (firebaseUser != null) {
+                    if (TextUtils.isEmpty(address)) {
+                        tietAddress.setError("Address Can't be Empty");
+                        Toast.makeText(ComfirmOrder.this, "Please Address!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    if (TextUtils.isEmpty(phoneNumber)) {
+                        tietPhonenumber.setError("Phone Number Can't be Empty");
+                        Toast.makeText(ComfirmOrder.this, "Please Phone Number!", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+
+                        productCartModelList = db.getCartItemList();
+                        List<Items> itemsList = new ArrayList<>();
+                        for (int i = 0; i < productCartModelList.size(); i++) {
+                            Items items = new Items(
+                                    String.valueOf(productCartModelList.get(i).getProductId()),
+                                    productCartModelList.get(i).getColor(),
+                                    productCartModelList.get(i).getSize(),
+                                    String.valueOf(productCartModelList.get(i).getQuantity())
+                            );
+                            itemsList.add(items);
+                        }
+                        OrderModel orderModel = new OrderModel(
+                                tietuserName.getText().toString(),
+                                tietAddress.getText().toString(),
+                                tietPhonenumber.getText().toString(),
+                                orderDate,
+                                String.valueOf(productCartModelList.size()),
+                                String.valueOf(TotalQuantity),
+                                String.valueOf(TotalPrice),
+                                itemsList
+                        );
+
+                        if (firebaseUser != null) {
+                            uid = firebaseUser.getUid();
+                        } else {
+                            uid = "GUEST";
+                        }
+
 
                         String key = FirebaseDatabase.getInstance().getReference().push().getKey();
 
@@ -217,14 +255,16 @@ MainFunction();
                             public void onComplete(@NonNull final Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     pDialog.setTitleText("Ordered Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    pDialog.show();
+
                                     pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            pDialog.dismissWithAnimation();
                                             Intent i = new Intent(ComfirmOrder.this, OrderComplete.class);
                                             startActivity(i);
 
 
-                                            finish();
                                         }
                                     });
 
@@ -238,8 +278,10 @@ MainFunction();
                         });
                     }
                 }
+
             });
         }
+
         else
         {
             Toast.makeText(ComfirmOrder.this, "Check Your Internet Connection!", Toast.LENGTH_SHORT).show();

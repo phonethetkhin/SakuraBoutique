@@ -43,6 +43,7 @@ public class Login extends AppCompatActivity {
     GifImageView gifNoInternet;
     FirebaseAuth mAuth;
     ProgressBar pbProgress;
+    int Key;
 
     private void InitializeViews() {
         tbToolbar = findViewById(R.id.tbToolbar);
@@ -68,6 +69,7 @@ public class Login extends AppCompatActivity {
         InitializeViews();
         setSupportActionBar(tbToolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + "Log In" + " </font>"));
+        Key=getIntent().getIntExtra("Key",0);
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,6 +86,18 @@ public class Login extends AppCompatActivity {
         btnSigninasGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Key==1)
+                {
+                    Intent i=new Intent(Login.this,ComfirmOrder.class);
+                    startActivity(i);
+                }
+                else
+                {
+                     SweetAlertDialog pDialog = new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE);
+                     pDialog.setTitleText("Sign In as Guest Only Available When Checkout Orders");
+                     pDialog.show();
+
+                }
 
             }
         });
@@ -151,7 +165,17 @@ public class Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         pDialog.setTitleText("Logged in Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                       finish();
+                                        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                pDialog.dismissWithAnimation();
+                                                Intent i=new Intent(Login.this,MainActivity.class);
+
+                                                startActivity(i);
+                                                finish();
+
+                                            }
+                                        });
                                     }
 
                                     else {

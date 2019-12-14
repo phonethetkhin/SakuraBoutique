@@ -243,9 +243,18 @@ cimgLogo=findViewById(R.id.cimgLogo);
                                                     if (task.isSuccessful()) {
                                                         pDialog.setTitleText("Register Successfully!").changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                                         Toast.makeText(Register.this, "Register Successfully!", Toast.LENGTH_SHORT).show();
-                                                        Intent i = new Intent(Register.this, ComfirmOrder.class);
-                                                        startActivity(i);
-                                                        finish();
+
+                                                        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                            @Override
+                                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                                pDialog.dismissWithAnimation();
+
+                                                                Intent i = new Intent(Register.this, ComfirmOrder.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }
+                                                        });
+
                                                     } else {
                                                         task.getException();
                                                     }
