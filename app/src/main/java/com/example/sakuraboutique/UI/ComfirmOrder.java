@@ -58,7 +58,6 @@ FirebaseDatabase firebaseDatabase;
 ImageView imgTotalItem,imgOrderItem,imgTotalPrice,imgPhone,imgDeliIcon,imgUserIcon;
 List<ProductCartModel> productCartModelList;
 CartDB db=new CartDB(ComfirmOrder.this);
-GifImageView gifNoInternet;
 ProgressBar pbProgress;
 CircleImageView cimgLogo;
      String uid;
@@ -72,7 +71,6 @@ public void InitializeViews()
     tvUserTotalItem=findViewById(R.id.tvUserTotalItem);
     tvTotalPrice=findViewById(R.id.tvTotalPrice);
     tvUserOrderItem=findViewById(R.id.tvUserOrderItem);
-    gifNoInternet =findViewById(R.id.gifNoInternet);
 
     pbProgress=findViewById(R.id.pbProgress);
 
@@ -113,7 +111,6 @@ MainFunction();
     }
     public void MainFunction() {
         if (Network()) {
-            gifNoInternet.setVisibility(View.GONE);
             pbProgress.setVisibility(View.GONE);
             tvOrderItemLabel.setVisibility(View.VISIBLE);
             tvUserOrderItem.setVisibility(View.VISIBLE);
@@ -286,7 +283,6 @@ MainFunction();
         {
             Toast.makeText(ComfirmOrder.this, "Check Your Internet Connection!", Toast.LENGTH_SHORT).show();
 
-            gifNoInternet.setVisibility(View.VISIBLE);
             pbProgress.setVisibility(View.VISIBLE);
             tvOrderItemLabel.setVisibility(View.GONE);
             tvUserOrderItem.setVisibility(View.GONE);

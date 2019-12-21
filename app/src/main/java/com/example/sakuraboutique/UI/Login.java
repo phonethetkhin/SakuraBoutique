@@ -169,9 +169,7 @@ public class Login extends AppCompatActivity {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                                 pDialog.dismissWithAnimation();
-                                                Intent i=new Intent(Login.this,MainActivity.class);
 
-                                                startActivity(i);
                                                 finish();
 
                                             }

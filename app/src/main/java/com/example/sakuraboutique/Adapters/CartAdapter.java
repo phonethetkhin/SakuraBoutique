@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,13 +43,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     int quantity = 0;
     int TotalQuantity = 0;
     int FinalTotalPrice = 0;
+    int StockQuantity=0;
     DataTransferInterface dtInterface;
 
 
-    public CartAdapter(List<ProductCartModel> productCartModelList,Context context,DataTransferInterface dtInterface) {
+    public CartAdapter(List<ProductCartModel> productCartModelList,Context context,DataTransferInterface dtInterface,int StockQty) {
+
         this.context=context;
         this.productCartModelList = productCartModelList;
         this.dtInterface = dtInterface;
+        this.StockQuantity=StockQty;
     }
 
     @NonNull
@@ -200,8 +204,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             public void onClick(View v) {
                 quantity = Integer.parseInt(holder.tvQuantity.getText().toString());
                 Count1 = quantity;
-                ++Count1;
-                ++Count2;
+
+                    ++Count1;
+                    ++Count2;
+
+
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.blink);
                 holder.imgbtnPlus.startAnimation(myFadeInAnimation);
                 TotalPrice = ((productCartModelList.get(position).getPrice()) * Count1);

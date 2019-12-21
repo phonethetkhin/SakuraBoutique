@@ -228,6 +228,7 @@ public class ProductDetailed extends AppCompatActivity {
                                     @Override
                                     public void onItemClickListener(View view, int position2) {
                                         color = colorlist.get(position2).getColorCode();
+                                        Count=1;
 
                                         colorquantity = sizelist.get(position).getColor().get(position2).getQuantity();
 
@@ -240,6 +241,12 @@ public class ProductDetailed extends AppCompatActivity {
                                                 Count = quantity;
                                                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(ProductDetailed.this, R.anim.blink);
                                                 imgbtnPlus.startAnimation(myFadeInAnimation);
+
+                                                pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                                                SharedPreferences.Editor myeditor = pref.edit();
+                                                myeditor.putInt("Stock_Quantity", colorquantity);
+
+                                                myeditor.apply();
                                                 if(Count<colorquantity)
                                                 {
                                                     ++Count;

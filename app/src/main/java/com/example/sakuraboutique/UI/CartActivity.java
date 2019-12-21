@@ -52,6 +52,7 @@ FirebaseAuth mAuth;
 FirebaseUser firebaseUser;
 private int EnterKey;
 int ProductID;
+int StockQuantity;
 
 
 private void InitializeViews()
@@ -86,6 +87,11 @@ private void InitializeViews()
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + "Shopping Cart" + " </font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
+        //getstock
+        pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+        StockQuantity=pref.getInt("Stock_Quantity",0);
+
 
 //checkenterkey
 
@@ -143,7 +149,7 @@ private void InitializeViews()
         itemDecorator.setDrawable(ContextCompat.getDrawable(CartActivity.this, R.drawable.horizontal_divider));
 
         rvCartItem.addItemDecoration(itemDecorator);
-        cartAdapter = new CartAdapter(productCartModelList,this,this);
+        cartAdapter = new CartAdapter(productCartModelList,this,this,StockQuantity);
 
         rvCartItem.setAdapter(cartAdapter);
 

@@ -32,7 +32,7 @@
     >
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/cimgLogo"
 
         android:layout_width="200dp"
