@@ -42,7 +42,6 @@
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="right"
                 app:sliderAutoCycleEnabled="true"
-                app:sliderCircularHandlerEnabled="true"
                 app:sliderIndicatorAnimationDuration="600"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="5dp"
@@ -50,7 +49,7 @@
                 app:sliderIndicatorSelectedColor="@color/colorPrimary"
                 app:sliderIndicatorUnselectedColor="#80000000"
                 app:sliderScrollTimeInSec="3"
-                app:sliderStartAutoCycle="true" />
+               app:sliderStartAutoCycle="true" />
 
             <TextView
                 android:id="@+id/tvName"

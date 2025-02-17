@@ -1,6 +1,5 @@
 package com.example.sakuraboutique.UI;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,7 +24,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sakuraboutique.Adapters.ColorAdapter;
 import com.example.sakuraboutique.Adapters.SizeAdapter;
@@ -37,11 +34,8 @@ import com.example.sakuraboutique.Models.ProductCartModel;
 import com.example.sakuraboutique.Models.ProductDetailedModel;
 import com.example.sakuraboutique.Models.Size;
 import com.example.sakuraboutique.R;
-import com.example.sakuraboutique.ViewModels.MainViewModel;
 import com.example.sakuraboutique.ViewModels.ProductDetailedViewModel;
 import com.nex3z.notificationbadge.NotificationBadge;
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
@@ -53,16 +47,16 @@ import pl.droidsonroids.gif.GifImageView;
 public class ProductDetailed extends AppCompatActivity {
     private SliderView svImageSlider;
     private RecyclerView rvSize, rvColor;
-    private List<Size> sizelist ;
+    private List<Size> sizelist;
     private List<String> photolist;
     private Toolbar tbToolbar;
-    private int Count=1;
+    private int Count = 1;
     private ImageButton imgbtnPlus, imgbtnMinus;
     private Button btnAddtoCart;
     SharedPreferences pref;
-    private int CartCount=0;
-    private int cartQuantity=0;
-    private int TotalCount=0;
+    private int CartCount = 0;
+    private int cartQuantity = 0;
+    private int TotalCount = 0;
     private String ProdcutName;
     private int price;
     private int ProductID;
@@ -71,17 +65,16 @@ public class ProductDetailed extends AppCompatActivity {
 
     private String size;
     private String color;
-    private TextView tvName,tvQuantity,tvPrice,tvStockQuantity,tvProductDescription,tvSizeQuantity,tvColorQuantity,tvSelectColor,tvSelectSize,tvSelectQuantity,tvStockQuantityLabel,tvProductDescriptionLabel;
+    private TextView tvName, tvQuantity, tvPrice, tvStockQuantity, tvProductDescription, tvSizeQuantity, tvColorQuantity, tvSelectColor, tvSelectSize, tvSelectQuantity, tvStockQuantityLabel, tvProductDescriptionLabel;
     private String url;
-    private CartDB db=new CartDB(ProductDetailed.this);
+    private CartDB db = new CartDB(ProductDetailed.this);
     private ProductCartModel productCartModel;
     private ProductCartModel selectedproductcartmodel;
-    private int sizequantity,colorquantity;
+    private int sizequantity, colorquantity;
     private GifImageView gifNoInternet;
     private ProgressBar pbProgress;
 
     NotificationBadge notificationBadge;
-
 
 
     private void InitializeViews() {
@@ -93,19 +86,19 @@ public class ProductDetailed extends AppCompatActivity {
         imgbtnPlus = findViewById(R.id.imgbtnPlus);
         imgbtnMinus = findViewById(R.id.imgbtnMinus);
         btnAddtoCart = findViewById(R.id.btnAddtoCart);
-        tvName=findViewById(R.id.tvName);
-        tvPrice=findViewById(R.id.tvPrice);
-        tvStockQuantity=findViewById(R.id.tvStockQuantity);
-        tvProductDescription=findViewById(R.id.tvProductDescription);
-        tvSizeQuantity=findViewById(R.id.tvSizeQuantity);
-        tvColorQuantity=findViewById(R.id.tvColorQuantity);
-        gifNoInternet=findViewById(R.id.gifNoInternet);
-        pbProgress=findViewById(R.id.pbProgress);
-        tvSelectColor=findViewById(R.id.tvSelectColor);
-        tvSelectQuantity=findViewById(R.id.tvSelectQuantity);
-        tvSelectSize=findViewById(R.id.tvSelectSize);
-        tvStockQuantityLabel=findViewById(R.id.tvStockQuantityLabel);
-        tvProductDescriptionLabel=findViewById(R.id.tvProductDescriptionLabel);
+        tvName = findViewById(R.id.tvName);
+        tvPrice = findViewById(R.id.tvPrice);
+        tvStockQuantity = findViewById(R.id.tvStockQuantity);
+        tvProductDescription = findViewById(R.id.tvProductDescription);
+        tvSizeQuantity = findViewById(R.id.tvSizeQuantity);
+        tvColorQuantity = findViewById(R.id.tvColorQuantity);
+        gifNoInternet = findViewById(R.id.gifNoInternet);
+        pbProgress = findViewById(R.id.pbProgress);
+        tvSelectColor = findViewById(R.id.tvSelectColor);
+        tvSelectQuantity = findViewById(R.id.tvSelectQuantity);
+        tvSelectSize = findViewById(R.id.tvSelectSize);
+        tvStockQuantityLabel = findViewById(R.id.tvStockQuantityLabel);
+        tvProductDescriptionLabel = findViewById(R.id.tvProductDescriptionLabel);
     }
 
 
@@ -125,15 +118,10 @@ public class ProductDetailed extends AppCompatActivity {
         size = getIntent().getStringExtra("Size");
         color = getIntent().getStringExtra("Color");
         url = getIntent().getStringExtra("URL");
-        svImageSlider.setCircularHandlerEnabled(true);
-
-
-        svImageSlider.setIndicatorAnimation(IndicatorAnimations.SWAP);
-        svImageSlider.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
-        svImageSlider.setCircularHandlerEnabled(true);
-
-        svImageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
         svImageSlider.startAutoCycle();
+
+
+
 
         setSupportActionBar(tbToolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>" + ProdcutName + " </font>"));
@@ -144,8 +132,8 @@ public class ProductDetailed extends AppCompatActivity {
 
 
     }
-    public void MainFunction()
-    {
+
+    public void MainFunction() {
         if (Network()) {
             gifNoInternet.setVisibility(View.GONE);
             pbProgress.setVisibility(View.GONE);
@@ -169,7 +157,6 @@ public class ProductDetailed extends AppCompatActivity {
             tvQuantity.setVisibility(View.VISIBLE);
 
 
-
             final ProductDetailedViewModel pdvm = ViewModelProviders.of(this).get(ProductDetailedViewModel.class);
             pdvm.getProductlivedatalist(ProductID).observe(this, new Observer<ProductDetailedModel>() {
                 @Override
@@ -178,13 +165,13 @@ public class ProductDetailed extends AppCompatActivity {
                     tvName.setText(productDetailedModel.getProductName());
                     tvPrice.setText(productDetailedModel.getPrice() + "");
                     tvProductDescription.setText(productDetailedModel.getProductDescription());
-                    price=productDetailedModel.getPrice();
-                    url=productDetailedModel.getPhotos().get(0);
+                    price = productDetailedModel.getPrice();
+                    url = productDetailedModel.getPhotos().get(0);
 
 
                     //slider
                     photolist = productDetailedModel.getPhotos();
-                    svImageSlider.setSliderAdapter(new SlideAdapter2(ProductDetailed.this, photolist));
+//                    svImageSlider.setSliderAdapter(new SlideAdapter2(ProductDetailed.this, photolist));
 
                     //size rv
                     sizelist = productDetailedModel.getSizes();
@@ -228,7 +215,7 @@ public class ProductDetailed extends AppCompatActivity {
                                     @Override
                                     public void onItemClickListener(View view, int position2) {
                                         color = colorlist.get(position2).getColorCode();
-                                        Count=1;
+                                        Count = 1;
 
                                         colorquantity = sizelist.get(position).getColor().get(position2).getQuantity();
 
@@ -247,8 +234,7 @@ public class ProductDetailed extends AppCompatActivity {
                                                 myeditor.putInt("Stock_Quantity", colorquantity);
 
                                                 myeditor.apply();
-                                                if(Count<colorquantity)
-                                                {
+                                                if (Count < colorquantity) {
                                                     ++Count;
 
                                                 }
@@ -290,44 +276,33 @@ public class ProductDetailed extends AppCompatActivity {
 
 
             //cart count
-            btnAddtoCart.setOnClickListener(new View.OnClickListener()
-            {
+            btnAddtoCart.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     quantity = Integer.parseInt(tvQuantity.getText().toString());
 
 
-                    if (size == null)
-                    {
+                    if (size == null) {
                         Toast.makeText(ProductDetailed.this, "Please Choose a Size", Toast.LENGTH_SHORT).show();
 
-                    }
-
-                    else if (color == null)
-                    {
+                    } else if (color == null) {
                         Toast.makeText(ProductDetailed.this, "Please Choose a Color", Toast.LENGTH_SHORT).show();
-                    }
+                    } else {
 
-                    else {
-
-                        productCartModel = db.checkExistingProduct(ProductID,size,color);
+                        productCartModel = db.checkExistingProduct(ProductID, size, color);
                         selectedproductcartmodel = new ProductCartModel(ProductID, price, quantity, price, ProdcutName, url, size, color);
 
 
-                        if (productCartModel != null)
-                        {
+                        if (productCartModel != null) {
 
-                             SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailed.this, SweetAlertDialog.ERROR_TYPE);
+                            SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailed.this, SweetAlertDialog.ERROR_TYPE);
                             pDialog.setTitleText("Already Added!");
 
                             pDialog.show();
                             Toast.makeText(ProductDetailed.this, "This Product is Already Added to cart, try different Size or Color!", Toast.LENGTH_SHORT).show();
 
 
-                        }
-                            else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url, price))
-                            {
+                        } else if (db.InsertCartItem(ProductID, ProdcutName, quantity, price, size, color, url, price)) {
                             final SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailed.this, SweetAlertDialog.SUCCESS_TYPE);
                             pDialog.setTitleText("1 Product Added to Cart!");
                             pDialog.setContentText("Do You Wanna Watch Your Cart Items?");
@@ -335,38 +310,35 @@ public class ProductDetailed extends AppCompatActivity {
                             pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-pDialog.cancel();
+                                    pDialog.cancel();
                                 }
                             });
                             pDialog.setConfirmText("Yes");
 
-                         pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                             @Override
-                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        Intent i=new Intent(ProductDetailed.this,CartActivity.class);
-                                        i.putExtra("EnterKey",3);
-                                        startActivity(i);
-                                        pDialog.cancel();
-                             }
-                         });
+                            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    Intent i = new Intent(ProductDetailed.this, CartActivity.class);
+                                    i.putExtra("EnterKey", 3);
+                                    startActivity(i);
+                                    pDialog.cancel();
+                                }
+                            });
 
                             pDialog.show();
 
                             ++CartCount;
-                                    TotalCount = CartCount + cartQuantity;
+                            TotalCount = CartCount + cartQuantity;
 
-                                    pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
-                                    SharedPreferences.Editor myeditor = pref.edit();
-                                    myeditor.putInt("Cart_Quantity", TotalCount);
-
-
-                                    myeditor.apply();
-                                    notificationBadge.setText(TotalCount + "");
-
-                                }
+                            pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
+                            SharedPreferences.Editor myeditor = pref.edit();
+                            myeditor.putInt("Cart_Quantity", TotalCount);
 
 
-                        else {
+                            myeditor.apply();
+                            notificationBadge.setText(TotalCount + "");
+
+                        } else {
                             Toast.makeText(ProductDetailed.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -375,9 +347,7 @@ pDialog.cancel();
                 }
 
             });
-        }
-        else
-        {
+        } else {
             Toast.makeText(ProductDetailed.this, "Check Your Internet Connection!", Toast.LENGTH_SHORT).show();
 
             gifNoInternet.setVisibility(View.VISIBLE);
@@ -403,8 +373,7 @@ pDialog.cancel();
         }
     }
 
-public boolean Network()
-    {
+    public boolean Network() {
         ConnectivityManager connectivityManager = (ConnectivityManager) ProductDetailed.this.getSystemService(ProductDetailed.this.CONNECTIVITY_SERVICE);
 
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
@@ -413,39 +382,39 @@ public boolean Network()
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        final MenuItem menuItem =(MenuItem) menu.findItem(R.id.mainshoppingcart);
-        final View actionView=(View) MenuItemCompat.getActionView(menuItem);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        final MenuItem menuItem = (MenuItem) menu.findItem(R.id.mainshoppingcart);
+        final View actionView = (View) MenuItemCompat.getActionView(menuItem);
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onOptionsItemSelected(menuItem);
             }
         });
-        notificationBadge=(NotificationBadge) actionView.findViewById(R.id.badge);
+        notificationBadge = (NotificationBadge) actionView.findViewById(R.id.badge);
 
         pref = getSharedPreferences("MY_PREF", MODE_PRIVATE);
-        cartQuantity=pref.getInt("Cart_Quantity",0);
-        notificationBadge.setText(cartQuantity+"");
+        cartQuantity = pref.getInt("Cart_Quantity", 0);
+        notificationBadge.setText(cartQuantity + "");
         return true;
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-        onBackPressed();
-            break;
+                onBackPressed();
+                break;
             case R.id.mainshoppingcart:
-                Intent i=new Intent(ProductDetailed.this,CartActivity.class);
-                i.putExtra("EnterKey",4);
+                Intent i = new Intent(ProductDetailed.this, CartActivity.class);
+                i.putExtra("EnterKey", 4);
                 startActivity(i);
                 break;
             case R.id.HomeIcon:
-                Intent intent=new Intent(ProductDetailed.this,MainActivity.class);
+                Intent intent = new Intent(ProductDetailed.this, MainActivity.class);
                 startActivity(intent);
                 break;
-
 
 
         }
@@ -456,6 +425,7 @@ public boolean Network()
     @Override
     public void onBackPressed() {
 
+        super.onBackPressed();
         this.finish();
     }
     /*@Override

@@ -15,6 +15,12 @@ public class SliderURLModel {
     @Expose
     private String uRL;
 
+    public SliderURLModel(Integer productID, String productName, String uRL) {
+        this.productID = productID;
+        this.productName = productName;
+        this.uRL = uRL;
+    }
+
     public Integer getProductID() {
         return productID;
     }
